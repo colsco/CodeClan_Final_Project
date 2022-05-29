@@ -26,7 +26,7 @@ industry_dict <-
   clean_names() %>% 
   pivot_longer(cols = everything()) %>% 
   relocate(value, .before = "name") %>% 
-  write_csv(here("clean_data/industry_dict.csv"))
+  write_csv(here("clean_data/industry_dict_clean.csv"))
 
 # UK ranking by industry type within Europe;
 
@@ -38,7 +38,7 @@ europe_labour_prod <- read_excel(here("data/International Labour Productivity - 
          "industry_group" = "nace_industry") %>% 
   pivot_longer(cols = -c("industry", "industry_group"),
                names_to = "country") %>% 
-  write_csv(here("clean_data/europe_labour_productivity.csv"))
+  write_csv(here("clean_data/europe_labour_productivity_clean.csv"))
 
 
 
@@ -124,31 +124,18 @@ region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
          industry = str_replace(industry, "_mid", "mid"),
          industry = str_replace(industry, "_west", "west"),
          industry = str_replace(industry, "_and", ""),
-         industry = str_replace(industry, "northern_ireland", "northernireland"),
-         industry = str_replace(industry, "_the_", ""))
-
-
-
+         industry = str_replace(industry, "_ireland", "ireland"),
+         industry = str_replace(industry, "_the_", ""),
+         industry = str_replace(industry, "all_", "all"),
+         industry = str_replace(industry, "a_b_d_e", "abde"),
+         industry = str_replace(industry, "s_t", "st"),
+         hourly_output_cvm = as.numeric(hourly_output_cvm))
 
 
 # It would be helpful to separate 'industry' into two columns now that they've 
 # been pivoted.
 
 region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
- mutate(industry = str_replace(industry, "_ireland", "ireland"), 
-        industry = str_replace(industry, "north_west", "northwest"),
-        industry = str_replace(industry, "north_east", "northeast"),
-        industry = str_replace(industry, "south_west", "southwest"),
-        industry = str_replace(industry, "south_east", "southeast"),
-        industry = str_replace(industry, "_and_", ""),
-        industry = str_replace(industry, "the_", ""),
-        industry = str_replace(industry, "_midlands", "midlands")) %>% 
-  separate(industry, into = c("industry", "region"), sep = "_")
-
-
-
-
-
-
-# write_csv(here("clean_data/region_by_industry_output_per_hour.csv"))
+  separate(industry, into = c("region", "industry"), sep = "_") %>% 
+  write_csv(here("clean_data/region_by_industry_output_per_hour_clean.csv"))
   
