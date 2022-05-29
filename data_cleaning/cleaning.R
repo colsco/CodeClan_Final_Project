@@ -119,7 +119,13 @@ region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
                names_to = "industry", 
                values_to = "hourly_output_cvm") %>% 
   mutate(year = as.integer(year),
-         industry = str_replace_all(industry, "[0-9]", ""))
+         industry = str_replace_all(industry, "[0-9]", ""),
+         industry = str_replace(industry, "_east", "east"),
+         industry = str_replace(industry, "_mid", "mid"),
+         industry = str_replace(industry, "_west", "west"),
+         industry = str_replace(industry, "_and", ""),
+         industry = str_replace(industry, "northern_ireland", "northernireland"),
+         industry = str_replace(industry, "_the_", ""))
 
 
 
