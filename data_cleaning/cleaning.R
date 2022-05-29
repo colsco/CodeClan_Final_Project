@@ -2,14 +2,13 @@ library(tidyverse)
 library(janitor)
 library(here)
 library(readxl)
-library(openxlsx)
 
 
-
+# Set the home directory ----
 here::here()
 
 
-# Explore the data
+# Explore the data ----
 
 excel_sheets(here("data/International Labour Productivity - Europe.xls"))
 excel_sheets(here("data/UK Education Productivity.xlsx"))
@@ -17,7 +16,7 @@ excel_sheets(here("data/UK Labour Productivity Industry division.xls"))
 excel_sheets(here("data/UK Labour Productivity Jobs in Regions by Industry.xls"))
 excel_sheets(here("data/UK Labour Productivity Region by Industry.xls"))
 
-# Create a dictionary of job categories;
+# Create a dictionary of job categories ----
 
 industry_dict <- 
   read_excel(here("data/UK Labour Productivity - Jobs in Regions by Industry.xls"),
@@ -26,28 +25,33 @@ industry_dict <-
   clean_names() %>% 
   pivot_longer(cols = everything()) %>% 
   relocate(value, .before = "name") %>% 
+  mutate(name = str_replace(name, "[0-9]", ""),
+         name = str_replace(name, "_$", "")) %>% 
   write_csv(here("clean_data/industry_dict_clean.csv"))
 
-# UK ranking by industry type within Europe;
+# UK ranking by industry type within Europe ----
 
 europe_labour_prod <- read_excel(here("data/International Labour Productivity - Europe.xls"),
                                  sheet = "Table 1",
                                  range = "A4:AE13") %>% 
   clean_names() %>% 
   rename("industry" = "a_10_excl_l",
-         "industry_group" = "nace_industry") %>% 
+         "industry_group" = "nace_industry") %>%
+  mutate(industry = str_replace(industry, "B-E", "BCDE"),
+         industry = str_replace(industry, "G-I", "GHI"),
+         industry = str_replace(industry, "M-N", "MN"),
+         industry = str_replace(industry, "O-Q", "OPQ"),
+         industry = str_replace(industry, "R-U", "RSTU")) %>% 
   pivot_longer(cols = -c("industry", "industry_group"),
                names_to = "country") %>% 
   write_csv(here("clean_data/europe_labour_productivity_clean.csv"))
 
 
 
-# Possibilities for linear regression predictors - begin setup...
+# UK Regional Output Per Hour CVM by Industry ----
 
 
 # Try to handle merged cells from .xls; 
-
-
 
 region_by_industry_output_per_hour <-   
   read_excel(here("data/UK Labour Productivity - Region by Industry.xls"),
@@ -55,7 +59,8 @@ region_by_industry_output_per_hour <-
                                    range = "A6:HN26") %>% 
   clean_names() 
   
-  
+# Rename Column Headers
+
 region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>% 
   rename("uk" = c("x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", 
                   "x12", "x13", "x14", "x15", "x16", "x17", "x18"),
@@ -106,10 +111,15 @@ region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
                                "x219", "x220", "x221", "x222")
   ) 
 
+# Combine the two headers that came from the excel merged cells ----
+
 names(region_by_industry_output_per_hour) <- 
   paste(names(region_by_industry_output_per_hour),
         region_by_industry_output_per_hour[1,], 
         sep = "_") 
+
+# Tidy up the column headers following the merge and get rid of the 
+# "wrong" first row before pivoting longer for easier processing;
 
 region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>% 
   rename("year" = "x1_NA") %>% 
@@ -132,8 +142,7 @@ region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
          hourly_output_cvm = as.numeric(hourly_output_cvm))
 
 
-# It would be helpful to separate 'industry' into two columns now that they've 
-# been pivoted.
+# Separate 'industry' into two columns (industry / region) now that they've been pivoted.
 
 region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
   separate(industry, into = c("region", "industry"), sep = "_") %>% 
