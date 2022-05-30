@@ -206,3 +206,28 @@ uk_labour_jobs_joined <- uk_labour_jobs_joined %>%
 # contained four identical entries per year.  Using `unique` gets rid of the 
 # duplicates leaving one row per industry per year.
 
+abde_sum <- uk_labour_jobs_joined %>% 
+  group_by(year) %>% 
+  filter(industry == "A"|
+           industry == "B"|
+           industry == "D"|
+           industry == "E") %>% 
+  summarise(abde_sum = sum(avg_jobs_000)) %>% 
+  mutate(industry = "ABDE",
+         industry_group = "agriculture, mining, water, electricity")
+
+
+st_sum <- uk_labour_jobs_joined %>% 
+  group_by(year) %>% 
+  filter(industry == "S"|
+         industry == "T") %>% 
+  summarise(st_sum = sum(avg_jobs_000)) %>% 
+  mutate(industry = "ST",
+         industry_group = "other services and domestic")
+
+model_base_data <- uk_labour_jobs_joined %>% 
+  filter(!(industry %in% c("A", "B", "D", "E", "S", "T"))) %>% 
+  rbind(abde_sum) %>% 
+  rbind(st_sum) %>% 
+  unite(c(avg_jobs_000, abde_sum, st_sum), col = "avg_jobs_000", na.rm = TRUE) %>% 
+  arrange(year)
