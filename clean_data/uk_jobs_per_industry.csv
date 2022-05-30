@@ -1,0 +1,381 @@
+year,industry,industry_group,avg_jobs_000
+1998,A,agriculture forestry fishing,457.75
+1998,B,mining quarrying,77
+1998,C,manufacturing,4284.75
+1998,D,electricity gas steam air conditioning supply,105
+1998,E,water supply sewerage waste remediation activities,164
+1998,F,construction,1889.5
+1998,G,wholesale retail trade repair of motor vehicles and motorcycles,4888.5
+1998,H,transport storage,1324.5
+1998,I,accommodation food service activities,1761.25
+1998,J,information communication,979
+1998,K,financial insurance activities,1112.25
+1998,L,real estate activities,286
+1998,M,professional scientific technical activities,1683.5
+1998,N,administrative support service activities,2004.25
+1998,O,public admin defence compulsory social security,1597
+1998,P,education,2052.5
+1998,Q,human health social work activities,2923.75
+1998,R,arts entertainment recreation,659.75
+1998,S,other service activities,731.25
+1998,T,people employed by households etc,82.5
+1999,A,agriculture forestry fishing,420.75
+1999,B,mining quarrying,76.25
+1999,C,manufacturing,4120.75
+1999,D,electricity gas steam air conditioning supply,99.75
+1999,E,water supply sewerage waste remediation activities,161.5
+1999,F,construction,1906.5
+1999,G,wholesale retail trade repair of motor vehicles and motorcycles,4881.75
+1999,H,transport storage,1361.25
+1999,I,accommodation food service activities,1808.25
+1999,J,information communication,1066.25
+1999,K,financial insurance activities,1146.25
+1999,L,real estate activities,291.75
+1999,M,professional scientific technical activities,1759.5
+1999,N,administrative support service activities,2054.75
+1999,O,public admin defence compulsory social security,1635
+1999,P,education,2144.5
+1999,Q,human health social work activities,2966
+1999,R,arts entertainment recreation,718.25
+1999,S,other service activities,767.25
+1999,T,people employed by households etc,82
+2000,A,agriculture forestry fishing,391
+2000,B,mining quarrying,76.5
+2000,C,manufacturing,3978.75
+2000,D,electricity gas steam air conditioning supply,96.25
+2000,E,water supply sewerage waste remediation activities,161.75
+2000,F,construction,1936.25
+2000,G,wholesale retail trade repair of motor vehicles and motorcycles,4909.5
+2000,H,transport storage,1376.75
+2000,I,accommodation food service activities,1822.5
+2000,J,information communication,1147
+2000,K,financial insurance activities,1150.5
+2000,L,real estate activities,309.25
+2000,M,professional scientific technical activities,1817.25
+2000,N,administrative support service activities,2117.25
+2000,O,public admin defence compulsory social security,1641.25
+2000,P,education,2234.75
+2000,Q,human health social work activities,3049
+2000,R,arts entertainment recreation,742
+2000,S,other service activities,810.5
+2000,T,people employed by households etc,79.5
+2001,A,agriculture forestry fishing,363
+2001,B,mining quarrying,75
+2001,C,manufacturing,3802.75
+2001,D,electricity gas steam air conditioning supply,101.5
+2001,E,water supply sewerage waste remediation activities,172.75
+2001,F,construction,1983.25
+2001,G,wholesale retail trade repair of motor vehicles and motorcycles,4984
+2001,H,transport storage,1407.25
+2001,I,accommodation food service activities,1848.25
+2001,J,information communication,1207
+2001,K,financial insurance activities,1182.5
+2001,L,real estate activities,322
+2001,M,professional scientific technical activities,1856
+2001,N,administrative support service activities,2193.25
+2001,O,public admin defence compulsory social security,1650.75
+2001,P,education,2234.25
+2001,Q,human health social work activities,3133.5
+2001,R,arts entertainment recreation,762.5
+2001,S,other service activities,811.75
+2001,T,people employed by households etc,108.5
+2002,A,agriculture forestry fishing,355
+2002,B,mining quarrying,69
+2002,C,manufacturing,3608
+2002,D,electricity gas steam air conditioning supply,98
+2002,E,water supply sewerage waste remediation activities,163
+2002,F,construction,2008.75
+2002,G,wholesale retail trade repair of motor vehicles and motorcycles,5026
+2002,H,transport storage,1415.75
+2002,I,accommodation food service activities,1903.5
+2002,J,information communication,1213
+2002,K,financial insurance activities,1194.75
+2002,L,real estate activities,331.75
+2002,M,professional scientific technical activities,1875.75
+2002,N,administrative support service activities,2205.25
+2002,O,public admin defence compulsory social security,1689.75
+2002,P,education,2305.25
+2002,Q,human health social work activities,3210.25
+2002,R,arts entertainment recreation,785.75
+2002,S,other service activities,831.5
+2002,T,people employed by households etc,142.25
+2003,A,agriculture forestry fishing,356.25
+2003,B,mining quarrying,61.5
+2003,C,manufacturing,3423.25
+2003,D,electricity gas steam air conditioning supply,91.75
+2003,E,water supply sewerage waste remediation activities,156.25
+2003,F,construction,2068.25
+2003,G,wholesale retail trade repair of motor vehicles and motorcycles,5017
+2003,H,transport storage,1430.5
+2003,I,accommodation food service activities,1956.5
+2003,J,information communication,1226.25
+2003,K,financial insurance activities,1189.75
+2003,L,real estate activities,341.25
+2003,M,professional scientific technical activities,1959.25
+2003,N,administrative support service activities,2213.25
+2003,O,public admin defence compulsory social security,1746.75
+2003,P,education,2406.25
+2003,Q,human health social work activities,3307.25
+2003,R,arts entertainment recreation,803
+2003,S,other service activities,836.75
+2003,T,people employed by households etc,163.5
+2004,A,agriculture forestry fishing,365
+2004,B,mining quarrying,59
+2004,C,manufacturing,3262.25
+2004,D,electricity gas steam air conditioning supply,82
+2004,E,water supply sewerage waste remediation activities,155.75
+2004,F,construction,2136
+2004,G,wholesale retail trade repair of motor vehicles and motorcycles,5038.75
+2004,H,transport storage,1431.75
+2004,I,accommodation food service activities,2010.25
+2004,J,information communication,1181.75
+2004,K,financial insurance activities,1173.5
+2004,L,real estate activities,361.25
+2004,M,professional scientific technical activities,2021.75
+2004,N,administrative support service activities,2302.25
+2004,O,public admin defence compulsory social security,1772.75
+2004,P,education,2483.25
+2004,Q,human health social work activities,3423
+2004,R,arts entertainment recreation,816.25
+2004,S,other service activities,829.25
+2004,T,people employed by households etc,167.25
+2005,A,agriculture forestry fishing,389
+2005,B,mining quarrying,59.25
+2005,C,manufacturing,3119.75
+2005,D,electricity gas steam air conditioning supply,73.75
+2005,E,water supply sewerage waste remediation activities,157.75
+2005,F,construction,2223.5
+2005,G,wholesale retail trade repair of motor vehicles and motorcycles,5043.5
+2005,H,transport storage,1474.75
+2005,I,accommodation food service activities,2008.25
+2005,J,information communication,1188.75
+2005,K,financial insurance activities,1164.75
+2005,L,real estate activities,388.25
+2005,M,professional scientific technical activities,2124.5
+2005,N,administrative support service activities,2389.25
+2005,O,public admin defence compulsory social security,1783
+2005,P,education,2534.5
+2005,Q,human health social work activities,3536.5
+2005,R,arts entertainment recreation,844
+2005,S,other service activities,829.25
+2005,T,people employed by households etc,150.25
+2006,A,agriculture forestry fishing,379.25
+2006,B,mining quarrying,64.5
+2006,C,manufacturing,3020.75
+2006,D,electricity gas steam air conditioning supply,78
+2006,E,water supply sewerage waste remediation activities,161
+2006,F,construction,2287.25
+2006,G,wholesale retail trade repair of motor vehicles and motorcycles,5028.25
+2006,H,transport storage,1504.25
+2006,I,accommodation food service activities,2011
+2006,J,information communication,1231.75
+2006,K,financial insurance activities,1163.5
+2006,L,real estate activities,418.5
+2006,M,professional scientific technical activities,2217.75
+2006,N,administrative support service activities,2467.5
+2006,O,public admin defence compulsory social security,1781
+2006,P,education,2586.5
+2006,Q,human health social work activities,3613.75
+2006,R,arts entertainment recreation,877.75
+2006,S,other service activities,846.25
+2006,T,people employed by households etc,144.5
+2007,A,agriculture forestry fishing,376.5
+2007,B,mining quarrying,67.75
+2007,C,manufacturing,2969.25
+2007,D,electricity gas steam air conditioning supply,85.75
+2007,E,water supply sewerage waste remediation activities,158.75
+2007,F,construction,2330.75
+2007,G,wholesale retail trade repair of motor vehicles and motorcycles,5056.5
+2007,H,transport storage,1514.25
+2007,I,accommodation food service activities,2017.75
+2007,J,information communication,1244
+2007,K,financial insurance activities,1180
+2007,L,real estate activities,454.75
+2007,M,professional scientific technical activities,2285.5
+2007,N,administrative support service activities,2563.75
+2007,O,public admin defence compulsory social security,1773.25
+2007,P,education,2591.75
+2007,Q,human health social work activities,3618.5
+2007,R,arts entertainment recreation,864
+2007,S,other service activities,831.75
+2007,T,people employed by households etc,155.25
+2008,A,agriculture forestry fishing,391.25
+2008,B,mining quarrying,65
+2008,C,manufacturing,2833.5
+2008,D,electricity gas steam air conditioning supply,87.5
+2008,E,water supply sewerage waste remediation activities,171.5
+2008,F,construction,2328
+2008,G,wholesale retail trade repair of motor vehicles and motorcycles,5070
+2008,H,transport storage,1520.75
+2008,I,accommodation food service activities,2035.75
+2008,J,information communication,1227.25
+2008,K,financial insurance activities,1204
+2008,L,real estate activities,481.25
+2008,M,professional scientific technical activities,2338
+2008,N,administrative support service activities,2577.5
+2008,O,public admin defence compulsory social security,1739
+2008,P,education,2624
+2008,Q,human health social work activities,3709
+2008,R,arts entertainment recreation,888.25
+2008,S,other service activities,824.5
+2008,T,people employed by households etc,151.5
+2009,A,agriculture forestry fishing,388.25
+2009,B,mining quarrying,63
+2009,C,manufacturing,2651.25
+2009,D,electricity gas steam air conditioning supply,110.75
+2009,E,water supply sewerage waste remediation activities,170.25
+2009,F,construction,2227.25
+2009,G,wholesale retail trade repair of motor vehicles and motorcycles,4889.25
+2009,H,transport storage,1504.75
+2009,I,accommodation food service activities,1978.25
+2009,J,information communication,1203.5
+2009,K,financial insurance activities,1168.75
+2009,L,real estate activities,486.75
+2009,M,professional scientific technical activities,2393.25
+2009,N,administrative support service activities,2384.75
+2009,O,public admin defence compulsory social security,1758
+2009,P,education,2731.5
+2009,Q,human health social work activities,3819.75
+2009,R,arts entertainment recreation,835.25
+2009,S,other service activities,836.75
+2009,T,people employed by households etc,79
+2010,A,agriculture forestry fishing,416.25
+2010,B,mining quarrying,62.75
+2010,C,manufacturing,2568.5
+2010,D,electricity gas steam air conditioning supply,126.75
+2010,E,water supply sewerage waste remediation activities,177.5
+2010,F,construction,2077.75
+2010,G,wholesale retail trade repair of motor vehicles and motorcycles,4841.5
+2010,H,transport storage,1460.25
+2010,I,accommodation food service activities,1952
+2010,J,information communication,1181.75
+2010,K,financial insurance activities,1115.75
+2010,L,real estate activities,472.5
+2010,M,professional scientific technical activities,2415.25
+2010,N,administrative support service activities,2442
+2010,O,public admin defence compulsory social security,1733
+2010,P,education,2756.25
+2010,Q,human health social work activities,3957.75
+2010,R,arts entertainment recreation,864.75
+2010,S,other service activities,832.5
+2010,T,people employed by households etc,74.75
+2011,A,agriculture forestry fishing,418.75
+2011,B,mining quarrying,63.5
+2011,C,manufacturing,2557.75
+2011,D,electricity gas steam air conditioning supply,123.75
+2011,E,water supply sewerage waste remediation activities,188.75
+2011,F,construction,2076
+2011,G,wholesale retail trade repair of motor vehicles and motorcycles,4828
+2011,H,transport storage,1493.75
+2011,I,accommodation food service activities,1983.25
+2011,J,information communication,1228.75
+2011,K,financial insurance activities,1127
+2011,L,real estate activities,473.75
+2011,M,professional scientific technical activities,2444
+2011,N,administrative support service activities,2495.75
+2011,O,public admin defence compulsory social security,1634.5
+2011,P,education,2758.75
+2011,Q,human health social work activities,4000.75
+2011,R,arts entertainment recreation,876.5
+2011,S,other service activities,845.75
+2011,T,people employed by households etc,74.5
+2012,A,agriculture forestry fishing,409.5
+2012,B,mining quarrying,75.25
+2012,C,manufacturing,2579.25
+2012,D,electricity gas steam air conditioning supply,122.75
+2012,E,water supply sewerage waste remediation activities,193.5
+2012,F,construction,2071
+2012,G,wholesale retail trade repair of motor vehicles and motorcycles,4874.25
+2012,H,transport storage,1513.75
+2012,I,accommodation food service activities,2033
+2012,J,information communication,1238.5
+2012,K,financial insurance activities,1143.25
+2012,L,real estate activities,500.5
+2012,M,professional scientific technical activities,2524
+2012,N,administrative support service activities,2612
+2012,O,public admin defence compulsory social security,1570.5
+2012,P,education,2778.75
+2012,Q,human health social work activities,4027.75
+2012,R,arts entertainment recreation,903.25
+2012,S,other service activities,824
+2012,T,people employed by households etc,70
+2013,A,agriculture forestry fishing,385.25
+2013,B,mining quarrying,70
+2013,C,manufacturing,2564.25
+2013,D,electricity gas steam air conditioning supply,122.75
+2013,E,water supply sewerage waste remediation activities,194
+2013,F,construction,2069.5
+2013,G,wholesale retail trade repair of motor vehicles and motorcycles,4875
+2013,H,transport storage,1500.25
+2013,I,accommodation food service activities,2083.5
+2013,J,information communication,1280.75
+2013,K,financial insurance activities,1120
+2013,L,real estate activities,536.25
+2013,M,professional scientific technical activities,2659
+2013,N,administrative support service activities,2620.75
+2013,O,public admin defence compulsory social security,1553.75
+2013,P,education,2828.75
+2013,Q,human health social work activities,4117.25
+2013,R,arts entertainment recreation,911.5
+2013,S,other service activities,865.25
+2013,T,people employed by households etc,71.25
+2014,A,agriculture forestry fishing,436.5
+2014,B,mining quarrying,67.75
+2014,C,manufacturing,2618
+2014,D,electricity gas steam air conditioning supply,120.5
+2014,E,water supply sewerage waste remediation activities,195.5
+2014,F,construction,2133.25
+2014,G,wholesale retail trade repair of motor vehicles and motorcycles,4938.25
+2014,H,transport storage,1530.25
+2014,I,accommodation food service activities,2186
+2014,J,information communication,1357
+2014,K,financial insurance activities,1124.5
+2014,L,real estate activities,551.75
+2014,M,professional scientific technical activities,2815.75
+2014,N,administrative support service activities,2816.5
+2014,O,public admin defence compulsory social security,1532.5
+2014,P,education,2888.25
+2014,Q,human health social work activities,4211.5
+2014,R,arts entertainment recreation,951
+2014,S,other service activities,902
+2014,T,people employed by households etc,86
+2015,A,agriculture forestry fishing,406.25
+2015,B,mining quarrying,70.25
+2015,C,manufacturing,2634
+2015,D,electricity gas steam air conditioning supply,134.75
+2015,E,water supply sewerage waste remediation activities,197.5
+2015,F,construction,2156.5
+2015,G,wholesale retail trade repair of motor vehicles and motorcycles,5021
+2015,H,transport storage,1606.75
+2015,I,accommodation food service activities,2249.75
+2015,J,information communication,1382.75
+2015,K,financial insurance activities,1112
+2015,L,real estate activities,564.25
+2015,M,professional scientific technical activities,2930.25
+2015,N,administrative support service activities,2888
+2015,O,public admin defence compulsory social security,1487.75
+2015,P,education,2953.5
+2015,Q,human health social work activities,4229.5
+2015,R,arts entertainment recreation,977
+2015,S,other service activities,918
+2015,T,people employed by households etc,64
+2016,A,agriculture forestry fishing,407.75
+2016,B,mining quarrying,62
+2016,C,manufacturing,2637.5
+2016,D,electricity gas steam air conditioning supply,142.25
+2016,E,water supply sewerage waste remediation activities,205
+2016,F,construction,2230.5
+2016,G,wholesale retail trade repair of motor vehicles and motorcycles,5012
+2016,H,transport storage,1716.25
+2016,I,accommodation food service activities,2340.75
+2016,J,information communication,1415.75
+2016,K,financial insurance activities,1124.25
+2016,L,real estate activities,562
+2016,M,professional scientific technical activities,3032.25
+2016,N,administrative support service activities,2955.5
+2016,O,public admin defence compulsory social security,1477.25
+2016,P,education,2962.5
+2016,Q,human health social work activities,4280.75
+2016,R,arts entertainment recreation,990.75
+2016,S,other service activities,919.75
+2016,T,people employed by households etc,77.75

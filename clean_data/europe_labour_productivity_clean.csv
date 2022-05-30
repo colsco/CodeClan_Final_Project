@@ -1,262 +1,262 @@
 industry,industry_group,country,value
-A,"Agriculture, forestry and fishing",belgium,25.666164046112716
-A,"Agriculture, forestry and fishing",bulgaria,2.600903884657278
-A,"Agriculture, forestry and fishing",czech_republic,14.059709219430738
-A,"Agriculture, forestry and fishing",denmark,31.74844376084907
-A,"Agriculture, forestry and fishing",germany,19.497268885904244
-A,"Agriculture, forestry and fishing",estonia,16.888828145448624
-A,"Agriculture, forestry and fishing",ireland,9.591132922908013
-A,"Agriculture, forestry and fishing",greece,5.210344775950185
-A,"Agriculture, forestry and fishing",spain,19.887198189658797
-A,"Agriculture, forestry and fishing",france,18.03665404018438
-A,"Agriculture, forestry and fishing",croatia,6.929568598013016
-A,"Agriculture, forestry and fishing",italy,10.513915007770224
-A,"Agriculture, forestry and fishing",cyprus,6.659444925776628
-A,"Agriculture, forestry and fishing",latvia,6.589355134047178
-A,"Agriculture, forestry and fishing",lithuania,7.373407595448802
-A,"Agriculture, forestry and fishing",luxembourg,45.3330877128813
-A,"Agriculture, forestry and fishing",hungary,10.46666116676291
-A,"Agriculture, forestry and fishing",netherlands,34.2962455736582
-A,"Agriculture, forestry and fishing",austria,8.913166226074349
-A,"Agriculture, forestry and fishing",poland,4.10980319551287
-A,"Agriculture, forestry and fishing",portugal,5.537473194860172
-A,"Agriculture, forestry and fishing",romania,1.984814093597721
-A,"Agriculture, forestry and fishing",slovenia,4.70952843209319
-A,"Agriculture, forestry and fishing",slovakia,26.193605894388245
-A,"Agriculture, forestry and fishing",finland,16.099877342173237
-A,"Agriculture, forestry and fishing",sweden,18.351986183049966
-A,"Agriculture, forestry and fishing",united_kingdom,13.60585098264209
-A,"Agriculture, forestry and fishing",norway,19.970741685199975
-A,"Agriculture, forestry and fishing",switzerland,8.29373598253101
-BCDE,Industry (except construction),belgium,60.19409442148983
-BCDE,Industry (except construction),bulgaria,12.304375983997106
-BCDE,Industry (except construction),czech_republic,23.72004017216236
-BCDE,Industry (except construction),denmark,68.35846137281982
-BCDE,Industry (except construction),germany,52.43710306144793
-BCDE,Industry (except construction),estonia,17.08604087092467
-BCDE,Industry (except construction),ireland,72.69760735142366
-BCDE,Industry (except construction),greece,27.0745445133026
-BCDE,Industry (except construction),spain,44.38977416278082
-BCDE,Industry (except construction),france,47.50528786657205
-BCDE,Industry (except construction),croatia,14.181170385121792
-BCDE,Industry (except construction),italy,36.409605010564846
-BCDE,Industry (except construction),cyprus,16.99435516784062
-BCDE,Industry (except construction),latvia,15.128084906607379
-BCDE,Industry (except construction),lithuania,22.91286099935352
-BCDE,Industry (except construction),luxembourg,51.18177188463291
-BCDE,Industry (except construction),hungary,22.33904360844332
-BCDE,Industry (except construction),netherlands,57.89436540019707
-BCDE,Industry (except construction),austria,47.06401536644957
-BCDE,Industry (except construction),poland,17.32030176976795
-BCDE,Industry (except construction),portugal,22.571197875719363
-BCDE,Industry (except construction),romania,16.334907616672247
-BCDE,Industry (except construction),slovenia,24.36653471942327
-BCDE,Industry (except construction),slovakia,24.173612177214117
-BCDE,Industry (except construction),finland,49.0255770650141
-BCDE,Industry (except construction),sweden,52.33732488713485
-BCDE,Industry (except construction),united_kingdom,43.64804329843655
-BCDE,Industry (except construction),norway,144.8668170486416
-BCDE,Industry (except construction),switzerland,66.16981938533519
-F,Construction,belgium,38.875636319675095
-F,Construction,bulgaria,9.65628874416506
-F,Construction,czech_republic,13.176580024942009
-F,Construction,denmark,24.296773562015332
-F,Construction,germany,20.687573800989785
-F,Construction,estonia,13.679279719096751
-F,Construction,ireland,25.15028260820223
-F,Construction,greece,15.91199866064496
-F,Construction,spain,34.858223349049574
-F,Construction,france,24.922213892493758
-F,Construction,croatia,14.690133130543717
-F,Construction,italy,26.37087461468024
-F,Construction,cyprus,16.32755105005824
-F,Construction,latvia,12.876720948119496
-F,Construction,lithuania,16.51165016764474
-F,Construction,luxembourg,26.817043844728605
-F,Construction,hungary,12.63562326024755
-F,Construction,netherlands,25.56691373856942
-F,Construction,austria,30.35337645886777
-F,Construction,poland,14.020818277988385
-F,Construction,portugal,19.46037148581657
-F,Construction,romania,16.120418641789744
-F,Construction,slovenia,21.43437754135037
-F,Construction,slovakia,21.70216386459677
-F,Construction,finland,18.734527309240463
-F,Construction,sweden,20.00005974054992
-F,Construction,united_kingdom,23.759840567086897
-F,Construction,norway,30.22459521819936
-F,Construction,switzerland,23.37681744318345
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",belgium,41.93782280681983
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",bulgaria,8.787119938891205
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",czech_republic,15.501727233340032
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",denmark,34.50570596037249
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",germany,29.749803938777724
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",estonia,14.98199133224867
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",ireland,25.012768962605946
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",greece,13.549916336622935
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",spain,23.12435507799611
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",france,32.254398476251275
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",croatia,11.301189069697992
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",italy,24.551166792579075
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",cyprus,18.66310989078456
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",latvia,13.350245532069986
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",lithuania,20.37052049719945
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",luxembourg,53.57625271840184
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",hungary,13.172047522086128
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",netherlands,34.89759590928291
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",austria,32.86642715279919
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",poland,17.3471824969292
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",portugal,17.315535280437214
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",romania,11.66154851683431
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",slovenia,21.734769132635538
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",slovakia,16.907243796384048
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",finland,25.818164134899135
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",sweden,31.100338184436755
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",united_kingdom,22.67443798279236
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",norway,33.832932981290035
-GHI,"Wholesale and retail trade, transport, accommodation and food service activities",switzerland,43.00905375252711
-J,Information and communication,belgium,59.65124969013643
-J,Information and communication,bulgaria,29.345818600793088
-J,Information and communication,czech_republic,40.03371270477589
-J,Information and communication,denmark,46.876352970768494
-J,Information and communication,germany,60.08252179316182
-J,Information and communication,estonia,31.065192665274992
-J,Information and communication,ireland,100.30013730965483
-J,Information and communication,greece,27.128820301575153
-J,Information and communication,spain,43.961949301206246
-J,Information and communication,france,62.209431698160515
-J,Information and communication,croatia,27.066587488077236
-J,Information and communication,italy,42.77362969189718
-J,Information and communication,cyprus,45.57860971112864
-J,Information and communication,latvia,27.264607688840357
-J,Information and communication,lithuania,41.381074251674626
-J,Information and communication,luxembourg,77.89428488282303
-J,Information and communication,hungary,32.826332037885194
-J,Information and communication,netherlands,47.66398016410604
-J,Information and communication,austria,45.30272600042343
-J,Information and communication,poland,37.1120390482366
-J,Information and communication,portugal,33.88186904636287
-J,Information and communication,romania,51.61647666055763
-J,Information and communication,slovenia,31.433198802887564
-J,Information and communication,slovakia,34.1350447064355
-J,Information and communication,finland,47.68444627245274
-J,Information and communication,sweden,56.98004149625676
-J,Information and communication,united_kingdom,37.67683889675341
-J,Information and communication,norway,55.95548266621952
-J,Information and communication,switzerland,45.14949347930953
-K,Financial and insurance activities,belgium,88.103379847198525
-K,Financial and insurance activities,bulgaria,63.41031294719477
-K,Financial and insurance activities,czech_republic,59.11678387959226
-K,Financial and insurance activities,denmark,72.01052439581822
-K,Financial and insurance activities,germany,51.460369312484175
-K,Financial and insurance activities,estonia,57.22182718255072
-K,Financial and insurance activities,ireland,62.39700639707928
-K,Financial and insurance activities,greece,49.92683971796048
-K,Financial and insurance activities,spain,55.78497828664123
-K,Financial and insurance activities,france,53.23990869108
-K,Financial and insurance activities,croatia,56.95132546630444
-K,Financial and insurance activities,italy,59.4052224732922
-K,Financial and insurance activities,cyprus,64.28431374822682
-K,Financial and insurance activities,latvia,46.942672572096036
-K,Financial and insurance activities,lithuania,37.76051885253395
-K,Financial and insurance activities,luxembourg,106.82522696340425
-K,Financial and insurance activities,hungary,41.11691381417997
-K,Financial and insurance activities,netherlands,90.4515929622939
-K,Financial and insurance activities,austria,48.69025789724145
-K,Financial and insurance activities,poland,41.660573757862664
-K,Financial and insurance activities,portugal,65.20089444515055
-K,Financial and insurance activities,romania,60.824347997756476
-K,Financial and insurance activities,slovenia,40.17433315836103
-K,Financial and insurance activities,slovakia,60.43752068066387
-K,Financial and insurance activities,finland,47.199389364654735
-K,Financial and insurance activities,sweden,76.47034368835581
-K,Financial and insurance activities,united_kingdom,48.359562828932084
-K,Financial and insurance activities,norway,109.50965555631717
-K,Financial and insurance activities,switzerland,63.24405438758707
-MN,"Professional, scientific and technical activities; administrative and support service activities",belgium,24.53515687997425
-MN,"Professional, scientific and technical activities; administrative and support service activities",bulgaria,14.696489412618114
-MN,"Professional, scientific and technical activities; administrative and support service activities",czech_republic,19.914815133515948
-MN,"Professional, scientific and technical activities; administrative and support service activities",denmark,26.976614978611646
-MN,"Professional, scientific and technical activities; administrative and support service activities",germany,31.992896517689033
-MN,"Professional, scientific and technical activities; administrative and support service activities",estonia,24.905669509467614
-MN,"Professional, scientific and technical activities; administrative and support service activities",ireland,36.499863129343865
-MN,"Professional, scientific and technical activities; administrative and support service activities",greece,12.507424876374564
-MN,"Professional, scientific and technical activities; administrative and support service activities",spain,19.172541917173053
-MN,"Professional, scientific and technical activities; administrative and support service activities",france,31.13475085985314
-MN,"Professional, scientific and technical activities; administrative and support service activities",croatia,26.218404940539987
-MN,"Professional, scientific and technical activities; administrative and support service activities",italy,23.328083126707398
-MN,"Professional, scientific and technical activities; administrative and support service activities",cyprus,26.30600339182278
-MN,"Professional, scientific and technical activities; administrative and support service activities",latvia,16.257271302418065
-MN,"Professional, scientific and technical activities; administrative and support service activities",lithuania,21.93811636109875
-MN,"Professional, scientific and technical activities; administrative and support service activities",luxembourg,31.517263918851018
-MN,"Professional, scientific and technical activities; administrative and support service activities",hungary,20.75822158594203
-MN,"Professional, scientific and technical activities; administrative and support service activities",netherlands,25.068246705703977
-MN,"Professional, scientific and technical activities; administrative and support service activities",austria,26.914732561027293
-MN,"Professional, scientific and technical activities; administrative and support service activities",poland,26.01240608443253
-MN,"Professional, scientific and technical activities; administrative and support service activities",portugal,13.464220384891137
-MN,"Professional, scientific and technical activities; administrative and support service activities",romania,31.738111488674658
-MN,"Professional, scientific and technical activities; administrative and support service activities",slovenia,18.069892318754277
-MN,"Professional, scientific and technical activities; administrative and support service activities",slovakia,22.41582626849324
-MN,"Professional, scientific and technical activities; administrative and support service activities",finland,21.420447016079418
-MN,"Professional, scientific and technical activities; administrative and support service activities",sweden,33.3001221954617
-MN,"Professional, scientific and technical activities; administrative and support service activities",united_kingdom,18.235530132362364
-MN,"Professional, scientific and technical activities; administrative and support service activities",norway,31.906888100855173
-MN,"Professional, scientific and technical activities; administrative and support service activities",switzerland,39.53762228257521
-OPQ,"Public administration, defence, education, human health and social work activities",belgium,28.173123564900127
-OPQ,"Public administration, defence, education, human health and social work activities",bulgaria,20.90348941436913
-OPQ,"Public administration, defence, education, human health and social work activities",czech_republic,25.96555207873772
-OPQ,"Public administration, defence, education, human health and social work activities",denmark,24.77941321159943
-OPQ,"Public administration, defence, education, human health and social work activities",germany,27.90071180505047
-OPQ,"Public administration, defence, education, human health and social work activities",estonia,15.937557575383051
-OPQ,"Public administration, defence, education, human health and social work activities",ireland,22.530639542005883
-OPQ,"Public administration, defence, education, human health and social work activities",greece,25.603642296837524
-OPQ,"Public administration, defence, education, human health and social work activities",spain,24.391741765288025
-OPQ,"Public administration, defence, education, human health and social work activities",france,29.202898509521713
-OPQ,"Public administration, defence, education, human health and social work activities",croatia,15.80239878399671
-OPQ,"Public administration, defence, education, human health and social work activities",italy,30.344280657388357
-OPQ,"Public administration, defence, education, human health and social work activities",cyprus,22.854169134401104
-OPQ,"Public administration, defence, education, human health and social work activities",latvia,16.806651928524126
-OPQ,"Public administration, defence, education, human health and social work activities",lithuania,20.712295282043026
-OPQ,"Public administration, defence, education, human health and social work activities",luxembourg,26.35375571788791
-OPQ,"Public administration, defence, education, human health and social work activities",hungary,20.251412918833086
-OPQ,"Public administration, defence, education, human health and social work activities",netherlands,30.641628826834914
-OPQ,"Public administration, defence, education, human health and social work activities",austria,24.06814101511311
-OPQ,"Public administration, defence, education, human health and social work activities",poland,18.018083850852992
-OPQ,"Public administration, defence, education, human health and social work activities",portugal,19.083982461147695
-OPQ,"Public administration, defence, education, human health and social work activities",romania,28.28248110166766
-OPQ,"Public administration, defence, education, human health and social work activities",slovenia,19.711916458772897
-OPQ,"Public administration, defence, education, human health and social work activities",slovakia,22.305587856138747
-OPQ,"Public administration, defence, education, human health and social work activities",finland,22.141681827192794
-OPQ,"Public administration, defence, education, human health and social work activities",sweden,15.606318604800165
-OPQ,"Public administration, defence, education, human health and social work activities",united_kingdom,20.535203434111303
-OPQ,"Public administration, defence, education, human health and social work activities",norway,22.91630699259695
-OPQ,"Public administration, defence, education, human health and social work activities",switzerland,25.54192181365963
-RSTU,"Arts, entertainment and recreation; other service activities",belgium,19.696975722459403
-RSTU,"Arts, entertainment and recreation; other service activities",bulgaria,18.49269448116618
-RSTU,"Arts, entertainment and recreation; other service activities",czech_republic,17.043863185873782
-RSTU,"Arts, entertainment and recreation; other service activities",denmark,22.360613242193434
-RSTU,"Arts, entertainment and recreation; other service activities",germany,22.099464837721257
-RSTU,"Arts, entertainment and recreation; other service activities",estonia,10.017288256052616
-RSTU,"Arts, entertainment and recreation; other service activities",ireland,17.449499916017242
-RSTU,"Arts, entertainment and recreation; other service activities",greece,12.48949674179642
-RSTU,"Arts, entertainment and recreation; other service activities",spain,14.695442590510666
-RSTU,"Arts, entertainment and recreation; other service activities",france,18.401619410704605
-RSTU,"Arts, entertainment and recreation; other service activities",croatia,17.817716893096893
-RSTU,"Arts, entertainment and recreation; other service activities",italy,11.860532452235352
-RSTU,"Arts, entertainment and recreation; other service activities",cyprus,11.860090036362976
-RSTU,"Arts, entertainment and recreation; other service activities",latvia,14.4664768571752
-RSTU,"Arts, entertainment and recreation; other service activities",lithuania,13.692357203921532
-RSTU,"Arts, entertainment and recreation; other service activities",luxembourg,22.562137125057436
-RSTU,"Arts, entertainment and recreation; other service activities",hungary,17.172896253573576
-RSTU,"Arts, entertainment and recreation; other service activities",netherlands,20.69420426742752
-RSTU,"Arts, entertainment and recreation; other service activities",austria,17.624550194530386
-RSTU,"Arts, entertainment and recreation; other service activities",poland,18.45907002133462
-RSTU,"Arts, entertainment and recreation; other service activities",portugal,11.212669015185336
-RSTU,"Arts, entertainment and recreation; other service activities",romania,25.433938509887376
-RSTU,"Arts, entertainment and recreation; other service activities",slovenia,17.00271090578936
-RSTU,"Arts, entertainment and recreation; other service activities",slovakia,35.463180846536076
-RSTU,"Arts, entertainment and recreation; other service activities",finland,17.115953375231847
-RSTU,"Arts, entertainment and recreation; other service activities",sweden,18.43701957133856
-RSTU,"Arts, entertainment and recreation; other service activities",united_kingdom,17.968866585856865
-RSTU,"Arts, entertainment and recreation; other service activities",norway,20.898155136451464
-RSTU,"Arts, entertainment and recreation; other service activities",switzerland,19.18431171417123
+A,"Agriculture, forestry and fishing",Belgium,25.666164046112716
+A,"Agriculture, forestry and fishing",Bulgaria,2.600903884657278
+A,"Agriculture, forestry and fishing",Czech Republic,14.059709219430738
+A,"Agriculture, forestry and fishing",Denmark,31.74844376084907
+A,"Agriculture, forestry and fishing",Germany,19.497268885904244
+A,"Agriculture, forestry and fishing",Estonia,16.888828145448624
+A,"Agriculture, forestry and fishing",Ireland,9.591132922908013
+A,"Agriculture, forestry and fishing",Greece,5.210344775950185
+A,"Agriculture, forestry and fishing",Spain,19.887198189658797
+A,"Agriculture, forestry and fishing",France,18.03665404018438
+A,"Agriculture, forestry and fishing",Croatia,6.929568598013016
+A,"Agriculture, forestry and fishing",Italy,10.513915007770224
+A,"Agriculture, forestry and fishing",Cyprus,6.659444925776628
+A,"Agriculture, forestry and fishing",Latvia,6.589355134047178
+A,"Agriculture, forestry and fishing",Lithuania,7.373407595448802
+A,"Agriculture, forestry and fishing",Luxembourg,45.3330877128813
+A,"Agriculture, forestry and fishing",Hungary,10.46666116676291
+A,"Agriculture, forestry and fishing",Netherlands,34.2962455736582
+A,"Agriculture, forestry and fishing",Austria,8.913166226074349
+A,"Agriculture, forestry and fishing",Poland,4.10980319551287
+A,"Agriculture, forestry and fishing",Portugal,5.537473194860172
+A,"Agriculture, forestry and fishing",Romania,1.984814093597721
+A,"Agriculture, forestry and fishing",Slovenia,4.70952843209319
+A,"Agriculture, forestry and fishing",Slovakia,26.193605894388245
+A,"Agriculture, forestry and fishing",Finland,16.099877342173237
+A,"Agriculture, forestry and fishing",Sweden,18.351986183049966
+A,"Agriculture, forestry and fishing",United Kingdom,13.60585098264209
+A,"Agriculture, forestry and fishing",Norway,19.970741685199975
+A,"Agriculture, forestry and fishing",Switzerland,8.29373598253101
+BCDE,Industry (except construction),Belgium,60.19409442148983
+BCDE,Industry (except construction),Bulgaria,12.304375983997106
+BCDE,Industry (except construction),Czech Republic,23.72004017216236
+BCDE,Industry (except construction),Denmark,68.35846137281982
+BCDE,Industry (except construction),Germany,52.43710306144793
+BCDE,Industry (except construction),Estonia,17.08604087092467
+BCDE,Industry (except construction),Ireland,72.69760735142366
+BCDE,Industry (except construction),Greece,27.0745445133026
+BCDE,Industry (except construction),Spain,44.38977416278082
+BCDE,Industry (except construction),France,47.50528786657205
+BCDE,Industry (except construction),Croatia,14.181170385121792
+BCDE,Industry (except construction),Italy,36.409605010564846
+BCDE,Industry (except construction),Cyprus,16.99435516784062
+BCDE,Industry (except construction),Latvia,15.128084906607379
+BCDE,Industry (except construction),Lithuania,22.91286099935352
+BCDE,Industry (except construction),Luxembourg,51.18177188463291
+BCDE,Industry (except construction),Hungary,22.33904360844332
+BCDE,Industry (except construction),Netherlands,57.89436540019707
+BCDE,Industry (except construction),Austria,47.06401536644957
+BCDE,Industry (except construction),Poland,17.32030176976795
+BCDE,Industry (except construction),Portugal,22.571197875719363
+BCDE,Industry (except construction),Romania,16.334907616672247
+BCDE,Industry (except construction),Slovenia,24.36653471942327
+BCDE,Industry (except construction),Slovakia,24.173612177214117
+BCDE,Industry (except construction),Finland,49.0255770650141
+BCDE,Industry (except construction),Sweden,52.33732488713485
+BCDE,Industry (except construction),United Kingdom,43.64804329843655
+BCDE,Industry (except construction),Norway,144.8668170486416
+BCDE,Industry (except construction),Switzerland,66.16981938533519
+F,Construction,Belgium,38.875636319675095
+F,Construction,Bulgaria,9.65628874416506
+F,Construction,Czech Republic,13.176580024942009
+F,Construction,Denmark,24.296773562015332
+F,Construction,Germany,20.687573800989785
+F,Construction,Estonia,13.679279719096751
+F,Construction,Ireland,25.15028260820223
+F,Construction,Greece,15.91199866064496
+F,Construction,Spain,34.858223349049574
+F,Construction,France,24.922213892493758
+F,Construction,Croatia,14.690133130543717
+F,Construction,Italy,26.37087461468024
+F,Construction,Cyprus,16.32755105005824
+F,Construction,Latvia,12.876720948119496
+F,Construction,Lithuania,16.51165016764474
+F,Construction,Luxembourg,26.817043844728605
+F,Construction,Hungary,12.63562326024755
+F,Construction,Netherlands,25.56691373856942
+F,Construction,Austria,30.35337645886777
+F,Construction,Poland,14.020818277988385
+F,Construction,Portugal,19.46037148581657
+F,Construction,Romania,16.120418641789744
+F,Construction,Slovenia,21.43437754135037
+F,Construction,Slovakia,21.70216386459677
+F,Construction,Finland,18.734527309240463
+F,Construction,Sweden,20.00005974054992
+F,Construction,United Kingdom,23.759840567086897
+F,Construction,Norway,30.22459521819936
+F,Construction,Switzerland,23.37681744318345
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Belgium,41.93782280681983
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Bulgaria,8.787119938891205
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Czech Republic,15.501727233340032
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Denmark,34.50570596037249
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Germany,29.749803938777724
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Estonia,14.98199133224867
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Ireland,25.012768962605946
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Greece,13.549916336622935
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Spain,23.12435507799611
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",France,32.254398476251275
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Croatia,11.301189069697992
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Italy,24.551166792579075
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Cyprus,18.66310989078456
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Latvia,13.350245532069986
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Lithuania,20.37052049719945
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Luxembourg,53.57625271840184
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Hungary,13.172047522086128
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Netherlands,34.89759590928291
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Austria,32.86642715279919
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Poland,17.3471824969292
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Portugal,17.315535280437214
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Romania,11.66154851683431
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Slovenia,21.734769132635538
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Slovakia,16.907243796384048
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Finland,25.818164134899135
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Sweden,31.100338184436755
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",United Kingdom,22.67443798279236
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Norway,33.832932981290035
+GHI,"Wholesale and retail trade, transport, accommodation and food service activities",Switzerland,43.00905375252711
+J,Information and communication,Belgium,59.65124969013643
+J,Information and communication,Bulgaria,29.345818600793088
+J,Information and communication,Czech Republic,40.03371270477589
+J,Information and communication,Denmark,46.876352970768494
+J,Information and communication,Germany,60.08252179316182
+J,Information and communication,Estonia,31.065192665274992
+J,Information and communication,Ireland,100.30013730965483
+J,Information and communication,Greece,27.128820301575153
+J,Information and communication,Spain,43.961949301206246
+J,Information and communication,France,62.209431698160515
+J,Information and communication,Croatia,27.066587488077236
+J,Information and communication,Italy,42.77362969189718
+J,Information and communication,Cyprus,45.57860971112864
+J,Information and communication,Latvia,27.264607688840357
+J,Information and communication,Lithuania,41.381074251674626
+J,Information and communication,Luxembourg,77.89428488282303
+J,Information and communication,Hungary,32.826332037885194
+J,Information and communication,Netherlands,47.66398016410604
+J,Information and communication,Austria,45.30272600042343
+J,Information and communication,Poland,37.1120390482366
+J,Information and communication,Portugal,33.88186904636287
+J,Information and communication,Romania,51.61647666055763
+J,Information and communication,Slovenia,31.433198802887564
+J,Information and communication,Slovakia,34.1350447064355
+J,Information and communication,Finland,47.68444627245274
+J,Information and communication,Sweden,56.98004149625676
+J,Information and communication,United Kingdom,37.67683889675341
+J,Information and communication,Norway,55.95548266621952
+J,Information and communication,Switzerland,45.14949347930953
+K,Financial and insurance activities,Belgium,88.103379847198525
+K,Financial and insurance activities,Bulgaria,63.41031294719477
+K,Financial and insurance activities,Czech Republic,59.11678387959226
+K,Financial and insurance activities,Denmark,72.01052439581822
+K,Financial and insurance activities,Germany,51.460369312484175
+K,Financial and insurance activities,Estonia,57.22182718255072
+K,Financial and insurance activities,Ireland,62.39700639707928
+K,Financial and insurance activities,Greece,49.92683971796048
+K,Financial and insurance activities,Spain,55.78497828664123
+K,Financial and insurance activities,France,53.23990869108
+K,Financial and insurance activities,Croatia,56.95132546630444
+K,Financial and insurance activities,Italy,59.4052224732922
+K,Financial and insurance activities,Cyprus,64.28431374822682
+K,Financial and insurance activities,Latvia,46.942672572096036
+K,Financial and insurance activities,Lithuania,37.76051885253395
+K,Financial and insurance activities,Luxembourg,106.82522696340425
+K,Financial and insurance activities,Hungary,41.11691381417997
+K,Financial and insurance activities,Netherlands,90.4515929622939
+K,Financial and insurance activities,Austria,48.69025789724145
+K,Financial and insurance activities,Poland,41.660573757862664
+K,Financial and insurance activities,Portugal,65.20089444515055
+K,Financial and insurance activities,Romania,60.824347997756476
+K,Financial and insurance activities,Slovenia,40.17433315836103
+K,Financial and insurance activities,Slovakia,60.43752068066387
+K,Financial and insurance activities,Finland,47.199389364654735
+K,Financial and insurance activities,Sweden,76.47034368835581
+K,Financial and insurance activities,United Kingdom,48.359562828932084
+K,Financial and insurance activities,Norway,109.50965555631717
+K,Financial and insurance activities,Switzerland,63.24405438758707
+MN,"Professional, scientific and technical activities; administrative and support service activities",Belgium,24.53515687997425
+MN,"Professional, scientific and technical activities; administrative and support service activities",Bulgaria,14.696489412618114
+MN,"Professional, scientific and technical activities; administrative and support service activities",Czech Republic,19.914815133515948
+MN,"Professional, scientific and technical activities; administrative and support service activities",Denmark,26.976614978611646
+MN,"Professional, scientific and technical activities; administrative and support service activities",Germany,31.992896517689033
+MN,"Professional, scientific and technical activities; administrative and support service activities",Estonia,24.905669509467614
+MN,"Professional, scientific and technical activities; administrative and support service activities",Ireland,36.499863129343865
+MN,"Professional, scientific and technical activities; administrative and support service activities",Greece,12.507424876374564
+MN,"Professional, scientific and technical activities; administrative and support service activities",Spain,19.172541917173053
+MN,"Professional, scientific and technical activities; administrative and support service activities",France,31.13475085985314
+MN,"Professional, scientific and technical activities; administrative and support service activities",Croatia,26.218404940539987
+MN,"Professional, scientific and technical activities; administrative and support service activities",Italy,23.328083126707398
+MN,"Professional, scientific and technical activities; administrative and support service activities",Cyprus,26.30600339182278
+MN,"Professional, scientific and technical activities; administrative and support service activities",Latvia,16.257271302418065
+MN,"Professional, scientific and technical activities; administrative and support service activities",Lithuania,21.93811636109875
+MN,"Professional, scientific and technical activities; administrative and support service activities",Luxembourg,31.517263918851018
+MN,"Professional, scientific and technical activities; administrative and support service activities",Hungary,20.75822158594203
+MN,"Professional, scientific and technical activities; administrative and support service activities",Netherlands,25.068246705703977
+MN,"Professional, scientific and technical activities; administrative and support service activities",Austria,26.914732561027293
+MN,"Professional, scientific and technical activities; administrative and support service activities",Poland,26.01240608443253
+MN,"Professional, scientific and technical activities; administrative and support service activities",Portugal,13.464220384891137
+MN,"Professional, scientific and technical activities; administrative and support service activities",Romania,31.738111488674658
+MN,"Professional, scientific and technical activities; administrative and support service activities",Slovenia,18.069892318754277
+MN,"Professional, scientific and technical activities; administrative and support service activities",Slovakia,22.41582626849324
+MN,"Professional, scientific and technical activities; administrative and support service activities",Finland,21.420447016079418
+MN,"Professional, scientific and technical activities; administrative and support service activities",Sweden,33.3001221954617
+MN,"Professional, scientific and technical activities; administrative and support service activities",United Kingdom,18.235530132362364
+MN,"Professional, scientific and technical activities; administrative and support service activities",Norway,31.906888100855173
+MN,"Professional, scientific and technical activities; administrative and support service activities",Switzerland,39.53762228257521
+OPQ,"Public administration, defence, education, human health and social work activities",Belgium,28.173123564900127
+OPQ,"Public administration, defence, education, human health and social work activities",Bulgaria,20.90348941436913
+OPQ,"Public administration, defence, education, human health and social work activities",Czech Republic,25.96555207873772
+OPQ,"Public administration, defence, education, human health and social work activities",Denmark,24.77941321159943
+OPQ,"Public administration, defence, education, human health and social work activities",Germany,27.90071180505047
+OPQ,"Public administration, defence, education, human health and social work activities",Estonia,15.937557575383051
+OPQ,"Public administration, defence, education, human health and social work activities",Ireland,22.530639542005883
+OPQ,"Public administration, defence, education, human health and social work activities",Greece,25.603642296837524
+OPQ,"Public administration, defence, education, human health and social work activities",Spain,24.391741765288025
+OPQ,"Public administration, defence, education, human health and social work activities",France,29.202898509521713
+OPQ,"Public administration, defence, education, human health and social work activities",Croatia,15.80239878399671
+OPQ,"Public administration, defence, education, human health and social work activities",Italy,30.344280657388357
+OPQ,"Public administration, defence, education, human health and social work activities",Cyprus,22.854169134401104
+OPQ,"Public administration, defence, education, human health and social work activities",Latvia,16.806651928524126
+OPQ,"Public administration, defence, education, human health and social work activities",Lithuania,20.712295282043026
+OPQ,"Public administration, defence, education, human health and social work activities",Luxembourg,26.35375571788791
+OPQ,"Public administration, defence, education, human health and social work activities",Hungary,20.251412918833086
+OPQ,"Public administration, defence, education, human health and social work activities",Netherlands,30.641628826834914
+OPQ,"Public administration, defence, education, human health and social work activities",Austria,24.06814101511311
+OPQ,"Public administration, defence, education, human health and social work activities",Poland,18.018083850852992
+OPQ,"Public administration, defence, education, human health and social work activities",Portugal,19.083982461147695
+OPQ,"Public administration, defence, education, human health and social work activities",Romania,28.28248110166766
+OPQ,"Public administration, defence, education, human health and social work activities",Slovenia,19.711916458772897
+OPQ,"Public administration, defence, education, human health and social work activities",Slovakia,22.305587856138747
+OPQ,"Public administration, defence, education, human health and social work activities",Finland,22.141681827192794
+OPQ,"Public administration, defence, education, human health and social work activities",Sweden,15.606318604800165
+OPQ,"Public administration, defence, education, human health and social work activities",United Kingdom,20.535203434111303
+OPQ,"Public administration, defence, education, human health and social work activities",Norway,22.91630699259695
+OPQ,"Public administration, defence, education, human health and social work activities",Switzerland,25.54192181365963
+RSTU,"Arts, entertainment and recreation; other service activities",Belgium,19.696975722459403
+RSTU,"Arts, entertainment and recreation; other service activities",Bulgaria,18.49269448116618
+RSTU,"Arts, entertainment and recreation; other service activities",Czech Republic,17.043863185873782
+RSTU,"Arts, entertainment and recreation; other service activities",Denmark,22.360613242193434
+RSTU,"Arts, entertainment and recreation; other service activities",Germany,22.099464837721257
+RSTU,"Arts, entertainment and recreation; other service activities",Estonia,10.017288256052616
+RSTU,"Arts, entertainment and recreation; other service activities",Ireland,17.449499916017242
+RSTU,"Arts, entertainment and recreation; other service activities",Greece,12.48949674179642
+RSTU,"Arts, entertainment and recreation; other service activities",Spain,14.695442590510666
+RSTU,"Arts, entertainment and recreation; other service activities",France,18.401619410704605
+RSTU,"Arts, entertainment and recreation; other service activities",Croatia,17.817716893096893
+RSTU,"Arts, entertainment and recreation; other service activities",Italy,11.860532452235352
+RSTU,"Arts, entertainment and recreation; other service activities",Cyprus,11.860090036362976
+RSTU,"Arts, entertainment and recreation; other service activities",Latvia,14.4664768571752
+RSTU,"Arts, entertainment and recreation; other service activities",Lithuania,13.692357203921532
+RSTU,"Arts, entertainment and recreation; other service activities",Luxembourg,22.562137125057436
+RSTU,"Arts, entertainment and recreation; other service activities",Hungary,17.172896253573576
+RSTU,"Arts, entertainment and recreation; other service activities",Netherlands,20.69420426742752
+RSTU,"Arts, entertainment and recreation; other service activities",Austria,17.624550194530386
+RSTU,"Arts, entertainment and recreation; other service activities",Poland,18.45907002133462
+RSTU,"Arts, entertainment and recreation; other service activities",Portugal,11.212669015185336
+RSTU,"Arts, entertainment and recreation; other service activities",Romania,25.433938509887376
+RSTU,"Arts, entertainment and recreation; other service activities",Slovenia,17.00271090578936
+RSTU,"Arts, entertainment and recreation; other service activities",Slovakia,35.463180846536076
+RSTU,"Arts, entertainment and recreation; other service activities",Finland,17.115953375231847
+RSTU,"Arts, entertainment and recreation; other service activities",Sweden,18.43701957133856
+RSTU,"Arts, entertainment and recreation; other service activities",United Kingdom,17.968866585856865
+RSTU,"Arts, entertainment and recreation; other service activities",Norway,20.898155136451464
+RSTU,"Arts, entertainment and recreation; other service activities",Switzerland,19.18431171417123

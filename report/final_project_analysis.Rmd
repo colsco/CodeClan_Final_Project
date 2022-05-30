@@ -1,0 +1,192 @@
+---
+title: 'CodeClan Final Project: UK Productivity'
+author: Colin Scotland | DE13
+date: "30/05/2022"
+output:
+  html_document:
+    code_folding: hide
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+    toc_depth: 4
+  pdf_document:
+    toc: yes
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = FALSE}
+library(here)
+here::here()
+
+```
+```{r}
+source(here("data_cleaning/cleaning.R"))
+```
+# Initial Plots
+
+## UK Output per Hour Ranking v Europe
+
+```{r}
+# UK Output per Hour Ranking v Europe ----
+
+
+europe_labour_prod %>% 
+  group_by(country) %>% 
+  ggplot() +
+  aes(x = reorder(country, value), 
+      y = value, 
+      group = country, 
+      fill = country == "United Kingdom") +
+  stat_boxplot(geom = "errorbar") +
+  geom_boxplot(show.legend = FALSE) +
+  scale_fill_manual(values = c("grey90", "orange")) +
+  theme_light(base_size = 10) +
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))+
+  labs(x = "Country\n",
+       y = "Distribution of Output per Hour per Industry (€)",
+       title = "Comparison of Industrial Output per Hour in the EU 2014 - 2016 (€)") +
+  coord_flip()
+
+```
+<br>
+The boxplot shows that despite the UK's political stance on the global stage and
+it's reputation as a financial powerhouse, in reality the overall productivity
+is at best fairly mediocre even when compared to countries within the EU. 
+
+Spain's recent history has seen high unemployment and even depopulation in 
+certain interior regions, yet it ranks better than the UK.  Successive UK 
+governments have looked to minimise the strength of trade unions, yet countries
+in which trade unions remain powerful and are often associated with strike action, 
+such as France and Germany are also ranked above the UK.
+
+Ireland, our nearest neighbour with an education and industrial profile very 
+similar to the UK comes far higher up in the rankings, which begs the question
+"what is UK industry not getting right?".  However, it is also clear that there 
+is a lot of overlap throughout all nations, so;
+
+### Is the difference between Norway and the UK statistically significant?
+
+
+## UK Output per Hour per Industry 
+
+```{r}
+# Need a definition of industries - join with industry_dict.
+
+region_by_industry_output_joined <- region_by_industry_output_per_hour %>% 
+  left_join(industry_dict, by = "industry") 
+
+# There were some industries grouped together that will need to be explained -
+# they have probably been coerced to NAs during the join:
+
+region_by_industry_output_joined %>% 
+  filter(is.na(industry_group)) %>% 
+  distinct(industry)
+```
+NAs have been returned only for the industry groupings;
+
+* 'ALLINDUSTRIES'
+* 'ABDE'
+* 'ST'
+
+For the purposes of this plot;
+
+* 'ALLINDUSTRIES' can be removed.
+* 'ABDE' can be defined as 'Agriculture, mining, water, electricity'
+* 'ST' can be defined as 'Other services and domestic'
+
+```{r}
+region_by_industry_output_joined <- region_by_industry_output_joined %>% 
+  mutate(industry_group = 
+           if_else(industry == "ABDE", 
+                   "agriculture mining water electricity", 
+                   industry_group),
+         industry_group = 
+           if_else(industry == "ST", 
+                   "other services and domestic", 
+                   industry_group)
+         ) %>% 
+  filter(!is.na(industry_group))
+
+
+# Limit timeframe to 2014 - 2016 to maintain consistency with EU data
+
+region_by_industry_output_joined %>% 
+  filter(year >= 2014) %>% 
+  group_by(industry_group) %>% 
+  ggplot() +
+  aes(x = reorder(industry_group, hourly_output_cvm),
+      y = hourly_output_cvm,
+      group = industry_group) +
+  stat_boxplot(geom = "errorbar") +
+  geom_boxplot(show.legend = FALSE, fill = "grey90") +
+  theme_light(base_size = 10) +
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))+
+  labs(x = "UK Industry in order of Mean Output per Hour\n",
+       y = "Distribution of Output per Hour per Industry (£ CVM)",
+       title = "Comparison of Industrial Output per Hour in UK Industry\n2014 - 2016") +
+  scale_x_discrete(labels = wrap_format(40)) +
+  coord_flip()
+
+```
+<br>
+This boxplot shows the Distribution of output per hour per industry as a **Chain**
+**Volume Measure**.  
+
+Chain volume measures are derived by linking together (compounding) movements in 
+volumes, calculated using the average prices of the previous financial year, and 
+applying the compounded movements to the current price estimates of the reference 
+year.  This provides a better reference with which to compare year-by-year changes
+in economic performance.
+
+The plot shows that the hourly output of transport and storage, accommodation and
+food service activities and professional scientific technical services create on
+average a larger financial output per hour worked than for example, agriculture 
+and mining, public administration, defence, and other domestic services.
+
+It's also clear from the plot that there is a good deal of overlap through almost
+all industry groups, i.e. there are no single industry groups that stand alone
+either better than all others, or worse than all others.  So one question that 
+this leads to is;
+
+### Is the difference between transport/storage and domestic services significant?
+
+
+## UK Output per Hour per Region
+
+```{r}
+
+# Limit timeframe to 2014 - 2016 to maintain consistency with EU data
+
+
+region_by_industry_output_joined %>% 
+  filter(year >= 2014) %>% 
+  filter(region != "uk") %>% 
+  group_by(region) %>% 
+  ggplot() +
+  aes(x = reorder(region, hourly_output_cvm),
+      y = hourly_output_cvm,
+      group = region) +
+  stat_boxplot(geom = "errorbar") +
+  geom_boxplot(show.legend = FALSE, fill = "grey90") +
+  theme_light(base_size = 10) +
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))+
+  labs(x = "UK Region in order of Mean Output per Hour\n",
+       y = "Distribution of Output per Hour per UK Region (£ CVM)",
+       title = "Comparison of Industrial Output per Hour in UK Regions\n2014 - 2016") +
+  scale_x_discrete(labels = wrap_format(40)) +
+  coord_flip()
+  
+```
+
+<br>
+Comparison of the hourly output per UK region also shows a lot of overlap.  So
+again in this case;
+
+### Is the difference between best (East) and worst (Northeast) statistically significant?
+

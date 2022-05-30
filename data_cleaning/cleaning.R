@@ -2,6 +2,7 @@ library(tidyverse)
 library(janitor)
 library(here)
 library(readxl)
+library(scales)
 
 
 # Set the home directory ----
@@ -12,9 +13,10 @@ here::here()
 
 excel_sheets(here("data/International Labour Productivity - Europe.xls"))
 excel_sheets(here("data/UK Education Productivity.xlsx"))
-excel_sheets(here("data/UK Labour Productivity Industry division.xls"))
-excel_sheets(here("data/UK Labour Productivity Jobs in Regions by Industry.xls"))
-excel_sheets(here("data/UK Labour Productivity Region by Industry.xls"))
+excel_sheets(here("data/UK Labour Productivity - Industry division.xls"))
+excel_sheets(here("data/UK Labour Productivity - Jobs in Regions by Industry.xls"))
+excel_sheets(here("data/UK Labour Productivity - Region by Industry.xls"))
+excel_sheets(here("data/UK Labour Productivity - Industry division.xls"))
 
 # Create a dictionary of job categories ----
 
@@ -23,10 +25,14 @@ industry_dict <-
                        sheet = "14. Great Britain",
                        range = "C5:V6") %>% 
   clean_names() %>% 
-  pivot_longer(cols = everything()) %>% 
-  relocate(value, .before = "name") %>% 
-  mutate(name = str_replace(name, "[0-9]", ""),
-         name = str_replace(name, "_$", "")) %>% 
+  pivot_longer(cols = everything(), 
+               names_to = "industry_group", 
+               values_to = "industry") %>% 
+  relocate(industry, .before = "industry_group") %>% 
+  mutate(industry_group = str_replace(industry_group, "[0-9]", ""),
+         industry_group = str_replace(industry_group, "_$", ""),
+         industry_group = str_replace_all(industry_group, "_", " "),
+         industry_group = str_replace(industry_group, "mod at", "modat")) %>% 
   write_csv(here("clean_data/industry_dict_clean.csv"))
 
 # UK ranking by industry type within Europe ----
@@ -44,6 +50,8 @@ europe_labour_prod <- read_excel(here("data/International Labour Productivity - 
          industry = str_replace(industry, "R-U", "RSTU")) %>% 
   pivot_longer(cols = -c("industry", "industry_group"),
                names_to = "country") %>% 
+  mutate(country = str_replace(country, "_", " "),
+         country = str_to_title(country)) %>% 
   write_csv(here("clean_data/europe_labour_productivity_clean.csv"))
 
 
@@ -59,7 +67,7 @@ region_by_industry_output_per_hour <-
                                    range = "A6:HN26") %>% 
   clean_names() 
   
-# Rename Column Headers
+# Rename "unnamed" Column Headers
 
 region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>% 
   rename("uk" = c("x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", 
@@ -146,5 +154,55 @@ region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
 
 region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
   separate(industry, into = c("region", "industry"), sep = "_") %>% 
+  mutate(industry = str_to_upper(industry)) %>% 
   write_csv(here("clean_data/region_by_industry_output_per_hour_clean.csv"))
   
+
+# No. Jobs per Industry UK ----
+
+uk_labour_jobs <- 
+  read_excel(here("data/UK Labour Productivity - Jobs in Regions by Industry.xls"),
+             sheet = "15. United Kingdom",
+             range = "A6:X95") %>%
+  clean_names() %>% 
+  select(-c(x2, g_t, a_t)) %>% 
+  rename("date" = "sic_2007_section") %>% 
+  mutate(date = str_replace(date, " \\([pr]\\)", "")) %>% 
+  separate(date, into = c("month", "year"), sep = " ") %>% 
+  mutate(year = if_else(year >= 96, paste0("19", year), paste0("20", year)),
+         year = as.integer(year))
+
+# Now pivot long and import the industry dictionary;
+
+uk_labour_jobs_joined <- uk_labour_jobs %>% 
+  pivot_longer(cols = -c("month", "year"), 
+               names_to = "industry",
+               values_to = "no_jobs_000") %>% 
+  mutate(industry = str_to_upper(industry)) %>% 
+  left_join(industry_dict, by = "industry")
+
+# And check for NAs after joining;
+
+uk_labour_jobs_joined %>% 
+  summarise(across(.cols = everything(), ~ sum(is.na(.x))))
+
+# No NAs.    
+
+
+# Ultimately 'uk_labour_jobs_join' will be joined to 'region_by_industry_output_per_hour'
+# so it would be worth formatting accordingly by grouping by years and taking
+# an annual average.
+
+uk_labour_jobs_joined <- uk_labour_jobs_joined %>% 
+  group_by(year, industry) %>% 
+  mutate(avg_jobs_000 = mean(no_jobs_000)) %>% 
+  select(-c(month, no_jobs_000)) %>% 
+  filter(year >= 1998 & year <= 2016) %>% 
+  unique() %>% 
+  write_csv(here("clean_data/uk_jobs_per_industry.csv"))
+
+# Note: the final `unique` call with remove duplicate rows.  The data is updated
+# every quarter but an annual average was taken earlier so until now the data
+# contained four identical entries per year.  Using `unique` gets rid of the 
+# duplicates leaving one row per industry per year.
+
