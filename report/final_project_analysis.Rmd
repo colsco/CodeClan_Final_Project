@@ -313,66 +313,106 @@ $$ H_1 : x͂_{London} - x͂_{Wales} > 0 $$
 In this case the median will be used, because the mean (dotted orange line on 
 the boxplot above) is badly right skewed by outliers in both data sets.
 
-The observed statistic will be the median output per hour in Wales;
 ```{r}
-obs_stat <- region_by_industry_output_joined %>% 
+london_wales <- region_by_industry_output_joined %>% 
   filter(year >= 2014) %>% 
-  filter(region == "wales") %>%
+  filter(region %in% c("wales", "london")) %>%
   group_by(region) %>% 
-  summarise(avg_wales = median(pounds_per_hour_worked))
-
-obs_stat
+  select(-c(year, industry))
+           
   
 ```
+
+Permutation to generate the null distribution
+
+
+Under \(H_0\) the location of the apartment would have no bearing on the price, 
+i.e. the location and price are independent. There would be no difference between 
+groups.
+
+By randomly shuffling (i.e. permuting) the locations labels we lose any 
+relationship that there was between location and price. Think of this shuffling 
+as detaching the labels from rows and then randomly assigning them back to rows. 
+Then we see which of the following occurs:
+If there was no relationship in the first place (i.e. they are in fact 
+independent) then randomly shuffling them should have no implication.
+If the difference between groups in our sample is much larger than the difference 
+once the labels are shuffled it’s because there is a real difference between the 
+groups, and it’s not just down to sampling variation.
+
+
+
 
 Calculate the null sampling distribution;
 ```{r}
-null_distribution <- region_by_industry_output_joined %>% 
-  filter(year >= 2014) %>% 
-  filter(region == "london") %>%
-  specify(response = pounds_per_hour_worked) %>% 
-  hypothesize(null = "point", med = 23.18713) %>%
-  generate(reps = 50000, type = "bootstrap") %>%
-  calculate(stat = "median")
+null_distribution <- london_wales %>% 
+  specify(pounds_per_hour_worked ~ region) %>% 
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "diff in medians", order = c("london", "wales"))
+# sample stat is median of London minus median of Wales, so this is the order 
+# we specify in the calculate step
+
+head(null_distribution)
   
 ```
 
-And now visualise the null distribution;
+And now visualise the observed stat against the null distribution;
+
+```{r}
+observed_stat_lond_wal <- london_wales %>% 
+  specify(pounds_per_hour_worked ~ region) %>% 
+  calculate("diff in medians", order = c("london", "wales"))
+
+observed_stat_lond_wal
+```
+
+
+H1 is a "greater than" clause, so that means this is a one-sided test in the
+"right" direction.
 
 ```{r}
 null_distribution %>% 
-  visualise(bins = 50) +
+  visualise(bins = 30) +
   theme_light(base_size = 10) +
-  shade_p_value(obs_stat = obs_stat$avg_wales, direction = "right")
+  shade_p_value(obs_stat = observed_stat_lond_wal, direction = "right")
 ```
 
 This gives a p-value of;
 ```{r}
 p_value <- null_distribution %>%
-  get_p_value(obs_stat = obs_stat$avg_wales, direction = "right")
+  get_p_value(obs_stat = observed_stat_lond_wal, direction = "right")
 p_value
 ```
 
-The p-value of 0.48 is greater than α = 0.05.  In this case we fail to reject 
-the null hypothesis and cannot say that there is a significant difference 
-between the median hourly output in London when compared to the median hourly 
-output in Wales.
+The p-value is less than α = 0.05.  In this case we reject the null hypothesis 
+and can say that for this data there is a significant difference between the 
+median hourly output in London when compared to the median hourly output in Wales.
 
 ## Output by Industry by Region 
 
 One other point of interest is the output per industry per region;
 
 ```{r}
-
+model_base_data %>% 
+  select(region, industry_group, pounds_per_hour_worked) %>% 
+  group_by(region, industry_group) %>% 
+  ggplot() +
+  aes(x = industry_group, y = log(pounds_per_hour_worked), colour = region) +
+  geom_point(alpha = 0.3) +
+  theme_light() +
+  labs(title = "Productivity per Industry by UK Region",
+       x = "Industry",
+       y = "Pounds Output per Hour Worked") +
+  scale_x_discrete(labels = wrap_format(40)) +
+  coord_flip()
 ```
 
+<br>
 
+# Explanatory Model Setup  
 
-
-
-
-
-# Explanatory Model Setup
+### Change to auto model build ?  (Week 10 day 4)
 
 The base model data consists of just over 3600 rows.  To set up a test-train 
 split it would seem reasonable to split 80 / 20, giving around 3000 rows for
