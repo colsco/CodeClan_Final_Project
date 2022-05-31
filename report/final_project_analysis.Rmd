@@ -25,6 +25,7 @@ library(here)
 here::here()
 
 ```
+
 ```{r}
 source(here("data_cleaning/cleaning.R"))
 ```
@@ -120,8 +121,8 @@ region_by_industry_output_joined %>%
   filter(year >= 2014) %>% 
   group_by(industry_group) %>% 
   ggplot() +
-  aes(x = reorder(industry_group, hourly_output_cvm),
-      y = hourly_output_cvm,
+  aes(x = reorder(industry_group, pounds_per_hour_worked),
+      y = pounds_per_hour_worked,
       group = industry_group) +
   stat_boxplot(geom = "errorbar") +
   geom_boxplot(show.legend = FALSE, fill = "grey90") +
@@ -169,15 +170,15 @@ region_by_industry_output_joined %>%
   filter(region != "uk") %>% 
   group_by(region) %>% 
   ggplot() +
-  aes(x = reorder(region, hourly_output_cvm),
-      y = hourly_output_cvm,
+  aes(x = reorder(region, pounds_per_hour_worked),
+      y = pounds_per_hour_worked,
       group = region) +
   stat_boxplot(geom = "errorbar") +
   geom_boxplot(show.legend = FALSE, fill = "grey90") +
   theme_light(base_size = 10) +
   theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))+
   labs(x = "UK Region in order of Mean Output per Hour\n",
-       y = "Distribution of Output per Hour per UK Region (£ CVM)",
+       y = "Distribution of Pounds Output per Hour per UK Region (£)",
        title = "Comparison of Industrial Output per Hour in UK Regions\n2014 - 2016") +
   scale_x_discrete(labels = wrap_format(40)) +
   coord_flip()
@@ -188,5 +189,5 @@ region_by_industry_output_joined %>%
 Comparison of the hourly output per UK region also shows a lot of overlap.  So
 again in this case;
 
-### Is the difference between best (East) and worst (Northeast) statistically significant?
+### Is the difference between best (London) and worst (Wales) statistically significant?
 
