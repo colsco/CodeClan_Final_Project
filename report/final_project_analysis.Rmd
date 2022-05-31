@@ -358,5 +358,99 @@ the null hypothesis and cannot say that there is a significant difference
 between the median hourly output in London when compared to the median hourly 
 output in Wales.
 
+## Output by Industry by Region 
+
+One other point of interest is the output per industry per region;
+
+```{r}
+
+```
+
+
+
+
+
+
+
+# Explanatory Model Setup
+
+The base model data consists of just over 3600 rows.  To set up a test-train 
+split it would seem reasonable to split 80 / 20, giving around 3000 rows for
+training and just over 500 for testing.
+
+```{r}
+test_index <- sample(1:length(model_base_data), 
+                     size = length(model_base_data) * 0.2)
+```
+
+`industry` and `industry_group` are effectively the same thing, so get rid of
+`industry`;
+```{r}
+model_dev <- model_base_data %>% 
+  select(-industry)
+  
+```
+
+
+And set non-numeric columns as factors;
+```{r}
+model_dev %>% 
+  mutate(region = as.factor(region),
+         industry_group = as.factor(industry_group))
+```
+
+Set up the test and train data;
+
+```{r}
+model_test <- slice(model_dev, test_index)
+model_train <- slice(model_dev, -test_index)
+```
+
+
+
+
+
+
+#### First Predictor
+
+It's already been seen using ggplot that `industry_group` is significant, with
+real estate being far ahead of all other industries.  `industry_group` is a
+categorical variable, so should be checked for significance using ANOVA both with 
+and without `industry_group` included;
+
+```{r}
+anova(lm(pounds_per_hour_worked ~ . -industry_group, data = model_train))
+```
+
+Without `industry_group` the main influencing factor is `avg_jobs_000`.  
+
+With `industry_group`;
+
+```{r}
+anova(lm(pounds_per_hour_worked ~ .,  data = model_train))
+```
+
+It looks like `industry_group` is significant.  So the first model could be;
+
+```{r}
+mod1a <- lm(pounds_per_hour_worked ~ industry_group, data = model_train)
+```
+
+```{r}
+summary(mod1a)
+```
+
+This suggests that around 92% of the variance in our model could be explained by
+`industry_group`.
+
+Check the diagnostics;
+```{r}
+autoplot(mod1a, alpha = 0.3)
+```
+
+Residuals v fitted are spread across the x-axis with a horizontal line.  Q-Q plot
+is on the line for most of it's length, although scale-location doesn't look 
+great with an obvious funneling along the x-axis.
+
 
 

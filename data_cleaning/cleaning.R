@@ -5,6 +5,8 @@ library(readxl)
 library(scales)
 library(modelr)
 library(infer)
+library(GGally)
+library(ggfortify)
 
 
 # Set the home directory ----
@@ -346,6 +348,3 @@ rm(jobs_eastengland,
 
 model_base_data %>% 
   write_csv(here("clean_data/model_base_clean.csv"))
-
-
-
