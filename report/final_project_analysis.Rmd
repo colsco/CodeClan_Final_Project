@@ -412,85 +412,85 @@ model_base_data %>%
 
 # Explanatory Model Setup  
 
-### Change to auto model build ?  (Week 10 day 4)
-
-The base model data consists of just over 3600 rows.  To set up a test-train 
-split it would seem reasonable to split 80 / 20, giving around 3000 rows for
-training and just over 500 for testing.
-
-```{r}
-test_index <- sample(1:length(model_base_data), 
-                     size = length(model_base_data) * 0.2)
-```
-
-`industry` and `industry_group` are effectively the same thing, so get rid of
-`industry`;
 ```{r}
 model_dev <- model_base_data %>% 
   select(-industry)
-  
 ```
 
-
-And set non-numeric columns as factors;
-```{r}
-model_dev %>% 
-  mutate(region = as.factor(region),
-         industry_group = as.factor(industry_group))
-```
-
-Set up the test and train data;
+#### mod1a
 
 ```{r}
-model_test <- slice(model_dev, test_index)
-model_train <- slice(model_dev, -test_index)
-```
 
-
-
-
-
-
-#### First Predictor
-
-It's already been seen using ggplot that `industry_group` is significant, with
-real estate being far ahead of all other industries.  `industry_group` is a
-categorical variable, so should be checked for significance using ANOVA both with 
-and without `industry_group` included;
-
-```{r}
-anova(lm(pounds_per_hour_worked ~ . -industry_group, data = model_train))
-```
-
-Without `industry_group` the main influencing factor is `avg_jobs_000`.  
-
-With `industry_group`;
-
-```{r}
-anova(lm(pounds_per_hour_worked ~ .,  data = model_train))
-```
-
-It looks like `industry_group` is significant.  So the first model could be;
-
-```{r}
-mod1a <- lm(pounds_per_hour_worked ~ industry_group, data = model_train)
+mod1a_forward <- leaps::regsubsets(pounds_per_hour_worked ~ ., 
+                            data = model_dev,
+                            method = "forward")
 ```
 
 ```{r}
-summary(mod1a)
+summary_mod1a_forward <- summary(mod1a_forward)
+summary_mod1a_forward
 ```
 
-This suggests that around 92% of the variance in our model could be explained by
-`industry_group`.
+It looks like industry type is the main influence in productivity.
 
-Check the diagnostics;
 ```{r}
-autoplot(mod1a, alpha = 0.3)
+plot(mod1a_forward, scale = "adjr2")
 ```
 
-Residuals v fitted are spread across the x-axis with a horizontal line.  Q-Q plot
-is on the line for most of it's length, although scale-location doesn't look 
-great with an obvious funneling along the x-axis.
+The plot shows that region and year are also lesser factors.  Check against BIC:
+
+```{r}
+plot(mod1a_forward, scale = "bic")
+```
+
+
+Again, region, year and industry are the main influencing factors.
+
+Use BIC to determine the optimum number of predictors;
+
+```{r}
+plot(summary_mod1a_forward$bic, type = "b")
+```
+
+Although only certain industries and regions have been shown to be influential 
+predictors, they cannot be selected individually.  If one industry or region
+is selected the they all need to be included.
+
+Check which predictors are most significant;
+```{r}
+mod1a_no_industry <- lm(pounds_per_hour_worked ~ region + year, 
+                        data = model_dev)
+summary(mod1a_no_industry)
+```
+
+```{r}
+mod1a_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region + year, 
+                        data = model_dev)
+summary(mod1a_with_industry)
+```
+
+```{r}
+anova(mod1a_no_industry, mod1a_with_industry)
+```
+
+The model with `industry_group` is far more significant than the model without, 
+so it should be the main part of the model.
+
+```{r}
+autoplot(mod1a_with_industry)
+```
+
+The diagnostic plots show a reasonable residuals v fitted, with a spread over 
+the x-axis and a horizontal line, although there is some grouping evident.
+
+The Q-Q plot lies along the line for the most part, although again the relationship
+is not completely normal and scale-location shows some evidence of funneling.
+
+In summary, the productivity within the UK can be described as factors of
+industry type, region and year (although in reality year is not controllable),
+or:
+
+$$ pounds\_per\_hour\_worked \sim industry\_group + region + year $$
 
 
 

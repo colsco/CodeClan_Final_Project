@@ -7,6 +7,7 @@ library(modelr)
 library(infer)
 library(GGally)
 library(ggfortify)
+library(leaps)
 
 
 # Set the home directory ----

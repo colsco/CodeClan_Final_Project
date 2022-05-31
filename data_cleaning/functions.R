@@ -1,4 +1,4 @@
-# Regional Excel Worsheets Cleanup Function  cleanup() ----
+# Regional Excel Worksheets Cleanup Function  cleanup() ----
 
 
 
