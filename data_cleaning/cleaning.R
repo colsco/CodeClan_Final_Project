@@ -189,9 +189,9 @@ uk_labour_jobs_joined %>%
 # No NAs.    
 
 
-# Ultimately 'uk_labour_jobs_join' will be joined to 'region_by_industry_output_per_hour'
-# so it would be worth formatting accordingly by grouping by years and taking
-# an annual average.
+# Ultimately 'uk_labour_jobs_join' will need to be joined to
+# 'region_by_industry_output_per_hour' so it would be worth formatting accordingly 
+# by grouping by years and taking an annual average.
 
 uk_labour_jobs_joined <- uk_labour_jobs_joined %>% 
   group_by(year, industry) %>% 
@@ -230,4 +230,24 @@ model_base_data <- uk_labour_jobs_joined %>%
   rbind(abde_sum) %>% 
   rbind(st_sum) %>% 
   unite(c(avg_jobs_000, abde_sum, st_sum), col = "avg_jobs_000", na.rm = TRUE) %>% 
+  mutate(avg_jobs_000 = as.numeric(avg_jobs_000)) %>% 
   arrange(year)
+
+# Join `region_by_industry_output_per_hour` into the base model ----
+
+model_base_data <- region_by_industry_output_per_hour %>% 
+  filter(industry != "ALLINDUSTRIES") %>%
+  filter(region == "uk") %>% 
+  right_join(model_base_data, by = c("year", "industry"))
+
+# and check for NAs
+
+model_base_data %>% 
+  summarise(across(.cols = everything(), ~sum(is.na(.x))))
+
+# No NAs.
+
+# NOTE: need to be able to split regional info into model - see 
+# 'extension_possibilities.R' for initial setup attempt.
+
+
