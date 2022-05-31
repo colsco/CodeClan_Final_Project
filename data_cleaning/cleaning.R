@@ -3,6 +3,8 @@ library(janitor)
 library(here)
 library(readxl)
 library(scales)
+library(modelr)
+library(infer)
 
 
 # Set the home directory ----
@@ -163,60 +165,8 @@ region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
   write_csv(here("clean_data/region_by_industry_output_per_hour_clean.csv"))
   
 
-# No. Jobs per Industry UK ----
+# No. Jobs per Region UK ----
 
-
-
-# ONCE REGIONS JOBS COMPLETE REMOVE FROM HERE ----
-# 
-# uk_labour_jobs <- 
-#   read_excel(here("data/UK Labour Productivity - Jobs in Regions by Industry.xls"),
-#              sheet = "15. United Kingdom",
-#              range = "A6:X95") %>%
-#   clean_names() %>% 
-#   select(-c(x2, g_t, a_t)) %>% 
-#   rename("date" = "sic_2007_section") %>% 
-#   mutate(date = str_replace(date, " \\([pr]\\)", "")) %>% 
-#   separate(date, into = c("month", "year"), sep = " ") %>% 
-#   mutate(year = if_else(year >= 96, paste0("19", year), paste0("20", year)),
-#          year = as.integer(year))
-# 
-# # Now pivot long and import the industry dictionary;
-# 
-# uk_labour_jobs_joined <- uk_labour_jobs %>% 
-#   pivot_longer(cols = -c("month", "year"), 
-#                names_to = "industry",
-#                values_to = "no_jobs_000") %>% 
-#   mutate(industry = str_to_upper(industry)) %>% 
-#   left_join(industry_dict, by = "industry")
-# 
-# # And check for NAs after joining;
-# 
-# uk_labour_jobs_joined %>% 
-#   summarise(across(.cols = everything(), ~ sum(is.na(.x))))
-# 
-# # No NAs.    
-# 
-# 
-# # Ultimately 'uk_labour_jobs_join' will need to be joined to
-# # 'region_by_industry_output_per_hour' so it would be worth formatting accordingly 
-# # by grouping by years and taking an annual average.
-# 
-# uk_labour_jobs_joined <- uk_labour_jobs_joined %>% 
-#   group_by(year, industry) %>% 
-#   mutate(avg_jobs_000 = mean(no_jobs_000)) %>% 
-#   select(-c(month, no_jobs_000)) %>% 
-#   filter(year >= 1998 & year <= 2016) %>% 
-#   unique() %>% 
-#   write_csv(here("clean_data/uk_jobs_per_industry.csv"))
-# 
-# # Note: the final `unique` call with remove duplicate rows.  The data is updated
-# # every quarter but an annual average was taken earlier so until now the data
-# # contained four identical entries per year.  Using `unique` gets rid of the 
-# # duplicates leaving one row per industry per year.
-# 
-
-#   TO HERE...? ----
 
 jobs_northeast <-
   read_excel(here("data/UK Labour Productivity - Jobs in Regions by Industry.xls"),
@@ -307,19 +257,18 @@ jobs_nireland <-
 # Bind rows to create one data set of jobs per region in the uk;
 
 jobs_regional_bound <- bind_rows(jobs_eastengland,
-        jobs_eastmidlands,
-        jobs_london,
-        jobs_nireland,
-        jobs_northeast,
-        jobs_northwest,
-        jobs_scotland,
-        jobs_southeast,
-        jobs_southwest,
-        jobs_wales,
-        jobs_westmidlands,
-        jobs_york) %>% 
+                                 jobs_eastmidlands,
+                                 jobs_london,
+                                 jobs_nireland,
+                                 jobs_northeast,
+                                 jobs_northwest,
+                                 jobs_scotland,
+                                 jobs_southeast,
+                                 jobs_southwest,
+                                 jobs_wales,
+                                 jobs_westmidlands,
+                                 jobs_york) %>% 
   left_join(industry_dict, by = "industry")
-
 
 
 
@@ -360,7 +309,7 @@ jobs_regional_bound_grouped <- jobs_regional_bound %>%
   arrange(year, industry)
 
 
-# Join `region_by_industry_output_per_hour` into the base model ----
+# Join `region_by_industry_output_per_hour` to start the base model ----
 
 model_base_data <- region_by_industry_output_per_hour %>%
   filter(industry != "ALLINDUSTRIES") %>%
@@ -374,6 +323,29 @@ model_base_data %>%
 
 # No NAs.
 
+# At this point some memory can be cleared out to make things more efficient;
+
+rm(jobs_eastengland,
+   jobs_eastmidlands,
+   jobs_london,
+   jobs_nireland,
+   jobs_northeast,
+   jobs_northwest,
+   jobs_scotland,
+   jobs_southeast,
+   jobs_southwest,
+   jobs_wales,
+   jobs_westmidlands,
+   jobs_york,
+   abde_sum,
+   st_sum)
+
+
+# Base data model ready for analysis ----
+
+
+model_base_data %>% 
+  write_csv(here("clean_data/model_base_clean.csv"))
 
 
 

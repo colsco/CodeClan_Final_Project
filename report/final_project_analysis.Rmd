@@ -130,32 +130,26 @@ region_by_industry_output_joined %>%
   theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))+
   labs(x = "UK Industry in order of Mean Output per Hour\n",
        y = "Distribution of Output per Hour per Industry (£ CVM)",
-       title = "Comparison of Industrial Output per Hour in UK Industry\n2014 - 2016") +
+       title = "Comparison of Output per Hour in UK Industry\n2014 - 2016") +
   scale_x_discrete(labels = wrap_format(40)) +
   coord_flip()
 
 ```
 <br>
-This boxplot shows the Distribution of output per hour per industry as a **Chain**
-**Volume Measure**.  
+This boxplot shows the distribution of output in pounds per hour worked per 
+industry between 2014 - 2016.
 
-Chain volume measures are derived by linking together (compounding) movements in 
-volumes, calculated using the average prices of the previous financial year, and 
-applying the compounded movements to the current price estimates of the reference 
-year.  This provides a better reference with which to compare year-by-year changes
-in economic performance.
+The plot clearly shows that real estate was by far the largest contributor to 
+financial productivity in this timeframe.
 
-The plot shows that the hourly output of transport and storage, accommodation and
-food service activities and professional scientific technical services create on
-average a larger financial output per hour worked than for example, agriculture 
-and mining, public administration, defence, and other domestic services.
+Among the rest of the industries, the plot shows that the hourly output of 
+financial, agriculture and information communication contribute on average a 
+larger financial output per hour worked than for example, administrative support,
+accommodation and arts and entertainment.
 
 It's also clear from the plot that there is a good deal of overlap through almost
-all industry groups, i.e. there are no single industry groups that stand alone
-either better than all others, or worse than all others.  So one question that 
-this leads to is;
-
-### Is the difference between transport/storage and domestic services significant?
+all industry groups outside of real estate, i.e. there are no single industry 
+groups that stand alone as being worse than all others.  
 
 
 ## UK Output per Hour per Region
@@ -186,8 +180,96 @@ region_by_industry_output_joined %>%
 ```
 
 <br>
-Comparison of the hourly output per UK region also shows a lot of overlap.  So
-again in this case;
+Comparison of the hourly output per UK region also shows a lot of overlap, with 
+London at the top.  
 
-### Is the difference between best (London) and worst (Wales) statistically significant?
+## Hypothesis Test of Significance between London and Wales
+
+First of all, it would help to visualise this comparison in more detail;
+
+```{r}
+region_by_industry_output_joined %>% 
+  filter(year >= 2014) %>% 
+  filter(region == "london" | region == "wales") %>%
+  group_by(region) %>% 
+  ggplot() +
+  aes(x = region,
+      y = pounds_per_hour_worked,
+      group = region) +
+  stat_boxplot(geom = "errorbar") +
+  geom_boxplot(show.legend = FALSE, 
+               fill = "grey90") +
+  stat_summary(fun.y = "mean", 
+               geom = "text", 
+               label="-------", 
+               size= 10, 
+               color= "orange") +
+  theme_light(base_size = 10) +
+  labs(x = "UK Region in order of Mean Output per Hour\n",
+       y = "Distribution of Pounds Output per Hour per UK Region (£)",
+       title = "Comparison of Industrial Output per Hour in London and Wales\n2014 - 2016") +
+  scale_x_discrete(labels = wrap_format(40)) +
+  coord_cartesian(xlim = c(), ylim = c(0, 100)) 
+# Use coord cartesian to limit the axis scales so that the mean and median are
+# not affected (they are affected if scale_y_continuous(limits = ) is used)
+```
+<br>
+The hypotheses for this are as follows, with α = 0.05;
+
+H0: The average output per hour in London is the same as in Wales
+
+$$ H_0 : x͂_{London} - x͂_{Wales} = 0 $$
+
+H1: The average output per hour in London is significantly higher than in Wales
+
+$$ H_1 : x͂_{London} - x͂_{Wales} > 0 $$
+<br>
+In this case the median will be used, because the mean (dotted orange line on 
+the boxplot above) is badly right skewed by outliers in both data sets.
+
+The observed statistic will be the median output per hour in Wales;
+```{r}
+obs_stat <- region_by_industry_output_joined %>% 
+  filter(year >= 2014) %>% 
+  filter(region == "wales") %>%
+  group_by(region) %>% 
+  summarise(avg_wales = median(pounds_per_hour_worked))
+
+obs_stat
+  
+```
+
+Calculate the null sampling distribution;
+```{r}
+null_distribution <- region_by_industry_output_joined %>% 
+  filter(year >= 2014) %>% 
+  filter(region == "london") %>%
+  specify(response = pounds_per_hour_worked) %>% 
+  hypothesize(null = "point", med = 23.18713) %>%
+  generate(reps = 50000, type = "bootstrap") %>%
+  calculate(stat = "median")
+  
+```
+
+And now visualise the null distribution;
+
+```{r}
+null_distribution %>% 
+  visualise(bins = 50) +
+  theme_light(base_size = 10) +
+  shade_p_value(obs_stat = obs_stat$avg_wales, direction = "right")
+```
+
+This gives us a p-value of;
+```{r}
+p_value <- null_distribution %>%
+  get_p_value(obs_stat = obs_stat$avg_wales, direction = "right")
+p_value
+```
+
+The p-value of 0.48 is greater than α = 0.05.  In this case we fail to reject 
+the null hypothesis and cannot say that there is a significant difference 
+between the median hourly output in London when compared to the median hourly 
+output in Wales.
+
 
