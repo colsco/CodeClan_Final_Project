@@ -73,6 +73,92 @@ is a lot of overlap throughout all nations, so;
 
 ### Is the difference between Norway and the UK statistically significant?
 
+## Hypothesis Test of Significance between UK and Norway Productivity
+
+```{r}
+europe_labour_prod %>% 
+  group_by(country) %>% 
+  filter(country == "Norway"| country == "United Kingdom") %>% 
+  ggplot() +
+  aes(x = country,  
+      y = value, 
+      group = country, 
+      fill = country == "United Kingdom") +
+  stat_boxplot(geom = "errorbar") +
+  geom_boxplot(show.legend = FALSE, fill = "grey90") +
+  stat_summary(fun.y = "mean", 
+               geom = "text", 
+               label="mean ------------------------------------", 
+               size= 4, 
+               color= "orange") +
+  theme_light(base_size = 10) +
+  labs(x = "Country\n",
+       y = "Distribution of Output per Hour per Industry (€)",
+       title = "Comparison of Industrial Output per Hour, Norway v UK 2014 - 2016 (€)") 
+  
+```
+<br>
+The data for Norway is right-skewed and this has affected the mean relative to 
+the overall distribution.  Consequently, median will be used in this hypothesis 
+test.
+
+The hypotheses under test are, with α = 0.05;
+
+H0: The average output per hour in Norway is the same as in the UK
+
+$$ H_0 : x͂_{Norway} - x͂_{UK} = 0 $$
+
+H1: The average output per hour in Norway is significantly higher than in the UK
+
+$$ H_1 : x͂_{Norway} - x͂_{UK} > 0 $$
+<br>
+In this case the median will be used, because the mean (dotted orange line on 
+the boxplot above) is badly right skewed by outliers in Norway.
+
+The observed statistic will be the median output per hour in the UK;
+```{r}
+obs_stat <- europe_labour_prod %>% 
+  filter(country == "United Kingdom") %>%
+  group_by(country) %>% 
+  summarise(avg_uk = median(value))
+
+obs_stat
+  
+```
+
+Calculate the null sampling distribution;
+```{r}
+null_distribution <- europe_labour_prod %>% 
+  filter(country == "Norway") %>%
+  specify(response = value) %>% 
+  hypothesize(null = "point", med = 22.67444) %>%
+  generate(reps = 50000, type = "bootstrap") %>%
+  calculate(stat = "median")
+  
+```
+
+And now visualise the null distribution;
+
+```{r}
+null_distribution %>% 
+  visualise(bins = 50) +
+  theme_light(base_size = 10) +
+  shade_p_value(obs_stat = obs_stat$avg_uk, direction = "right")
+```
+
+
+
+This gives a p-value of;
+```{r}
+p_value <- null_distribution %>%
+  get_p_value(obs_stat = obs_stat$avg_uk, direction = "right")
+p_value
+```
+
+The p-value of 0.63 is greater than α = 0.05.  In this case we fail to reject 
+the null hypothesis and cannot say that there is a significant difference 
+between the median hourly output in Norway when compared to the median hourly 
+output in the United Kingdom.
 
 ## UK Output per Hour per Industry 
 
@@ -201,8 +287,8 @@ region_by_industry_output_joined %>%
                fill = "grey90") +
   stat_summary(fun.y = "mean", 
                geom = "text", 
-               label="-------", 
-               size= 10, 
+               label="mean ------------------------------------", 
+               size= 4, 
                color= "orange") +
   theme_light(base_size = 10) +
   labs(x = "UK Region in order of Mean Output per Hour\n",
@@ -260,7 +346,7 @@ null_distribution %>%
   shade_p_value(obs_stat = obs_stat$avg_wales, direction = "right")
 ```
 
-This gives us a p-value of;
+This gives a p-value of;
 ```{r}
 p_value <- null_distribution %>%
   get_p_value(obs_stat = obs_stat$avg_wales, direction = "right")
@@ -271,5 +357,6 @@ The p-value of 0.48 is greater than α = 0.05.  In this case we fail to reject
 the null hypothesis and cannot say that there is a significant difference 
 between the median hourly output in London when compared to the median hourly 
 output in Wales.
+
 
 
