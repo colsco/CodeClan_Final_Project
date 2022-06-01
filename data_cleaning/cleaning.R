@@ -283,9 +283,9 @@ jobs_regional_bound <- bind_rows(jobs_eastengland,
 
 
 
-# Now that the no. jobs per region is set up (jobs_regional_bound) it needs to 
-# be joined to region_by_industry_output_per_hour, but first the industry groupings 
-# for 'ABDE' and 'ST' need to be sorted.
+# Now that the no. jobs per region is set up (jobs_regional_bound) it needs to be 
+# joined to region_by_industry_output_per_hour, but first the industry groupings 
+# 'ABDE' and 'ST' need to be sorted ----
 
 
 abde_sum <- jobs_regional_bound %>%
@@ -322,10 +322,15 @@ jobs_regional_bound_grouped <- jobs_regional_bound %>%
 
 # Join `region_by_industry_output_per_hour` to start the base model ----
 
+jobs_regional_bound_grouped_join <- jobs_regional_bound_grouped %>% 
+  mutate(year = year(quarter), .after = quarter) %>% 
+  filter(year %in% 1997:2016)  # filter to match timescale of joining object
+
 model_base_data <- region_by_industry_output_per_hour %>%
   filter(industry != "ALLINDUSTRIES") %>%
   filter(region != "uk") %>%
-  right_join(jobs_regional_bound_grouped, by = c("year", "industry", "region"))
+  right_join(jobs_regional_bound_grouped_join, 
+             by = c("year", "industry", "region"))
 
 # and check for NAs
 

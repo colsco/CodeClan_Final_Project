@@ -21,7 +21,7 @@ jobs_northeast <-
   mutate(date = str_replace(date, " 9", "-199")) %>% 
   mutate(date = str_replace(date, " 0", "-200")) %>% 
   mutate(date = str_replace(date, " 1", "-201")) %>% 
-  mutate(date_date = my(date, tz = "GMT"), .after = date) %>% 
+  mutate(date_date = my(date), .after = date) %>% 
   select(-date) %>% 
   rename("date" = "date_date") %>% 
   mutate(quarter = tsibble::yearquarter(date), .after = date) %>% 
