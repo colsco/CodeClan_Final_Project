@@ -18,6 +18,7 @@ library(lubridate)
 
 
 # Set the home directory ----
+
 here::here()
 
 
@@ -288,7 +289,7 @@ jobs_regional_bound <- bind_rows(jobs_eastengland,
 
 
 abde_sum <- jobs_regional_bound %>%
-  group_by(year, region) %>%
+  group_by(quarter, region) %>%
   filter(industry == "A"|
            industry == "B"|
            industry == "D"|
@@ -297,26 +298,26 @@ abde_sum <- jobs_regional_bound %>%
   mutate(industry = "ABDE",
          industry_group = "agriculture, mining, water, electricity") %>% 
   rename("avg_jobs_000" = "abde_sum") %>% 
-  relocate("industry", .after = "year") %>% 
+  relocate("industry", .after = "quarter") %>% 
   relocate("region", .after = "avg_jobs_000")
 
 
 st_sum <- jobs_regional_bound %>%
-  group_by(year, region) %>%
+  group_by(quarter, region) %>%
   filter(industry == "S"|
          industry == "T") %>%
   summarise(st_sum = sum(avg_jobs_000)) %>%
   mutate(industry = "ST",
          industry_group = "other services and domestic")%>% 
   rename("avg_jobs_000" = "st_sum") %>% 
-  relocate("industry", .after = "year")%>% 
+  relocate("industry", .after = "quarter")%>% 
   relocate("region", .after = "avg_jobs_000")
 
 jobs_regional_bound_grouped <- jobs_regional_bound %>%
   filter(!(industry %in% c("A", "B", "D", "E", "S", "T"))) %>%
   bind_rows(abde_sum) %>%
   bind_rows(st_sum) %>%
-  arrange(year, industry)
+  arrange(quarter, industry)
 
 
 # Join `region_by_industry_output_per_hour` to start the base model ----

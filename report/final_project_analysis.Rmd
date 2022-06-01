@@ -732,11 +732,12 @@ model_fcast %>%
 ```
 
 
-
+# Forecast Model
 
 ```{r}
 fit <- model_fcast %>% 
-  model(arima = ARIMA(annual_total))
+  model(arima = ARIMA(annual_total),
+        ets = ETS(annual_total))
 
 fit
 ```
