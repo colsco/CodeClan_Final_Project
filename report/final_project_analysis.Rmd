@@ -115,43 +115,77 @@ $$ H_1 : x͂_{Norway} - x͂_{UK} > 0 $$
 In this case the median will be used, because the mean (dotted orange line on 
 the boxplot above) is badly right skewed by outliers in Norway.
 
-The observed statistic will be the median output per hour in the UK;
-```{r}
-obs_stat <- europe_labour_prod %>% 
-  filter(country == "United Kingdom") %>%
-  group_by(country) %>% 
-  summarise(avg_uk = median(value))
 
-obs_stat
+```{r}
+uk_norway <- europe_labour_prod %>% 
+  filter(country %in% c("United Kingdom", "Norway")) %>%
+  group_by(country) %>% 
+  select(-c(industry_group, industry))
+           
   
 ```
+
+Permutation to generate the null distribution
+
+
+Under \(H_0\) the location of the apartment would have no bearing on the price, 
+i.e. the location and price are independent. There would be no difference between 
+groups.
+
+By randomly shuffling (i.e. permuting) the locations labels we lose any 
+relationship that there was between location and price. Think of this shuffling 
+as detaching the labels from rows and then randomly assigning them back to rows. 
+Then we see which of the following occurs:
+If there was no relationship in the first place (i.e. they are in fact 
+independent) then randomly shuffling them should have no implication.
+If the difference between groups in our sample is much larger than the difference 
+once the labels are shuffled it’s because there is a real difference between the 
+groups, and it’s not just down to sampling variation.
+
+
+
+
+
 
 Calculate the null sampling distribution;
 ```{r}
-null_distribution <- europe_labour_prod %>% 
-  filter(country == "Norway") %>%
-  specify(response = value) %>% 
-  hypothesize(null = "point", med = 22.67444) %>%
-  generate(reps = 50000, type = "bootstrap") %>%
-  calculate(stat = "median")
+null_distribution <- uk_norway %>% 
+  specify(value ~ country) %>% 
+  infer::hypothesize(null = "independence") %>%         # 'infer' masked by 'fable'
+  infer::generate(reps = 1000, type = "permute") %>%    # 'infer' masked by 'fable'
+  calculate(stat = "diff in medians", order = c("Norway", "United Kingdom"))
+# sample stat is median of Norway minus median of UK, so this is the order 
+# we specify in the calculate step
+
+head(null_distribution)
   
 ```
 
-And now visualise the null distribution;
+And now visualise the observed stat against the null distribution;
 
 ```{r}
-null_distribution %>% 
-  visualise(bins = 50) +
-  theme_light(base_size = 10) +
-  shade_p_value(obs_stat = obs_stat$avg_uk, direction = "right")
+observed_stat_norway_uk <- uk_norway %>% 
+  specify(value ~ country) %>% 
+  calculate("diff in medians", order = c("Norway", "United Kingdom"))
+
+observed_stat_norway_uk
 ```
 
 
+H1 is a "greater than" clause, so that means this is a one-sided test in the
+"right" direction.
+
+```{r}
+null_distribution %>% 
+  visualise(bins = 30) +
+  theme_light(base_size = 10) +
+  shade_p_value(obs_stat = observed_stat_norway_uk, direction = "right")
+```
 
 This gives a p-value of;
 ```{r}
 p_value <- null_distribution %>%
-  get_p_value(obs_stat = obs_stat$avg_uk, direction = "right")
+  get_p_value(obs_stat = observed_stat_norway_uk, direction = "right")
 p_value
 ```
 
@@ -347,8 +381,8 @@ Calculate the null sampling distribution;
 ```{r}
 null_distribution <- london_wales %>% 
   specify(pounds_per_hour_worked ~ region) %>% 
-  hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
+  infer::hypothesize(null = "independence") %>%           # 'infer' masked by 'fable'
+  infer::generate(reps = 1000, type = "permute") %>%      # 'infer' masked by 'fable'
   calculate(stat = "diff in medians", order = c("london", "wales"))
 # sample stat is median of London minus median of Wales, so this is the order 
 # we specify in the calculate step
@@ -398,15 +432,45 @@ model_base_data %>%
   select(region, industry_group, pounds_per_hour_worked) %>% 
   group_by(region, industry_group) %>% 
   ggplot() +
-  aes(x = industry_group, y = log(pounds_per_hour_worked), colour = region) +
+  aes(x = reorder(industry_group, pounds_per_hour_worked),
+      y = log(pounds_per_hour_worked), colour = region) +
   geom_point(alpha = 0.3) +
   theme_light() +
   labs(title = "Productivity per Industry by UK Region",
        x = "Industry",
-       y = "Pounds Output per Hour Worked") +
+       y = "log(Pounds Output per Hour Worked)") +
   scale_x_discrete(labels = wrap_format(40)) +
   coord_flip()
 ```
+
+<br>
+
+
+### Agriculture, Mining, Water, Electricity
+
+This industry grouping shows a very large spread of productivity which appears
+to be dependent on region:
+
+```{r}
+model_base_data %>% 
+  filter(industry == "ABDE") %>% 
+  select(region, industry_group, pounds_per_hour_worked) %>% 
+  group_by(region, industry_group) %>% 
+  ggplot() +
+  aes(x = reorder(industry_group, pounds_per_hour_worked),
+      y = pounds_per_hour_worked, colour = region) +
+  geom_jitter(height = 0.1) +
+  theme_light() +
+  labs(title = "Agriculture, Mining, Water, Electricity Productivity by UK Region",
+       y = "Pounds Output per Hour Worked") +
+  theme(axis.title.x = element_blank ()) +
+  scale_colour_brewer(palette = "Set3")
+```
+
+
+This clearly shows stratification based on region, but there is insufficient data 
+to be able to pinpoint exactly what is creating the difference.
+
 
 <br>
 
@@ -417,12 +481,36 @@ model_dev <- model_base_data %>%
   select(-industry)
 ```
 
-#### mod1a
+#### Set Test-Train Split
+
+`model_dev` contains over 3600 observations, so an 80/20 train/test split would
+give almost 2900 rows for training and around 750 rows for testing.
 
 ```{r}
 
-mod1a_forward <- leaps::regsubsets(pounds_per_hour_worked ~ ., 
-                            data = model_dev,
+# Change character variables to factors
+model_dev <- model_dev %>% 
+  mutate(region = as.factor(region),
+         industry_group = as.factor(industry_group))
+
+
+# Make a test index
+test_index <- sample(1:nrow(model_dev), size = nrow(model_dev)*0.2)
+
+# Use the test index to create test and training datasets
+model_test  <- slice(model_dev, test_index)
+model_train <- slice(model_dev, -test_index)
+```
+
+
+
+
+#### mod1a - Training Data
+
+```{r}
+
+mod1a_forward <- regsubsets(pounds_per_hour_worked ~ ., 
+                            data = model_train,
                             method = "forward")
 ```
 
@@ -431,20 +519,21 @@ summary_mod1a_forward <- summary(mod1a_forward)
 summary_mod1a_forward
 ```
 
-It looks like industry type is the main influence in productivity.
+It looks like industry type and region have an influence on productivity, but 
+the average number of jobs in each region is insignificant.
 
 ```{r}
 plot(mod1a_forward, scale = "adjr2")
 ```
 
-The plot shows that region and year are also lesser factors.  Check against BIC:
+The plot confirms the original suggestion.  Check against BIC:
 
 ```{r}
 plot(mod1a_forward, scale = "bic")
 ```
 
 
-Again, region, year and industry are the main influencing factors.
+Again, region and industry are the main influencing factors.
 
 Use BIC to determine the optimum number of predictors;
 
@@ -458,14 +547,14 @@ is selected the they all need to be included.
 
 Check which predictors are most significant;
 ```{r}
-mod1a_no_industry <- lm(pounds_per_hour_worked ~ region + year, 
-                        data = model_dev)
+mod1a_no_industry <- lm(pounds_per_hour_worked ~ region, 
+                        data = model_train)
 summary(mod1a_no_industry)
 ```
 
 ```{r}
-mod1a_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region + year, 
-                        data = model_dev)
+mod1a_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region, 
+                        data = model_train)
 summary(mod1a_with_industry)
 ```
 
@@ -473,12 +562,82 @@ summary(mod1a_with_industry)
 anova(mod1a_no_industry, mod1a_with_industry)
 ```
 
-The model with `industry_group` is far more significant than the model without, 
+The model with `industry_group` is more significant than the model without, 
 so it should be the main part of the model.
 
 ```{r}
 autoplot(mod1a_with_industry)
 ```
+
+
+### Model with Test Data
+
+
+```{r}
+
+mod1_test <- regsubsets(pounds_per_hour_worked ~ ., 
+                            data = model_test,
+                            method = "forward")
+```
+
+```{r}
+summary_mod1_test <- summary(mod1_test)
+summary_mod1_test
+```
+
+In the test data, region is less influential.
+
+
+```{r}
+plot(mod1_test, scale = "adjr2")
+```
+
+The plot confirms the original suggestion although region is absent from the 
+test data result.  Check against BIC:
+
+```{r}
+plot(mod1_test, scale = "bic")
+```
+
+
+Again, region and industry are the main influencing factors.
+
+Use BIC to determine the optimum number of predictors;
+
+```{r}
+plot(summary_mod1_test$bic, type = "b")
+```
+
+Although only certain industries have been shown to be influential predictors, 
+they cannot be selected individually.  If one industry or region is selected 
+then they all need to be included.
+
+Check which predictors are most significant;
+```{r}
+mod1_test_no_industry <- lm(pounds_per_hour_worked ~ region, 
+                        data = model_dev)
+summary(mod1_test_no_industry)
+```
+
+```{r}
+mod1_test_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region, 
+                        data = model_dev)
+summary(mod1_test_with_industry)
+```
+
+```{r}
+anova(mod1_test_no_industry, mod1_test_with_industry)
+```
+
+The model with `industry_group` is still more significant than the model without, 
+so it should be the main part of the model.
+
+```{r}
+autoplot(mod1_test_with_industry)
+```
+
+
+# Explanatory Model Summary
 
 The diagnostic plots show a reasonable residuals v fitted, with a spread over 
 the x-axis and a horizontal line, although there is some grouping evident.
@@ -487,10 +646,114 @@ The Q-Q plot lies along the line for the most part, although again the relations
 is not completely normal and scale-location shows some evidence of funneling.
 
 In summary, the productivity within the UK can be described as factors of
-industry type, region and year (although in reality year is not controllable),
-or:
+industry type and region, or:
 
-$$ pounds\_per\_hour\_worked \sim industry\_group + region + year $$
+$$ pounds\_per\_hour\_worked \sim industry\_group + region $$
+
+# Does employee age matter?
+
+Pivot the data longer then change characters to factors;
+
+```{r}
+model_ages_long <- model_ages %>% 
+  pivot_longer(cols = contains("age"), 
+               names_to = "employee_age", 
+               values_to = "no_employed") %>% 
+  select(-industry) %>% 
+  mutate(across(where(is.character), .fns = as.factor))
+  
+```
 
 
+```{r}
+model_ages_long %>% 
+  ggplot() +
+  aes(x = year) + 
+  geom_line(aes(y = no_employed/1000000, 
+      group = employee_age,
+      colour = employee_age)) +
+#  geom_line(aes(y = pounds_per_hour_worked, group = 1)) +
+  geom_text(x = 2003,  y = 28, 
+           label = "Pounds per hour worked", 
+           colour = "black",
+           size = 3) +
+  theme_light() +
+  labs(title = "UK Employment Numbers per Age Group",
+       x = "Year",
+       y = "No. Employed (millions)") +
+  theme(legend.title = element_blank())
+```
+# Time Series Productivity Per Industry
+
+```{r}
+region_by_industry_output_joined %>% 
+  filter(region == "uk") %>% 
+  group_by(industry_group) %>% 
+  ggplot() +
+  aes(x = year,
+      y = log(pounds_per_hour_worked),
+      group = industry_group,
+      colour = industry_group) +
+  theme_light() +
+  scale_colour_discrete(labels = function(x) str_wrap(x, width = 35)) +
+  theme(legend.title = element_blank()) +
+  geom_line()
+  
+```
+
+
+
+# Generate a Time Series for Forecasting
+
+
+```{r}
+model_fcast <- region_by_industry_output_joined %>% 
+  select(-industry) %>% 
+  filter(region == "uk") %>% 
+  group_by(year) %>% 
+  summarise(annual_total = sum(pounds_per_hour_worked))
+  
+
+model_fcast <- tsibble(model_fcast, index = "year")
+
+```
+
+
+```{r}
+model_fcast %>% 
+  autoplot(annual_total) +
+  theme_light() +
+  scale_colour_discrete(labels = function(x) str_wrap(x, width = 35)) +
+  theme(legend.title = element_blank()) +
+  labs(title = "Autoplot of Total Productivity over Time UK",
+       x = "Year",
+       y = "Productivity") +
+  scale_x_continuous(breaks=seq(1997, 2022, 1))
+```
+
+
+
+
+```{r}
+fit <- model_fcast %>% 
+  model(arima = ARIMA(annual_total))
+
+fit
+```
+
+```{r}
+forecast_1 <- fit %>%
+  fabletools::forecast(h = "6 years")
+forecast_1
+```
+
+
+
+```{r}
+
+forecast_1 %>% 
+autoplot(annual_total) +
+    guides(colour = guide_legend(title = "Forecast"))
+
+```
 

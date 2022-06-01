@@ -8,6 +8,13 @@ library(infer)
 library(GGally)
 library(ggfortify)
 library(leaps)
+library(fable)
+library(fabletools)
+library(tsibble)
+library(tsibbledata)
+library(urca)
+library(lubridate)
+
 
 
 # Set the home directory ----
@@ -344,8 +351,76 @@ rm(jobs_eastengland,
    st_sum)
 
 
-# Base data model ready for analysis ----
+# Try to incorporate employment age demographic ----
+
+ages <- read_excel(here("data/additional_data/Labour market - Age Group (not seasonally adjusted).xls"),
+                   sheet = "People (16+)",
+                   range = "A5:BM328") %>% 
+  clean_names()
+
+
+names(ages) <-   paste(names(ages),ages[1:2,], sep = "_")
+
+ages <- ages %>% 
+  rename("year" = "x1_c(NA, NA)") %>% 
+  select(c("year",contains("c(\"Employment\", \"level\")")),
+         -c( "aged_16_and_over_c(\"Employment\", \"level\")", 
+             "aged_16_64_c(\"Employment\", \"level\")")) %>%
+  rename( "employed_age_16_17" = "aged_16_17_c(\"Employment\", \"level\")",
+          "employed_age_18_24" = "aged_18_24_c(\"Employment\", \"level\")",
+          "employed_age_25_34" = "aged_25_34_c(\"Employment\", \"level\")",
+          "employed_age_35_49" = "aged_35_49_c(\"Employment\", \"level\")",
+          "employed_age_50_64" = "aged_50_64_c(\"Employment\", \"level\")",
+          "employed_age_65" = "age_65_c(\"Employment\", \"level\")"    )
+
+
+# Check for NAs
+
+ages %>% 
+  summarise(across(.cols = everything(), ~sum(is.na(.x))))
+
+# The only NAs in the data are where header rows were merged in the excel file.
+# These can be removed, then set employment values as integers.
+
+ages <- ages %>% 
+  filter(!is.na(year)) %>% 
+  mutate(across(.cols = -year, .fns = as.integer))
+
+# `ages` now contains useable data, but the year column needs to be separated
+# and then summarised by year;
+
+ages <- ages %>% 
+  separate(year, into = c("months", "year_split"), sep = " ", convert = TRUE) %>% 
+  select(-months)
+
+ages_annual <- ages %>% 
+  group_by(year_split) %>% 
+  summarise(age_16_17 = as.integer(mean(employed_age_16_17)),
+            age_18_24 = as.integer(mean(employed_age_18_24)),
+            age_25_34 = as.integer(mean(employed_age_25_34)),
+            age_35_49 = as.integer(mean(employed_age_35_49)),
+            age_50_64 = as.integer(mean(employed_age_50_64)),
+            age_65 = as.integer(mean(employed_age_65))) %>% 
+  rename("year" = "year_split") 
+
+
+model_ages <- region_by_industry_output_per_hour %>% 
+  filter(industry == "ALLINDUSTRIES" & region == "uk") %>% 
+  left_join(ages_annual, by = "year")
+  
+
+
+
+
+
+
+
+
+# Data models ready for analysis ----
 
 
 model_base_data %>% 
   write_csv(here("clean_data/model_base_clean.csv"))
+
+model_ages %>% 
+  write_csv(here("clean_data/age_model_clean.csv"))
