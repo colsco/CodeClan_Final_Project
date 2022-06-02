@@ -469,9 +469,32 @@ model_base_data %>%
 
 
 This clearly shows stratification based on region, but there is insufficient data 
-to be able to pinpoint exactly what is creating the difference.
+to be able to pinpoint exactly what is creating the difference.  Is this more 
+evident in a boxplot?
 
+```{r}
+model_base_data %>% 
+  filter(industry == "ABDE") %>% 
+  select(region, industry_group, pounds_per_hour_worked) %>% 
+  group_by(region, industry_group) %>% 
+  ggplot() +
+  aes(x = reorder(region, pounds_per_hour_worked),
+      y = pounds_per_hour_worked) +
+  stat_boxplot(geom = "errorbar") +
+  geom_boxplot(fill = "grey90") +
+  theme_light() +
+  labs(title = "Agriculture, Mining, Water, Electricity Productivity by UK Region",
+       x = "UK Region",
+       y = "Pounds Output per Hour Worked") +
+  coord_flip()
+```
 
+Comparing London with Wales and N. Ireland there is very clearly a difference.
+
+It's not clear exactly how Agriculture, Mining, Water and Electricity output are
+measured, but there's more scope for investigation in this respect.  Doing so
+may provide an insight into improvement methodologies for the lower-scoring 
+regions.  
 <br>
 
 # Explanatory Model Setup  
@@ -732,29 +755,29 @@ model_fcast %>%
 ```
 
 
-# Forecast Model
+# Forecast Model <-- EXTENSION
 
-```{r}
-fit <- model_fcast %>% 
-  model(arima = ARIMA(annual_total),
-        ets = ETS(annual_total))
+<!-- ```{r} -->
+<!-- fit <- model_fcast %>%  -->
+<!--   model(arima = ARIMA(annual_total), -->
+<!--         ets = ETS(annual_total)) -->
 
-fit
-```
+<!-- fit -->
+<!-- ``` -->
 
-```{r}
-forecast_1 <- fit %>%
-  fabletools::forecast(h = "6 years")
-forecast_1
-```
+<!-- ```{r} -->
+<!-- forecast_1 <- fit %>% -->
+<!--   fabletools::forecast(h = "6 years") -->
+<!-- forecast_1 -->
+<!-- ``` -->
 
 
 
-```{r}
+<!-- ```{r} -->
 
-forecast_1 %>% 
-autoplot(annual_total) +
-    guides(colour = guide_legend(title = "Forecast"))
+<!-- forecast_1 %>%  -->
+<!-- autoplot(annual_total) + -->
+<!--     guides(colour = guide_legend(title = "Forecast")) -->
 
-```
+<!-- ``` -->
 
