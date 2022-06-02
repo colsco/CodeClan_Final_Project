@@ -15,6 +15,7 @@ library(tsibbledata)
 library(urca)
 library(lubridate)
 library(openxlsx)
+library(ggrepel)
 
 
 
@@ -458,39 +459,15 @@ model_commute_region <- model_base_commute %>%
 # https://data.oecd.org/eduatt/population-with-tertiary-education.htm#indicator-chart
 
 
+# The OECD value presented reflects the % of adults (25 - 64 yr old) who have
+# studied at a tertiary education level (vocational, college, uni etc).
+
 education <- read_excel(here("data/additional_data/OECD Adult Education Levels.xlsx")) %>% 
   clean_names() %>% 
   select(location, time, value) %>% 
-  filter(location %in% c("NOR", "LUX", "BEL", "IRL", "NLD", "DNK", "CHE", "SWE", 
-                         "FRA", "DEU", "AUT", "ESP", "ITA", "FIN", "SVK", "GBR", 
-                         "CZE", "PRT", "LTU", "EST", "SVN", "POL", "HUN", "GRC", 
-                         "LVA")) %>% 
-  mutate(country = case_when(
-    location == "NOR" ~ "Norway",
-    location == "LUX" ~ "Luxembourg",
-    location == "BEL" ~ "Belgium",
-    location == "IRL" ~ "Ireland",
-    location == "NLD" ~ "Netherlands",
-    location == "DNK" ~ "Denmark",
-    location == "CHE" ~ "Switzerland",
-    location == "SWE" ~ "Sweden",
-    location == "FRA" ~ "France",
-    location == "DEU" ~ "Germany",
-    location == "AUT" ~ "Austria",
-    location == "ESP" ~ "Spain",
-    location == "ITA" ~ "Italy",
-    location == "FIN" ~ "Finland",
-    location == "SVK" ~ "Slovakia",
-    location == "GBR" ~ "United Kingdom",
-    location == "CZE" ~ "Czech Republic",
-    location == "PRT" ~ "Portugal",
-    location == "LTU" ~ "Lithuania",
-    location == "EST" ~ "Estonia",
-    location == "SVN" ~ "Slovenia",
-    location == "POL" ~ "Poland",
-    location == "HUN" ~ "Hungary",
-    location == "GRC" ~ "Greece",
-    location == "LVA" ~ "Latvia"))
+  rename("education_score" = "value",
+         "year" = "time") %>% 
+  country_names()
 
 # Check for NAs;
 
@@ -500,8 +477,42 @@ summarise(across(.cols = everything(), ~sum(is.na(.x))))
 
 # No NAs.
 
+# European Labour Productivity (aim to join with education) ----
 
+euro_labour <- read_csv(here("data/additional_data/Labour Productivity - OECD Countries.csv")) %>% 
+  clean_names() %>% 
+  select(location, time, value) %>% 
+  rename("year" = "time",
+         "productivity_score" = "value") %>% 
+  country_names()
 
+# Check for NAs;
+
+euro_labour %>% 
+  summarise(across(.cols = everything(), ~sum(is.na(.x))))
+
+# No NAs.
+
+# Join education with productivity score and reduce the overall timescale to
+# eliminate NAs; 
+
+euro_labour_join <- euro_labour %>% 
+  filter(year %in% c(2005:2015)) %>% 
+  group_by(country, year) %>% 
+  summarise(avg_prod = mean(productivity_score))
+
+education_join <- education %>% 
+  filter(year %in% c(2005:2015))
+# Ireland 2016 education data missing.
+
+eu_lab_edu <- bind_cols(euro_labour_join, education_join$education_score) %>% 
+  rename("education_score" = "...4") %>% 
+  ungroup()
+
+eu_NA <- eu_lab_edu %>% 
+  summarise(across(.cols = everything(), ~ sum(is.na(.x))))
+
+# No NAs.
 
 
 # Data models ready for analysis ----
@@ -515,3 +526,6 @@ model_ages %>%
 
 total_commutes %>% 
   write_csv(here("clean_data/uk_regional_commute_times.csv"))
+
+eu_lab_edu %>% 
+  write_csv(here("clean_data/eu_education_productivity"))

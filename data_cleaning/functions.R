@@ -33,5 +33,46 @@ cleanup <- function(jobs_region){
 }
 
 
- 
+ # Country Acronyms to Names Function ----
+
+
+country_names <- function(acronyms_in){
+  
+  names_out <- acronyms_in %>% 
+
+filter(location %in% c("NOR", "LUX", "BEL", "IRL", "NLD", "DNK", "CHE", "SWE", 
+                       "FRA", "DEU", "AUT", "ESP", "ITA", "FIN", "SVK", "GBR", 
+                       "CZE", "PRT", "LTU", "EST", "SVN", "POL", "HUN", "GRC", 
+                       "LVA")) %>% 
+  mutate(country = case_when(
+    location == "NOR" ~ "Norway",
+    location == "LUX" ~ "Luxembourg",
+    location == "BEL" ~ "Belgium",
+    location == "IRL" ~ "Ireland",
+    location == "NLD" ~ "Netherlands",
+    location == "DNK" ~ "Denmark",
+    location == "CHE" ~ "Switzerland",
+    location == "SWE" ~ "Sweden",
+    location == "FRA" ~ "France",
+    location == "DEU" ~ "Germany",
+    location == "AUT" ~ "Austria",
+    location == "ESP" ~ "Spain",
+    location == "ITA" ~ "Italy",
+    location == "FIN" ~ "Finland",
+    location == "SVK" ~ "Slovakia",
+    location == "GBR" ~ "United Kingdom",
+    location == "CZE" ~ "Czech Republic",
+    location == "PRT" ~ "Portugal",
+    location == "LTU" ~ "Lithuania",
+    location == "EST" ~ "Estonia",
+    location == "SVN" ~ "Slovenia",
+    location == "POL" ~ "Poland",
+    location == "HUN" ~ "Hungary",
+    location == "GRC" ~ "Greece",
+    location == "LVA" ~ "Latvia")) %>% 
+  relocate(country, .after = location) %>% 
+  select(-location)
+  
+  return(names_out)
+}
  
