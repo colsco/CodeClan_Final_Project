@@ -14,6 +14,7 @@ library(tsibble)
 library(tsibbledata)
 library(urca)
 library(lubridate)
+library(openxlsx)
 
 
 
@@ -415,8 +416,89 @@ model_ages <- region_by_industry_output_per_hour %>%
   left_join(ages_annual, by = "year")
   
 
+# Add in UK Commuting Data ----
+
+total_commutes <- read_excel(here("data/additional_data/Commuting Data UK.xlsx"),
+                      sheet = "3",
+                      range = "B33:J47") %>% 
+  clean_names() %>% 
+  rename(region = total) %>% 
+  select(-c(x1, x2, x1_2)) %>% 
+  rename(under_15min = x0_42808631519621082,
+         btwn_16_30min = x0_32130028701091307,
+         btwn_31_45min = x0_12080650991560932,
+         btwn_46_60min = x8_4020775710665449e_2,
+         over_61min = x4_578611216660132e_2) %>% 
+  pivot_longer(cols = -region,
+               names_to = "commute_time",
+               values_to = "pcntge_workforce") %>% 
+  filter(!(region %in% c("Total", "Workplace otuside UK"))) %>% 
+  mutate(region = str_to_lower(region),
+         region = str_replace(region, " & the ", ""),
+         region = str_replace(region, " ", ""))
+
+# Join UK regional commute times to base model data ----
+
+model_base_commute <- model_base_data %>% 
+  filter(year == "2016") %>% 
+  select(region, pounds_per_hour_worked, avg_jobs_000) %>% 
+  group_by(region) %>% 
+  summarise(mean_pphw = mean(pounds_per_hour_worked),
+            mean_jobs = mean(avg_jobs_000)) 
+
+model_commute_region <- model_base_commute %>% 
+  left_join(total_commutes, by = "region") %>% 
+  group_by(region)
 
 
+
+
+# OECD Measurement of % of 25 - 64 year olds with Tertiary Education ----
+
+# https://data.oecd.org/eduatt/population-with-tertiary-education.htm#indicator-chart
+
+
+education <- read_excel(here("data/additional_data/OECD Adult Education Levels.xlsx")) %>% 
+  clean_names() %>% 
+  select(location, time, value) %>% 
+  filter(location %in% c("NOR", "LUX", "BEL", "IRL", "NLD", "DNK", "CHE", "SWE", 
+                         "FRA", "DEU", "AUT", "ESP", "ITA", "FIN", "SVK", "GBR", 
+                         "CZE", "PRT", "LTU", "EST", "SVN", "POL", "HUN", "GRC", 
+                         "LVA")) %>% 
+  mutate(country = case_when(
+    location == "NOR" ~ "Norway",
+    location == "LUX" ~ "Luxembourg",
+    location == "BEL" ~ "Belgium",
+    location == "IRL" ~ "Ireland",
+    location == "NLD" ~ "Netherlands",
+    location == "DNK" ~ "Denmark",
+    location == "CHE" ~ "Switzerland",
+    location == "SWE" ~ "Sweden",
+    location == "FRA" ~ "France",
+    location == "DEU" ~ "Germany",
+    location == "AUT" ~ "Austria",
+    location == "ESP" ~ "Spain",
+    location == "ITA" ~ "Italy",
+    location == "FIN" ~ "Finland",
+    location == "SVK" ~ "Slovakia",
+    location == "GBR" ~ "United Kingdom",
+    location == "CZE" ~ "Czech Republic",
+    location == "PRT" ~ "Portugal",
+    location == "LTU" ~ "Lithuania",
+    location == "EST" ~ "Estonia",
+    location == "SVN" ~ "Slovenia",
+    location == "POL" ~ "Poland",
+    location == "HUN" ~ "Hungary",
+    location == "GRC" ~ "Greece",
+    location == "LVA" ~ "Latvia"))
+
+# Check for NAs;
+
+education %>% 
+summarise(across(.cols = everything(), ~sum(is.na(.x))))
+
+
+# No NAs.
 
 
 
@@ -430,3 +512,6 @@ model_base_data %>%
 
 model_ages %>% 
   write_csv(here("clean_data/age_model_clean.csv"))
+
+total_commutes %>% 
+  write_csv(here("clean_data/uk_regional_commute_times.csv"))

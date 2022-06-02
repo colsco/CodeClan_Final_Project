@@ -497,6 +497,44 @@ may provide an insight into improvement methodologies for the lower-scoring
 regions.  
 <br>
 
+
+## Can UK Commuting Data be added to the model?
+
+```{r}
+model_commute_region %>% 
+  mutate(commute_time = fct_relevel(commute_time, c("under_15min", 
+                                                    "btwn_16_30min", 
+                                                    "btwn_31_45min", 
+                                                    "btwn_46_60min", 
+                                                    "over_61min"))) %>% 
+  mutate(region = as.factor(region)) %>% 
+  mutate(region = fct_relevel(region, c("london",
+                                        "southeast",
+                                        "scotland",
+                                        "east",
+                                        "eastmidlands",
+                                        "yorkshirehumber",
+                                        "northernireland",
+                                        "westmidlands",
+                                        "southwest",
+                                        "northeast",
+                                        "northwest",
+                                        "wales"))) %>% 
+  # factor_relevel to set the correct order of x-axis labels
+  ggplot() + 
+  aes(x = commute_time, y = pcntge_workforce) + 
+  geom_col(fill = "grey80", colour = "black") +
+  facet_wrap(~ region, nrow = 2) +
+  theme_light() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.3)) +
+  labs(title = "Commute Time per % Workforce by UK Region",
+       x = "\nCommute Time",
+       y = "Proportion of Workforce\n")
+```
+
+
+
+
 # Explanatory Model Setup  
 
 ```{r}
@@ -780,4 +818,10 @@ model_fcast %>%
 <!--     guides(colour = guide_legend(title = "Forecast")) -->
 
 <!-- ``` -->
+
+
+
+
+
+
 
