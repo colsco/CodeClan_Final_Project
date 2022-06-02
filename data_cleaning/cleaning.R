@@ -265,6 +265,31 @@ jobs_nireland <-
   cleanup() %>% 
   mutate(region = "northernireland")
 
+jobs_years_uk <- 
+  read_excel(here("data/UK Labour Productivity - Jobs in Regions by Industry.xls"),
+             sheet = "15. United Kingdom",
+             range = "A6:V97") %>% 
+  clean_names() %>%
+  rename("date" = "sic_2007_section") %>%
+  mutate(date = str_replace(date, " \\([pr]\\)", "")) %>%
+  mutate(date = str_replace(date, " 9", "-199")) %>%
+  mutate(date = str_replace(date, " 0", "-200")) %>%
+  mutate(date = str_replace(date, " 1", "-201")) %>%
+  mutate(date_date = my(date), .after = date) %>%
+  select(-date) %>%
+  rename("date" = "date_date") %>%
+  mutate(quarter = tsibble::yearquarter(date), .after = date)%>%
+  select(-date)
+
+jobs_uk <-
+  read_excel(here("data/UK Labour Productivity - Jobs in Regions by Industry.xls"),
+             sheet = "15. United Kingdom",
+             range = "X6:X97") %>% 
+  clean_names() %>% 
+  bind_cols(jobs_years_uk) %>% 
+  rename("jobcount" = "a_t") %>% 
+  mutate(jobcount = (jobcount * 1000)) %>% 
+  relocate(jobcount, .after = "quarter")
 
 # Bind rows to create one data set of jobs per region in the uk;
 
@@ -528,17 +553,16 @@ base_2 <- base_2 %>%
   bind_cols(education_uk$education_score) %>% 
   rename("education_score" = "...4")
 
-
-jobs_base_2 <- jobs_regional_bound %>% 
+jobs_base_2 <- jobs_uk %>% 
   separate(quarter, into = c("year", "quarter"), sep = " ") %>% 
-  select(-c(quarter, region, industry, industry_group)) %>% 
+  select(-quarter) %>% 
   filter(year %in% (1997:2016)) %>% 
   group_by(year) %>% 
-  summarise(jobs_000 = sum(avg_jobs_000))
+  summarise(avg_jobs = mean(jobcount))
 
-base_2 <- base_2 %>% 
-  bind_cols(jobs_base_2$jobs_000) %>% 
-  rename("jobs_000" = "...5")
+base_uk_jobs_edu_prod <- base_2 %>% 
+  bind_cols(jobs_base_2$avg_jobs) %>% 
+  rename("avg_jobs" = "...5") 
 
 
 
@@ -556,3 +580,6 @@ total_commutes %>%
 
 eu_lab_edu %>% 
   write_csv(here("clean_data/eu_education_productivity"))
+
+base_uk_jobs_edu_prod %>% 
+  write_csv(here("clean_data/uk_productivity_jobs_education.csv"))

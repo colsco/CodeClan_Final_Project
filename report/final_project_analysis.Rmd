@@ -812,15 +812,30 @@ region_by_industry_output_joined %>%
 
 ```{r}
 
-base_2 <- base_2 %>% 
+base_2_no_region <- base_uk_jobs_edu_prod %>% 
+  select(-region) %>% 
   mutate_if(is.character, as.factor)
-  
-  
-  
-edu_mod1 <- regsubsets(pounds_per_hour_worked ~ ., 
-                            data = base_2,
-                            method = "forward")
 ```
+
+
+```{r}  
+edu_mod1 <- regsubsets(pounds_per_hour_worked ~ ., 
+                            data = base_2_no_region,
+                            method = "forward")
+
+regsubsets_forward <- summary(edu_mod1)
+regsubsets_forward
+```
+
+In this model, `year` comes out as most significant predictor, followed by the 
+`jobs` (no. employed) and `education_score` as the least influential predictor.
+
+Check the BIC plot;
+
+```{r}
+plot(regsubsets_forward, scale = "adjr2")
+```
+
 
 
 
