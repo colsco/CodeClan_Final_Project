@@ -26,7 +26,7 @@ here::here()
 
 ```
 
-```{r}
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
 source(here("data_cleaning/cleaning.R"))
 ```
 # Initial Plots
@@ -227,7 +227,7 @@ shed some more light on this:
 eu_lab_edu %>% 
   select(year, avg_prod, education_score) %>% 
   ggcorr(label = TRUE) +
-  labs(title = "Corr Matrix of Tertiary Education and Productivity by Country") +
+  labs(title = "Correlation Matrix of Tertiary Education and Productivity by Country") +
   theme(title = element_text(face = "bold"))
 ```
 

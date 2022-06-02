@@ -14,8 +14,7 @@ library(tsibble)
 library(tsibbledata)
 library(urca)
 library(lubridate)
-library(openxlsx)
-library(ggrepel)
+
 
 
 
@@ -433,7 +432,6 @@ total_commutes <- read_excel(here("data/additional_data/Commuting Data UK.xlsx")
   pivot_longer(cols = -region,
                names_to = "commute_time",
                values_to = "pcntge_workforce") %>% 
-  filter(!(region %in% c("Total", "Workplace otuside UK"))) %>% 
   mutate(region = str_to_lower(region),
          region = str_replace(region, " & the ", ""),
          region = str_replace(region, " ", ""))
@@ -447,7 +445,9 @@ model_base_commute <- model_base_data %>%
   summarise(mean_pphw = mean(pounds_per_hour_worked),
             mean_jobs = mean(avg_jobs_000)) 
 
+
 model_commute_region <- model_base_commute %>% 
+  filter(!(region %in% c("Total", "Workplace otuside UK"))) %>% 
   left_join(total_commutes, by = "region") %>% 
   group_by(region)
 
