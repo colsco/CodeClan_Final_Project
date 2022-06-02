@@ -59,3 +59,13 @@ northernireland,btwn_16_30min,0.3423931496399876
 northernireland,btwn_31_45min,0.10915629667637561
 northernireland,btwn_46_60min,0.04985512718812759
 northernireland,over_61min,0.0209795320524435
+workplaceotuside uk,under_15min,0.11493117077824724
+workplaceotuside uk,btwn_16_30min,0.18723592749080006
+workplaceotuside uk,btwn_31_45min,0.025112443778110945
+workplaceotuside uk,btwn_46_60min,0.08020989505247376
+workplaceotuside uk,over_61min,0.592510562900368
+total,under_15min,0.3804827447605877
+total,btwn_16_30min,0.32683610521031303
+total,btwn_31_45min,0.13381368825951812
+total,btwn_46_60min,0.09551556339406929
+total,over_61min,0.06335189837551185

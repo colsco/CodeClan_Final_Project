@@ -548,6 +548,7 @@ regions.
 
 ```{r}
 model_commute_region %>% 
+  filter(region != "total") %>% 
   mutate(commute_time = fct_relevel(commute_time, c("under_15min", 
                                                     "btwn_16_30min", 
                                                     "btwn_31_45min", 
@@ -806,6 +807,19 @@ region_by_industry_output_joined %>%
   theme(legend.title = element_blank()) +
   geom_line()
   
+```
+# Explanatory Model 2: Education
+
+```{r}
+
+base_2 <- base_2 %>% 
+  mutate_if(is.character, as.factor)
+  
+  
+  
+edu_mod1 <- regsubsets(pounds_per_hour_worked ~ ., 
+                            data = base_2,
+                            method = "forward")
 ```
 
 
