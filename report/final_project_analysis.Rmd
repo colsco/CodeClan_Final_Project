@@ -857,8 +857,9 @@ model_fcast %>%
        y = "Productivity") +
   scale_x_continuous(breaks=seq(1997, 2022, 1)) +
   annotate("text", x = 2010, y = 650, 
-           label = "2009 Financial\nCrash",
-           colour = "grey40")
+           label = "2009 Financial\nCrisis",
+           colour = "grey40") +
+  geom_abline()
 ```
 
 
