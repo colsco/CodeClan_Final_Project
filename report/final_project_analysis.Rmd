@@ -578,187 +578,6 @@ model_commute_region %>%
        x = "\nCommute Time",
        y = "Proportion of Workforce\n")
 ```
-
-
-
-
-# Explanatory Model Setup: Region, No. Jobs, Industry Type
-
-```{r}
-model_dev <- model_base_data %>% 
-  select(-industry)
-```
-
-#### Set Test-Train Split
-
-`model_dev` contains over 3600 observations, so an 80/20 train/test split would
-give almost 2900 rows for training and around 750 rows for testing.
-
-```{r}
-
-# Change character variables to factors
-model_dev <- model_dev %>% 
-  mutate(region = as.factor(region),
-         industry_group = as.factor(industry_group))
-
-
-# Make a test index
-test_index <- sample(1:nrow(model_dev), size = nrow(model_dev)*0.2)
-
-# Use the test index to create test and training datasets
-model_test  <- slice(model_dev, test_index)
-model_train <- slice(model_dev, -test_index)
-```
-
-
-
-
-#### mod1a - Training Data
-
-```{r}
-
-mod1a_exh <- regsubsets(pounds_per_hour_worked ~ ., 
-                            data = model_train,
-                            method = "exhaustive")
-```
-
-```{r}
-summary_mod1a_exh <- summary(mod1a_exh)
-summary_mod1a_exh
-```
-
-It looks like industry type (particularly real estate and financial services) 
-and region have an influence on productivity, but the average number of jobs in 
-each region is insignificant.
-
-```{r}
-plot(mod1a_exh, scale = "adjr2")
-```
-
-The plot confirms the original suggestion.  Check against BIC:
-
-```{r}
-plot(mod1a_exh, scale = "bic")
-```
-
-
-Again, region and industry are the main influencing factors.
-
-Use BIC to determine the optimum number of predictors;
-
-```{r}
-plot(summary_mod1a_exh$bic, type = "b")
-```
-
-Although only certain industries and regions have been shown to be influential 
-predictors, they cannot be selected individually.  If one industry or region
-is selected the they all need to be included.
-
-Check which predictors are most significant;
-```{r}
-mod1a_no_industry <- lm(pounds_per_hour_worked ~ region, 
-                        data = model_train)
-summary(mod1a_no_industry)
-```
-
-```{r}
-mod1a_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region, 
-                        data = model_train)
-summary(mod1a_with_industry)
-```
-
-```{r}
-anova(mod1a_no_industry, mod1a_with_industry)
-```
-
-The model with `industry_group` is more significant than the model without, 
-so it should be the main part of the model.
-
-```{r}
-autoplot(mod1a_with_industry)
-```
-
-
-### Model with Test Data
-
-
-```{r}
-
-mod1_test <- regsubsets(pounds_per_hour_worked ~ ., 
-                            data = model_test,
-                            method = "exhaustive")
-```
-
-```{r}
-summary_mod1_test <- summary(mod1_test)
-summary_mod1_test
-```
-
-In the test data, region is less influential.
-
-
-```{r}
-plot(mod1_test, scale = "adjr2")
-```
-
-The plot confirms the original suggestion although region is absent from the 
-test data result.  Check against BIC:
-
-```{r}
-plot(mod1_test, scale = "bic")
-```
-
-
-Again, region and industry are the main influencing factors.
-
-Use BIC to determine the optimum number of predictors;
-
-```{r}
-plot(summary_mod1_test$bic, type = "b")
-```
-
-Although only certain industries have been shown to be influential predictors, 
-they cannot be selected individually.  If one industry or region is selected 
-then they all need to be included.
-
-Check which predictors are most significant;
-```{r}
-mod1_test_no_industry <- lm(pounds_per_hour_worked ~ region, 
-                        data = model_dev)
-summary(mod1_test_no_industry)
-```
-
-```{r}
-mod1_test_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region, 
-                        data = model_dev)
-summary(mod1_test_with_industry)
-```
-
-```{r}
-anova(mod1_test_no_industry, mod1_test_with_industry)
-```
-
-The model with `industry_group` is still more significant than the model without, 
-so it should be the main part of the model.
-
-```{r}
-autoplot(mod1_test_with_industry)
-```
-
-
-# Explanatory Model Summary
-
-The diagnostic plots show a reasonable residuals v fitted, with a spread over 
-the x-axis and a horizontal line, although there is some grouping evident.
-
-The Q-Q plot lies along the line for the most part, although again the relationship
-is not completely normal and scale-location shows some evidence of funneling.
-
-In summary, the productivity within the UK can be described as factors of
-industry type and region, or:
-
-$$ pounds\_per\_hour\_worked \sim industry\_group + region $$
-
 # Does employee age matter?
 
 Pivot the data longer then change characters to factors;
@@ -800,6 +619,181 @@ model_ages_long %>%
                                  "50 - 64 years old",
                                  "> 65 years old"))
 ```
+
+
+
+# Explanatory Model Setup: Region, No. Jobs, Industry Type
+
+```{r}
+model_dev <- model_base_data %>% 
+  select(-c(year, industry)) %>% 
+  mutate(year = year(quarter), .after = quarter)
+```
+
+#### Set Test-Train Split
+
+`model_dev` contains over 3600 observations, so an 80/20 train/test split would
+give almost 2900 rows for training and around 750 rows for testing.
+
+```{r}
+
+# Change character variables to factors
+model_dev <- model_dev %>% 
+  mutate(region = as.factor(region),
+         industry_group = as.factor(industry_group))
+
+
+# Make a test index
+test_index <- sample(1:nrow(model_dev), size = nrow(model_dev)*0.2)
+
+# Use the test index to create test and training datasets
+model_test  <- slice(model_dev, test_index)
+model_train <- slice(model_dev, -test_index)
+```
+
+
+
+
+#### mod1a - Training Data
+
+```{r}
+
+mod1a_exh <- regsubsets(pounds_per_hour_worked ~ ., 
+                            data = model_train,
+                            method = "exhaustive")
+```
+
+```{r}
+summary_mod1a_exh <- summary(mod1a_exh)
+summary_mod1a_exh
+```
+
+It looks like industry type (particularly real estate and financial services) 
+and region have an influence on productivity, along with `year` to a lesser 
+extent.  The average number of jobs in each region is insignificant.
+
+```{r}
+plot(mod1a_exh, scale = "adjr2")
+```
+
+The plot confirms the original suggestion.  Check against BIC:
+
+```{r}
+plot(mod1a_exh, scale = "bic")
+```
+
+
+The lowest BIC score comes with industry type, region and year.
+
+Although only certain industries and regions have been shown above to be influential 
+predictors, they cannot be selected individually.  If one industry or region is 
+selected then they all need to be included.
+
+The biggest influence comes from industry type.
+
+```{r}
+mod1a_no_industry <- lm(pounds_per_hour_worked ~ region + year, 
+                        data = model_train)
+summary(mod1a_no_industry)
+```
+
+```{r}
+mod1a_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region + year, 
+                        data = model_train)
+summary(mod1a_with_industry)
+```
+
+```{r}
+anova(mod1a_no_industry, mod1a_with_industry)
+```
+
+The model with `industry_group` is more significant than the model without, 
+so it should be the main part of the model.
+
+```{r}
+autoplot(mod1a_with_industry)
+```
+
+
+### Model with Test Data
+
+
+```{r}
+
+mod1_test <- regsubsets(pounds_per_hour_worked ~ ., 
+                            data = model_test,
+                            method = "exhaustive")
+```
+
+```{r}
+summary_mod1_test <- summary(mod1_test)
+summary_mod1_test
+```
+
+In the test data, region and year are less influential and the average number of
+jobs per region is more influential.
+
+
+```{r}
+plot(mod1_test, scale = "adjr2")
+```
+
+The plot confirms the original suggestion although region is absent from the 
+test data result.  Check against BIC:
+
+```{r}
+plot(mod1_test, scale = "bic")
+```
+
+
+Again, region and industry are the main influencing factors.
+
+Although only certain industries have been shown to be influential predictors, 
+they cannot be selected individually.  If one industry or region is selected 
+then they all need to be included.
+
+Check which predictors are most significant;
+```{r}
+mod1_test_no_industry <- lm(pounds_per_hour_worked ~ region + year, 
+                        data = model_dev)
+summary(mod1_test_no_industry)
+```
+
+```{r}
+mod1_test_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region + year, 
+                        data = model_dev)
+summary(mod1_test_with_industry)
+```
+
+The summary above suggests that with the test data, the model accounts for 89%
+of variation in the data.
+
+```{r}
+anova(mod1_test_no_industry, mod1_test_with_industry)
+```
+
+The model with `industry_group` is still more significant than the model without, 
+so it should be the main part of the model.
+
+```{r}
+autoplot(mod1_test_with_industry)
+```
+
+
+# Explanatory Model Summary
+
+The diagnostic plots show a reasonable residuals v fitted, with a spread over 
+the x-axis and a horizontal line, although there is some grouping evident.
+
+The Q-Q plot lies along the line for the most part, although again the relationship
+is not completely normal and scale-location shows some evidence of funneling.
+
+In summary, the productivity within the UK can be described as factors of
+industry type and region, or:
+
+$$ pounds\_per\_hour\_worked \sim industry\_group + region + year $$
+
+
 # Time Series Productivity Per Industry
 
 ```{r}
