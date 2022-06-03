@@ -539,7 +539,7 @@ eu_NA <- eu_lab_edu %>%
 
 # No NAs.
 
-# Second Explanatory Model Setup
+# Second Explanatory Model Setup ----
 
 base_2 <- region_by_industry_output_per_hour %>% 
   filter(region == "uk" & industry == "ALLINDUSTRIES") %>% 

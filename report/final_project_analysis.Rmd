@@ -582,7 +582,7 @@ model_commute_region %>%
 
 
 
-# Explanatory Model Setup  
+# Explanatory Model Setup: Region, No. Jobs, Industry Type
 
 ```{r}
 model_dev <- model_base_data %>% 
@@ -617,27 +617,28 @@ model_train <- slice(model_dev, -test_index)
 
 ```{r}
 
-mod1a_forward <- regsubsets(pounds_per_hour_worked ~ ., 
+mod1a_exh <- regsubsets(pounds_per_hour_worked ~ ., 
                             data = model_train,
-                            method = "forward")
+                            method = "exhaustive")
 ```
 
 ```{r}
-summary_mod1a_forward <- summary(mod1a_forward)
-summary_mod1a_forward
+summary_mod1a_exh <- summary(mod1a_exh)
+summary_mod1a_exh
 ```
 
-It looks like industry type and region have an influence on productivity, but 
-the average number of jobs in each region is insignificant.
+It looks like industry type (particularly real estate and financial services) 
+and region have an influence on productivity, but the average number of jobs in 
+each region is insignificant.
 
 ```{r}
-plot(mod1a_forward, scale = "adjr2")
+plot(mod1a_exh, scale = "adjr2")
 ```
 
 The plot confirms the original suggestion.  Check against BIC:
 
 ```{r}
-plot(mod1a_forward, scale = "bic")
+plot(mod1a_exh, scale = "bic")
 ```
 
 
@@ -646,7 +647,7 @@ Again, region and industry are the main influencing factors.
 Use BIC to determine the optimum number of predictors;
 
 ```{r}
-plot(summary_mod1a_forward$bic, type = "b")
+plot(summary_mod1a_exh$bic, type = "b")
 ```
 
 Although only certain industries and regions have been shown to be influential 
@@ -685,7 +686,7 @@ autoplot(mod1a_with_industry)
 
 mod1_test <- regsubsets(pounds_per_hour_worked ~ ., 
                             data = model_test,
-                            method = "forward")
+                            method = "exhaustive")
 ```
 
 ```{r}
@@ -818,22 +819,36 @@ base_2_no_region <- base_uk_jobs_edu_prod %>%
 ```
 
 
-```{r}  
-edu_mod1 <- regsubsets(pounds_per_hour_worked ~ ., 
-                            data = base_2_no_region,
-                            method = "forward")
+## Set up the test-train split
 
-regsubsets_forward <- summary(edu_mod1)
-regsubsets_forward
+This is a small data set, so set a 60:40 split
+```{r}
+
+# Make a test index
+test_index_2 <- sample(1:nrow(base_2_no_region), 
+                       size = nrow(base_2_no_region)*0.4)
+
+# Use the test index to create test and training datasets
+model2_test  <- slice(base_2_no_region, test_index_2)
+model2_train <- slice(base_2_no_region, -test_index_2)
 ```
 
-In this model, `year` comes out as most significant predictor, followed by the 
-`jobs` (no. employed) and `education_score` as the least influential predictor.
+
+
+```{r}  
+edu_mod1 <- regsubsets(pounds_per_hour_worked ~ ., 
+                            data = model2_train,
+                            method = "exhaustive")
+
+regsubsets_edu_train <- summary(edu_mod1)
+regsubsets_edu_train
+```
+
 
 Check the BIC plot;
 
 ```{r}
-plot(regsubsets_forward, scale = "adjr2")
+plot(regsubsets_edu_train, scale = "adjr2")
 ```
 
 
