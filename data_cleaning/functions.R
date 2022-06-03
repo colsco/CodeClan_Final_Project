@@ -1,6 +1,6 @@
 # Regional Excel Worksheets Cleanup Function  cleanup() ----
 
-print("****************** READING FUNCTIONS ****************** ")
+# print("****************** READING FUNCTIONS ****************** ")
 
 cleanup <- function(jobs_region){
   
@@ -31,6 +31,7 @@ cleanup <- function(jobs_region){
   return(jobs_region_clean)
 
 }
+
 
 
  # Country Acronyms to Names Function ----
@@ -76,4 +77,31 @@ filter(location %in% c("NOR", "LUX", "BEL", "IRL", "NLD", "DNK", "CHE", "SWE",
   return(names_out)
 }
  
+
+# Predictive setup per year
+
+prediction <- function(year_in){
+  
+  prediction_out_annual <- year_in %>% 
+    ungroup() %>% 
+    select(-c(industry_group, region)) %>% 
+    group_by(year) %>% 
+    summarise(total_predicted = sum(avg_pred))
+  
+  return(paste(year_in, " ready."))
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
