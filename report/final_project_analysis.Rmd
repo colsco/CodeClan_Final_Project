@@ -809,11 +809,27 @@ pounds_per_hour_worked <- model_fcast$pounds_per_hour_worked
 
 model_predict <- expand_grid(year, region, industry_group)
 
-model_2017 <- model_predict %>% 
+model_1718 <- model_predict %>% 
   add_predictions(mod1a_with_industry) %>% 
-  group_by(year, industry_group) %>% 
+  group_by(year, region, industry_group) %>% 
   summarise(sum_pred = sum(pred))
   
+year <- 2019:2020
 
+model_predict <- expand_grid(year, region, industry_group)
+
+model_1920 <- model_predict %>% 
+  add_predictions(mod1a_with_industry) %>% 
+  group_by(year, region, industry_group) %>% 
+  summarise(sum_pred = sum(pred))
+
+year <- 2021:2022
+
+model_predict <- expand_grid(year, region, industry_group)
+
+model_2122 <- model_predict %>% 
+  add_predictions(mod1a_with_industry) %>% 
+  group_by(year, region, industry_group) %>% 
+  summarise(sum_pred = sum(pred))
 
 ```
