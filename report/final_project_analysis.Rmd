@@ -790,7 +790,15 @@ model_ages_long %>%
   labs(title = "UK Employment Numbers per Age Group",
        x = "Year",
        y = "No. Employed (millions)") +
-  theme(legend.title = element_blank())
+  theme(legend.title = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+  scale_x_continuous(breaks=seq(1997, 2022, 1)) +
+  scale_colour_discrete(labels = c("16 - 17 years old", 
+                                 "18 - 24 years old", 
+                                 "25 - 34 years old",
+                                 "35 - 49 years old",
+                                 "50 - 64 years old",
+                                 "> 65 years old"))
 ```
 # Time Series Productivity Per Industry
 
@@ -805,53 +813,21 @@ region_by_industry_output_joined %>%
       colour = industry_group) +
   theme_light() +
   scale_colour_discrete(labels = function(x) str_wrap(x, width = 35)) +
-  theme(legend.title = element_blank()) +
-  geom_line()
+  theme(legend.title = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+  geom_line() +
+  labs(title = "Time Series Plot of log(Productivity) by Industry",
+       x = "Year",
+       y = "log(Pounds Generated per Hour Worked") +
+  scale_x_continuous(breaks=seq(1997, 2022, 1))
   
 ```
 # Explanatory Model 2: Education
 
-```{r}
-
-base_2_no_region <- base_uk_jobs_edu_prod %>% 
-  select(-region) %>% 
-  mutate_if(is.character, as.factor)
-```
-
-
-## Set up the test-train split
-
-This is a small data set, so set a 60:40 split
-```{r}
-
-# Make a test index
-test_index_2 <- sample(1:nrow(base_2_no_region), 
-                       size = nrow(base_2_no_region)*0.4)
-
-# Use the test index to create test and training datasets
-model2_test  <- slice(base_2_no_region, test_index_2)
-model2_train <- slice(base_2_no_region, -test_index_2)
-```
-
-
-
-```{r}  
-edu_mod1 <- regsubsets(pounds_per_hour_worked ~ ., 
-                            data = model2_train,
-                            method = "exhaustive")
-
-regsubsets_edu_train <- summary(edu_mod1)
-regsubsets_edu_train
-```
-
-
-Check the BIC plot;
-
-```{r}
-plot(regsubsets_edu_train, scale = "adjr2")
-```
-
-
+An explanatory model describing the influence of education had been planned, but
+after cleaning for UK data there were only 20 observations upon which to build
+a model, which seems insufficient to develop a test train split.  Is cross 
+validation an option?
 
 
 # Generate a Time Series for Forecasting
@@ -879,35 +855,38 @@ model_fcast %>%
   labs(title = "Autoplot of Total Productivity over Time UK",
        x = "Year",
        y = "Productivity") +
-  scale_x_continuous(breaks=seq(1997, 2022, 1))
+  scale_x_continuous(breaks=seq(1997, 2022, 1)) +
+  annotate("text", x = 2010, y = 650, 
+           label = "2009 Financial\nCrash",
+           colour = "grey40")
 ```
 
 
-# Forecast Model <-- EXTENSION
+# Forecast Model 
 
-<!-- ```{r} -->
-<!-- fit <- model_fcast %>%  -->
-<!--   model(arima = ARIMA(annual_total), -->
-<!--         ets = ETS(annual_total)) -->
+```{r}
+fit <- model_fcast %>%
+  model(arima = ARIMA(annual_total),
+        ets = ETS(annual_total))
 
-<!-- fit -->
-<!-- ``` -->
+fit
+```
 
-<!-- ```{r} -->
-<!-- forecast_1 <- fit %>% -->
-<!--   fabletools::forecast(h = "6 years") -->
-<!-- forecast_1 -->
-<!-- ``` -->
+```{r}
+forecast_1 <- fit %>%
+  fabletools::forecast(h = "6 years")
+forecast_1
+```
 
 
 
-<!-- ```{r} -->
+```{r}
 
-<!-- forecast_1 %>%  -->
-<!-- autoplot(annual_total) + -->
-<!--     guides(colour = guide_legend(title = "Forecast")) -->
+forecast_1 %>%
+autoplot(annual_total) +
+    guides(colour = guide_legend(title = "Forecast"))
 
-<!-- ``` -->
+```
 
 
 
