@@ -75,15 +75,17 @@ europe_labour_prod <- read_excel(here("data/International Labour Productivity - 
 
 
 
+## UK Output per Hour per Industry 
+
+
 # UK Regional Output Per Hour CVM by Industry ----
 
 
 # Try to handle merged cells from .xls; 
 
-region_by_industry_output_per_hour <-   
-  read_excel(here("data/UK Labour Productivity - Region by Industry.xls"),
-                                   sheet = "OpH (value)",
-                                   range = "A6:HN27") %>% 
+region_by_industry_output_per_hour <- read_excel(here("data/UK Labour Productivity - Region by Industry.xls"),
+                                                 sheet = "OpH (value)",
+                                                 range = "A6:HN27") %>% 
   clean_names() 
   
 # Rename "unnamed" Column Headers
@@ -175,7 +177,43 @@ region_by_industry_output_per_hour <- region_by_industry_output_per_hour %>%
   separate(industry, into = c("region", "industry"), sep = "_") %>% 
   mutate(industry = str_to_upper(industry)) %>% 
   write_csv(here("clean_data/region_by_industry_output_per_hour_clean.csv"))
-  
+
+# Need a definition of industries - join with industry_dict.
+
+region_by_industry_output_joined <- region_by_industry_output_per_hour %>% 
+  left_join(industry_dict, by = "industry") 
+
+# There were some industries grouped together that will need to be explained -
+# they have probably been coerced to NAs during the join:
+
+region_by_industry_output_joined %>% 
+  filter(is.na(industry_group)) %>% 
+  distinct(industry)
+
+# NAs have been returned only for the industry groupings;
+# 
+# * 'ALLINDUSTRIES'
+# * 'ABDE'
+# * 'ST'
+# 
+# For the purposes of this plot;
+# 
+# * 'ALLINDUSTRIES' can be removed.
+# * 'ABDE' can be defined as 'Agriculture, mining, water, electricity'
+# * 'ST' can be defined as 'Other services and domestic'
+
+
+region_by_industry_output_joined <- region_by_industry_output_joined %>% 
+  mutate(industry_group = 
+           if_else(industry == "ABDE", 
+                   "agriculture mining water electricity", 
+                   industry_group),
+         industry_group = 
+           if_else(industry == "ST", 
+                   "other services and domestic", 
+                   industry_group)) %>% 
+  filter(!is.na(industry_group))
+
 
 # No. Jobs per Region UK ----
 
@@ -346,7 +384,7 @@ jobs_regional_bound_grouped <- jobs_regional_bound %>%
   arrange(quarter, industry)
 
 
-# Join `region_by_industry_output_per_hour` to start the base model ----
+# Join region_by_industry_output_per_hour to start the base model ----
 
 jobs_regional_bound_grouped_join <- jobs_regional_bound_grouped %>% 
   mutate(year = year(quarter), .after = quarter) %>% 
@@ -418,7 +456,7 @@ ages <- ages %>%
   filter(!is.na(year)) %>% 
   mutate(across(.cols = -year, .fns = as.integer))
 
-# `ages` now contains useable data, but the year column needs to be separated
+# ages now contains useable data, but the year column needs to be separated
 # and then summarised by year;
 
 ages <- ages %>% 
@@ -563,6 +601,20 @@ jobs_base_2 <- jobs_uk %>%
 base_uk_jobs_edu_prod <- base_2 %>% 
   bind_cols(jobs_base_2$avg_jobs) %>% 
   rename("avg_jobs" = "...5") 
+
+
+
+
+
+
+
+
+  
+
+
+
+# Set up Predictor Model ----
+
 
 
 

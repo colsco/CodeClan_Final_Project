@@ -27,7 +27,9 @@ here::here()
 ```
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
+
 source(here("data_cleaning/cleaning.R"))
+
 ```
 # Initial Plots
 
@@ -240,46 +242,7 @@ The matrix also suggests that there is not correlation between productivity and
 year for the data used.
 
 
-## UK Output per Hour per Industry 
-
 ```{r}
-# Need a definition of industries - join with industry_dict.
-
-region_by_industry_output_joined <- region_by_industry_output_per_hour %>% 
-  left_join(industry_dict, by = "industry") 
-
-# There were some industries grouped together that will need to be explained -
-# they have probably been coerced to NAs during the join:
-
-region_by_industry_output_joined %>% 
-  filter(is.na(industry_group)) %>% 
-  distinct(industry)
-```
-NAs have been returned only for the industry groupings;
-
-* 'ALLINDUSTRIES'
-* 'ABDE'
-* 'ST'
-
-For the purposes of this plot;
-
-* 'ALLINDUSTRIES' can be removed.
-* 'ABDE' can be defined as 'Agriculture, mining, water, electricity'
-* 'ST' can be defined as 'Other services and domestic'
-
-```{r}
-region_by_industry_output_joined <- region_by_industry_output_joined %>% 
-  mutate(industry_group = 
-           if_else(industry == "ABDE", 
-                   "agriculture mining water electricity", 
-                   industry_group),
-         industry_group = 
-           if_else(industry == "ST", 
-                   "other services and domestic", 
-                   industry_group)
-         ) %>% 
-  filter(!is.na(industry_group))
-
 
 # Limit timeframe to 2014 - 2016 to maintain consistency with EU data
 
@@ -316,6 +279,29 @@ accommodation and arts and entertainment.
 It's also clear from the plot that there is a good deal of overlap through almost
 all industry groups outside of real estate, i.e. there are no single industry 
 groups that stand alone as being worse than all others.  
+
+# Time Series Productivity Per Industry
+
+```{r}
+region_by_industry_output_joined %>% 
+  filter(region == "uk") %>% 
+  group_by(industry_group) %>% 
+  ggplot() +
+  aes(x = year,
+      y = log(pounds_per_hour_worked),
+      group = industry_group,
+      colour = industry_group) +
+  theme_light() +
+  scale_colour_discrete(labels = function(x) str_wrap(x, width = 35)) +
+  theme(legend.title = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+  geom_line() +
+  labs(title = "Time Series Plot of log(Productivity) by Industry",
+       x = "Year",
+       y = "log(Pounds Generated per Hour Worked") +
+  scale_x_continuous(breaks=seq(1997, 2022, 1))
+  
+```
 
 
 ## UK Output per Hour per Region
@@ -793,29 +779,6 @@ industry type and region, or:
 
 $$ pounds\_per\_hour\_worked \sim industry\_group + region + year $$
 
-
-# Time Series Productivity Per Industry
-
-```{r}
-region_by_industry_output_joined %>% 
-  filter(region == "uk") %>% 
-  group_by(industry_group) %>% 
-  ggplot() +
-  aes(x = year,
-      y = log(pounds_per_hour_worked),
-      group = industry_group,
-      colour = industry_group) +
-  theme_light() +
-  scale_colour_discrete(labels = function(x) str_wrap(x, width = 35)) +
-  theme(legend.title = element_blank(),
-        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
-  geom_line() +
-  labs(title = "Time Series Plot of log(Productivity) by Industry",
-       x = "Year",
-       y = "log(Pounds Generated per Hour Worked") +
-  scale_x_continuous(breaks=seq(1997, 2022, 1))
-  
-```
 # Explanatory Model 2: Education
 
 An explanatory model describing the influence of education had been planned, but
@@ -824,68 +787,33 @@ a model, which seems insufficient to develop a test train split.  Is cross
 validation an option?
 
 
-# Generate a Time Series for Forecasting
 
-
-```{r}
-model_fcast <- region_by_industry_output_joined %>% 
-  select(-industry) %>% 
-  filter(region == "uk") %>% 
-  group_by(year) %>% 
-  summarise(annual_total = sum(pounds_per_hour_worked))
-  
-
-model_fcast <- tsibble(model_fcast, index = "year")
-
-```
-
-
-```{r}
-model_fcast %>% 
-  autoplot(annual_total) +
-  theme_light() +
-  scale_colour_discrete(labels = function(x) str_wrap(x, width = 35)) +
-  theme(legend.title = element_blank()) +
-  labs(title = "Autoplot of Total Productivity over Time UK",
-       x = "Year",
-       y = "Productivity") +
-  scale_x_continuous(breaks=seq(1997, 2022, 1)) +
-  annotate("text", x = 2010, y = 650, 
-           label = "2009 Financial\nCrisis",
-           colour = "grey40") +
-  geom_abline()
-```
 
 
 # Forecast Model 
 
+# Generate a Time Series for Forecasting ----
 ```{r}
-fit <- model_fcast %>%
-  model(arima = ARIMA(annual_total),
-        ets = ETS(annual_total))
+model_fcast <- model_dev %>% 
+  select(-c(quarter, avg_jobs_000)) %>% 
+  filter(region != "uk") %>% 
+  unique() %>% 
+  add_predictions(mod1a_with_industry) %>% 
+  add_residuals(mod1a_with_industry) 
 
-fit
+
+year <- 2017:2018
+region <- model_fcast$region
+industry_group <- model_fcast$industry_group
+pounds_per_hour_worked <- model_fcast$pounds_per_hour_worked
+
+model_predict <- expand_grid(year, region, industry_group)
+
+model_2017 <- model_predict %>% 
+  add_predictions(mod1a_with_industry) %>% 
+  group_by(year, industry_group) %>% 
+  summarise(sum_pred = sum(pred))
+  
+
+
 ```
-
-```{r}
-forecast_1 <- fit %>%
-  fabletools::forecast(h = "6 years")
-forecast_1
-```
-
-
-
-```{r}
-
-forecast_1 %>%
-autoplot(annual_total) +
-    guides(colour = guide_legend(title = "Forecast"))
-
-```
-
-
-
-
-
-
-
