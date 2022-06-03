@@ -812,7 +812,7 @@ model_predict <- expand_grid(year, region, industry_group)
 model_1718 <- model_predict %>% 
   add_predictions(mod1a_with_industry) %>% 
   group_by(year, region, industry_group) %>% 
-  summarise(sum_pred = sum(pred))
+  summarise(mean_pred = mean(pred))
   
 year <- 2019:2020
 
@@ -821,7 +821,7 @@ model_predict <- expand_grid(year, region, industry_group)
 model_1920 <- model_predict %>% 
   add_predictions(mod1a_with_industry) %>% 
   group_by(year, region, industry_group) %>% 
-  summarise(sum_pred = sum(pred))
+  summarise(mean_pred = mean(pred))
 
 year <- 2021:2022
 
@@ -830,6 +830,107 @@ model_predict <- expand_grid(year, region, industry_group)
 model_2122 <- model_predict %>% 
   add_predictions(mod1a_with_industry) %>% 
   group_by(year, region, industry_group) %>% 
-  summarise(sum_pred = sum(pred))
+  summarise(mean_pred = mean(pred))
 
 ```
+
+
+
+Plot the original data versus predictions, 1997 - 2016;
+
+```{r}
+model_fcast_annual <- model_fcast %>%
+  select(-c(industry_group, region)) %>% 
+  group_by(year) %>% 
+  summarise(total_productivity = sum(pounds_per_hour_worked),
+            total_predicted = sum(pred))
+
+head(model_fcast_annual)
+  
+```
+
+```{r}
+model_fcast_annual %>% 
+  ggplot() +
+  aes(x = year) +
+  geom_point(aes(y = total_productivity)) +
+  geom_line(aes(y = total_predicted), colour = "orange") +
+  theme_light() +
+  scale_x_continuous(breaks=seq(1997, 2016, 1)) +
+  labs(title = "Total Productivity v Linear Model, 1997 - 2016",
+       x = "Year",
+       y = "Total Pounds Output per hour worked")
+```
+
+Plotting the existing data as a line and removing the model;
+```{r}
+model_fcast_annual %>% 
+  ggplot() +
+  aes(x = year, y = total_productivity) +
+  geom_point() +
+  geom_line() +
+  theme_light() +
+  scale_x_continuous(breaks=seq(1997, 2016, 1)) +
+  labs(title = "Total Productivity 1997 - 2016",
+       x = "Year",
+       y = "Total Pounds Output per hour worked")
+```
+
+
+And add in the predictive model; (function to repeat over years?)
+
+```{r}
+model_1718_annual <- model_1718 %>% 
+  ungroup() %>% 
+  select(-c(industry_group, region)) %>% 
+  group_by(year) %>% 
+  summarise(total_predicted = sum(mean_pred)) # think this is summing this twice...?
+
+head(model_1718_annual)
+```
+
+```{r}
+model_1920_annual <- model_1920 %>% 
+  ungroup() %>% 
+  select(-c(industry_group, region)) %>% 
+  group_by(year) %>% 
+  summarise(total_predicted = sum(mean_pred)) # think this is summing this twice...?
+
+head(model_1920_annual)
+```
+
+```{r}
+model_2122_annual <- model_2122 %>% 
+  ungroup() %>% 
+  select(-c(industry_group, region)) %>% 
+  group_by(year) %>% 
+  summarise(total_predicted = sum(mean_pred)) # think this is summing this twice...?
+
+head(model_2122_annual)
+```
+
+And plot the predictions onto the previous line;
+```{r}
+model_all_predictions <- model_1718_annual %>% 
+  full_join(model_1920_annual, by = c("year", "total_predicted")) %>% 
+  full_join(model_2122_annual, by = c("year", "total_predicted"))
+
+model_all_predictions
+```
+
+```{r}
+model_fcast_annual %>% 
+  ggplot() +
+  aes(x = year, y = total_productivity) +
+  geom_point() +
+  geom_line() +
+  geom_line(data = model_all_predictions, aes(y = total_predicted), colour = "orange") +
+  theme_light() +
+  scale_x_continuous(breaks=seq(1997, 2022, 1)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.3)) +
+  labs(title = "Total Productivity 1997 - 2016",
+       x = "Year",
+       y = "Total Pounds Output per hour worked")
+```
+
+
