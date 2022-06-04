@@ -564,6 +564,7 @@ model_commute_region %>%
        x = "\nCommute Time",
        y = "Proportion of Workforce\n")
 ```
+<br>
 # Does employee age matter?
 
 Pivot the data longer then change characters to factors;
@@ -605,7 +606,7 @@ model_ages_long %>%
                                  "50 - 64 years old",
                                  "> 65 years old"))
 ```
-
+No indication that age is significant...?
 
 
 # Explanatory Model Setup: Region, No. Jobs, Industry Type
