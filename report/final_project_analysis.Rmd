@@ -238,7 +238,7 @@ proportion of the workforce who have gone through tertiary education.  In other
 words, a weak suggestion that the lower the proportion of educated individuals,
 the higher the national productivity!
 
-The matrix also suggests that there is not correlation between productivity and 
+The matrix also suggests that there is weak correlation between productivity and 
 year for the data used.
 
 
@@ -802,35 +802,41 @@ model_fcast <- model_dev %>%
   add_residuals(mod1a_with_industry) 
 
 
-year <- 2017
+
 region <- model_fcast$region
 industry_group <- model_fcast$industry_group
 pounds_per_hour_worked <- model_fcast$pounds_per_hour_worked
 
-model_predict <- expand_grid(year, region, industry_group)
 
-model_17 <- model_predict %>% 
-  add_predictions(mod1a_with_industry) %>% 
-  group_by(year, region, industry_group) %>% 
-  summarise(avg_pred = median(pred))
-  
-year <- 2018
+model_17 <- 2017 %>% 
+  year_prediction()
 
-model_predict <- expand_grid(year, region, industry_group)
+model_18 <- 2018 %>% 
+  year_prediction()
 
-model_18 <- model_predict %>% 
-  add_predictions(mod1a_with_industry) %>% 
-  group_by(year, region, industry_group) %>% 
-  summarise(avg_pred = median(pred))
+model_19 <- 2019 %>% 
+  year_prediction()
 
-year <- 2019
+model_20 <- 2020 %>% 
+  year_prediction()
 
-model_predict <- expand_grid(year, region, industry_group)
+model_21 <- 2021 %>% 
+  year_prediction()
 
-model_19 <- model_predict %>% 
-  add_predictions(mod1a_with_industry) %>% 
-  group_by(year, region, industry_group) %>% 
-  summarise(avg_pred = median(pred))
+model_22 <- 2022 %>% 
+  year_prediction()
+
+model_23 <- 2023 %>% 
+  year_prediction()
+
+model_24 <- 2024 %>% 
+  year_prediction()
+
+model_25 <- 2025 %>% 
+  year_prediction()
+
+model_26 <- 2026 %>% 
+  year_prediction()
 
 ```
 
@@ -869,6 +875,7 @@ model_fcast_annual %>%
   aes(x = year, y = total_productivity) +
   geom_point() +
   geom_line() +
+  geom_line(aes(y = total_predicted), colour = "orange") +
   theme_light() +
   scale_x_continuous(breaks=seq(1997, 2016, 1)) +
   labs(title = "Total Productivity 1997 - 2016",
@@ -877,43 +884,56 @@ model_fcast_annual %>%
 ```
 
 
-And add in the predictive model; (function to repeat over years?)
+And add in the predictive model; 
 
 ```{r}
+
+# ONE year at a time, otherwise memory overload happens...
+
 model_17_annual <- model_17 %>% 
-  ungroup() %>% 
-  select(-c(industry_group, region)) %>% 
-  group_by(year) %>% 
-  summarise(total_predicted = sum(avg_pred)) #
-
-head(model_17_annual)
-```
-
-```{r}
+  prediction()
+ 
 model_18_annual <- model_18 %>% 
-  ungroup() %>% 
-  select(-c(industry_group, region)) %>% 
-  group_by(year) %>%
-  summarise(total_predicted = sum(avg_pred)) # think this is summing this twice...?
+  prediction()
 
-head(model_18_annual)
-```
-
-```{r}
 model_19_annual <- model_19 %>% 
-  ungroup() %>% 
-  select(-c(industry_group, region)) %>% 
-  group_by(year) %>% 
-  summarise(total_predicted = sum(avg_pred)) # think this is summing this twice...?
+  prediction()
 
-head(model_19_annual)
+model_20_annual <- model_20 %>% 
+  prediction()
+
+model_21_annual <- model_21 %>% 
+  prediction()
+
+model_22_annual <- model_22 %>% 
+  prediction()
+ 
+model_23_annual <- model_23 %>% 
+  prediction()
+
+model_24_annual <- model_24 %>% 
+  prediction()
+
+model_25_annual <- model_25 %>% 
+  prediction()
+
+model_26_annual <- model_26 %>% 
+  prediction()
+
 ```
 
 And plot the predictions onto the previous line;
 ```{r}
 model_all_predictions <- model_17_annual %>% 
   full_join(model_18_annual, by = c("year", "total_predicted")) %>% 
-  full_join(model_19_annual, by = c("year", "total_predicted"))
+  full_join(model_19_annual, by = c("year", "total_predicted")) %>% 
+  full_join(model_20_annual, by = c("year", "total_predicted")) %>% 
+  full_join(model_21_annual, by = c("year", "total_predicted")) %>% 
+  full_join(model_22_annual, by = c("year", "total_predicted")) %>% 
+  full_join(model_23_annual, by = c("year", "total_predicted")) %>% 
+  full_join(model_24_annual, by = c("year", "total_predicted")) %>% 
+  full_join(model_25_annual, by = c("year", "total_predicted")) %>% 
+  full_join(model_26_annual, by = c("year", "total_predicted")) 
 
 model_all_predictions
 ```
@@ -926,10 +946,11 @@ model_fcast_annual %>%
   geom_line() +
   geom_line(data = model_all_predictions, aes(y = total_predicted), colour = "orange") +
   geom_point(data = model_all_predictions, aes(y = total_predicted), colour = "orange") +
+  geom_line(aes(y = total_predicted), colour = "orange") +
   theme_light() +
-  scale_x_continuous(breaks=seq(1997, 2022, 1)) +
+  scale_x_continuous(breaks=seq(1997, 2026, 1)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.3)) +
-  labs(title = "Total Productivity 1997 - 2016",
+  labs(title = "Total Productivity 1997 - 2016 + Linear Model Prediction",
        x = "Year",
        y = "Total Pounds Output per hour worked")
 ```

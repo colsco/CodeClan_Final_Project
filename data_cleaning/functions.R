@@ -77,8 +77,23 @@ filter(location %in% c("NOR", "LUX", "BEL", "IRL", "NLD", "DNK", "CHE", "SWE",
   return(names_out)
 }
  
+# Predictive setup ----
 
-# Predictive setup per year
+year_prediction <- function(year){
+
+model_predict <- expand_grid(year, region, industry_group)
+
+model_year <- model_predict %>% 
+  add_predictions(mod1a_with_industry) %>% 
+  group_by(year, region, industry_group) %>% 
+  summarise(avg_pred = median(pred))
+
+return(model_year)
+
+}
+
+
+# Predictive setup pre-join formatting ----
 
 prediction <- function(year_in){
   
@@ -86,9 +101,10 @@ prediction <- function(year_in){
     ungroup() %>% 
     select(-c(industry_group, region)) %>% 
     group_by(year) %>% 
-    summarise(total_predicted = sum(avg_pred))
+    summarise(total_predicted = sum(avg_pred)) %>% 
+    as_tibble(year_in)
   
-  return(paste(year_in, " ready."))
+  return(prediction_out_annual)
   
 }
 
