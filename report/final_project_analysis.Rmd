@@ -752,8 +752,8 @@ mod1_test_with_industry <- lm(pounds_per_hour_worked ~ industry_group + region +
 summary(mod1_test_with_industry)
 ```
 
-The summary above suggests that with the test data, the model accounts for 89%
-of variation in the data.
+The summary above suggests that with the test data, the model accounts for just
+under 90% of variation in the data.
 
 ```{r}
 anova(mod1_test_no_industry, mod1_test_with_industry)
@@ -793,7 +793,7 @@ validation an option?
 
 # Forecast Model 
 
-# Generate a Time Series for Forecasting ----
+# Generate a Plot of the Linear Model against Data ----
 ```{r}
 model_fcast <- model_dev %>% 
   select(-c(quarter, avg_jobs_000)) %>% 
@@ -801,7 +801,6 @@ model_fcast <- model_dev %>%
   unique() %>% 
   add_predictions(mod1a_with_industry) %>% 
   add_residuals(mod1a_with_industry) 
-
 
 
 region <- model_fcast$region
@@ -856,20 +855,24 @@ head(model_fcast_annual)
   
 ```
 
+## Plot Residuals;
+
 ```{r}
 model_fcast_annual %>% 
   ggplot() +
-  aes(x = year) +
-  geom_point(aes(y = total_productivity)) +
+  aes(x = year, y = total_predicted) +
+  geom_point(aes(y = total_productivity), alpha = 0.3) +
+  geom_segment(aes(xend = year, yend = total_productivity), alpha = 0.2) +
   geom_line(aes(y = total_predicted), colour = "orange") +
   theme_light() +
   scale_x_continuous(breaks=seq(1997, 2016, 1)) +
   labs(title = "Total Productivity v Linear Model, 1997 - 2016",
        x = "Year",
-       y = "Total Pounds Output per hour worked")
+       y = "Total Pounds Output per hour worked") 
+  
 ```
 
-Plotting the existing data as a line and removing the model;
+Plotting the existing data as a line instead of scatterplot;
 ```{r}
 model_fcast_annual %>% 
   ggplot() +
@@ -953,7 +956,8 @@ model_fcast_annual %>%
   theme(axis.text.x = element_text(angle = 90, vjust = 0.3)) +
   labs(title = "Total Productivity 1997 - 2016 + Linear Model Prediction",
        x = "Year",
-       y = "Total Pounds Output per hour worked")
+       y = "Total Pounds Output per hour worked") 
+  # geom_smooth(method = "lm") 
 ```
 
 
