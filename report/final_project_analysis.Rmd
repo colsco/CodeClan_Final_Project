@@ -962,7 +962,19 @@ model_fcast_annual %>%
 
 
 
+# Predict using `broom::`
+
+```{r}
+augment(mod1a_with_industry, 
+        data = model_train, 
+        se_fit = TRUE,
+        interval = "prediction")
+```
 
 
+```{r}
+glance(mod1a_with_industry)
+```
 
 
+Covid impact: https://www.bbc.co.uk/news/business-52991913
