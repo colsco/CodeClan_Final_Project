@@ -68,11 +68,11 @@ categorical to factor to allow statistical analyses to be carried out.
 
 #### Data formats
 
-The data was almost entirely taken from Microsoft Excel workbooks, most of which 
-consisted of multiple worksheets with many merged cells which needed to be 
-manipulated in R to allow for further processing.  Fortunately many of the 
-Excel worksheets were identically formatted, so a lot of repeated data cleaning 
-was possible using simple functions. 
+The data was almost entirely taken from Microsoft Excel workbooks (-.xls and 
+-.xlsx), most of which consisted of multiple worksheets with many merged cells 
+which needed to be manipulated in R to allow for further processing.  
+Fortunately many of the Excel worksheets were identically formatted, so a lot of 
+repeated data cleaning was possible by writing functions. 
 
 #### Data quality and bias
 
@@ -115,7 +115,25 @@ least to identify areas where support and aid may be needed.
 
 #### Stages in the data analysis process
 
-What were the main stages in your data analysis process?
+The first step in analysis was to try to understand the vast quantities of data.
+
+The subsequent analysis followed the following method;
+
+* Determine the average UK productivity relative to other EU countries
+* Determine if any difference in UK v EU is statistically significant
+* Look for variables to explain any difference in UK v EU (e.g. education levels)
+* Focus on the UK as a whole; what differences are evident from
+  * regional breakdown (check for statistical significance)
+  * industry breakdown 
+  * employee age breakdown
+  * regional commuting time breakdown
+* Further investigation was done into the Agriculture, Mining, Water and 
+Electricity industry with no immediately obvious predictors of performance
+* Try to derive an explanatory model for UK productivity based on output per
+hour worked (£) as a function of year, industry, region, average no. people in 
+employment
+
+
 
 #### Tools for data analysis
 
