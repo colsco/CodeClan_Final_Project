@@ -1,0 +1,165 @@
+---
+title: "Final project documentation template - PDA"
+author: "Colin Scotland | DE13"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    df_print: paged
+    css: ../../../styles.css
+    pdf_document: default
+  word_document:
+    toc: yes
+---
+
+
+## Context
+
+#### Business intelligence and data-driven decision making
+
+The aim of the project was to answer the following questions;
+
+* How can we improve productivity within Scotland and the UK overall? 
+
+Some targeted questions of interest in this specific project;
+
+* What factors can be improved to increase employee and/or business productivity 
+across UK regions? 
+* Which industries are lagging behind in terms of productivity and how could 
+they catch up? 
+* Can we predict overall UK productivity rates?
+
+#### Domain knowledge and the business context
+
+The data used in this analysis come from Deloitte, who in the company's own words 
+are a leading global provider of audit and assurance, consulting, financial 
+advisory, risk advisory, tax, and related services. 
+
+As part of their services to a myriad industries, Deloitte analyse the larger
+economic situation at a national and global scale in order to identify potential
+opportunities, trends, and challenges to support global businesses.
+
+Different companies employ different strategies depending on their own requirements,
+but it is important for Deloitte in providing financial services to these companies
+to know how economies around the world are performing in order to be able to 
+provide regional-level insights on a global scale.
+
+## Data
+
+#### Internal and external data sources
+
+The data ued in this analysis was donated by Deloitte and comes from the Equifax 
+Ignite Direct data platform.  Most of the individual data sets originated in the 
+UK's Office for National Statistics and the Organisation for Economic
+Co-operation and Development (OECD), and reflects measures and estimates put in 
+place in accordance with OECD guidelines.
+
+#### Types of data
+
+The data consisted of many different types, as outlined below;
+
+* Categorical; Country Names, Industry Types, UK Regions, Age Group groups, 
+UK Commuting Time groups, etc.
+* Numerical; Years, Productivity Output Values, Employment Levels, Education
+Indices, etc.
+
+For the purposes of analysis several data types were transformed, e.g. from 
+categorical to factor to allow statistical analyses to be carried out.
+
+#### Data formats
+
+The data was almost entirely taken from Microsoft Excel workbooks, most of which 
+consisted of multiple worksheets with many merged cells which needed to be 
+manipulated in R to allow for further processing.  Fortunately many of the 
+Excel worksheets were identically formatted, so a lot of repeated data cleaning 
+was possible using simple functions. 
+
+#### Data quality and bias
+
+The data sourced mainly from OECD countries limits the overall global 
+representation.  No African or Asian countries are considered (except for Japan). 
+
+What the OECD data does allow is comparisons between countries of similar economic 
+status within Europe, N. America, Australasia, Chile and Japan.
+
+Within the UK-centric data there are no categories that suggest any obvious bias
+towards any demographic, with productivity measures broken down by the ONS NUTS1 
+regional definition and industry types as defined in ONS' Standard Industrial 
+Classification (2007).
+
+## Ethics
+
+#### Ethical issues in data sourcing and extraction
+
+The only ethical point of note is the absence of African and Asian countries as
+mentioned previously.  In the context of investigating the economic performance
+of the UK this is not critical; Europe and N. America provide sufficient data
+for comparison with countries of equivalent economic status.
+
+There are no identifiers in any data sets with any specificity beyond countries 
+and/or industry types.  There are no individual personal or corporate identifiers
+in any of the data.
+
+#### Ethical implications of business requirements
+
+Every country around the world has an interest in improving it's economy and 
+companies around the world have a vested interest in riding on the back of economic
+growth.  
+
+There are many questions about the morality of global corporations using global
+economic data to take advantage of resources from less developed countries. 
+Nevertheless there is great benefit in monitoring global economic activity, not 
+least to identify areas where support and aid may be needed. 
+
+## Analysis
+
+#### Stages in the data analysis process
+
+What were the main stages in your data analysis process?
+
+#### Tools for data analysis
+
+All data cleaning, statistical analysis and plots were done using R in RStudio, 
+predominantly using the `tidyverse`, `modelr` and `ggplot` packages.
+
+#### Descriptive, diagnostic, predictive and prescriptive analysis
+
+Please report under which of the below categories your analysis falls **and why** (can be more than one) 
+
+::: {.emphasis}
+**Descriptive Analytics** tells you what happened in the past.
+
+**Diagnostic Analytics** helps you understand why something happened in the past.
+
+**Predictive Analytics** predicts what is most likely to happen in the future.
+
+**Prescriptive Analytics** recommends actions you can take to affect those outcomes.
+:::
+
+
+# PDA Outcomes
+
+### Working with Data (J4Y6 35)
+
+#### 1. Plan an analysis to provide business intelligence
+
+-   1.1 Business intelligence and data-driven decision making
+-   1.2 Domain knowledge and the business context
+-   1.4 Internal and external data sources
+-   1.5 Data quality
+-   1.6 Stages in the data analysis process
+-   1.7 Descriptive, diagnostic, predictive and prescriptive analysis
+-   1.9 Ethical implications of business requirements
+-   1.10 Tools for data analysis
+
+#### 2. Extract data from a variety of sources
+
+-   2.1 Tools for querying data sources
+-   2.2 Types of data (categorical and numerical data and their sub-types)
+-   2.3 Data formats
+-   2.6 Data quality including data bias
+-   2.7 Ethical issues in data sourcing and extraction
+
+#### 4. Analyse data to provide business intelligence
+
+-   4.7 Role of domain knowledge in interpreting analyses

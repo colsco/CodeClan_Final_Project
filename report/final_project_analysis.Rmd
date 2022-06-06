@@ -201,7 +201,6 @@ output in the United Kingdom.
 
 ```{r}
 eu_lab_edu %>% 
-  ungroup() %>% 
   ggplot() +
   aes(x = education_score, y = avg_prod) + 
   geom_point(size = 1, alpha = 0.3) +
@@ -222,7 +221,34 @@ eu_lab_edu %>%
 ```
 
 The faceted scatterplot above suggests no obvious correlation between education
-level and productivity level per country over time.  A correlation matrix might 
+level and productivity level per country over time.  Look more closely at the 
+top 3 + UK;
+
+```{r}
+eu_lab_edu %>% 
+  filter(country %in% c("Norway", "Luxembourg", "Belgium", "United Kingdom")) %>% 
+  ggplot() +
+  aes(x = education_score, y = avg_prod) + 
+  geom_point(size = 1, alpha = 0.3) +
+  facet_wrap( ~ country) +
+  theme_light() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.3)) +
+  labs(title = "% Tertiary Educated v Productivity by Country, 2005 - 2015",
+       x = "\n% Population with Tertiary Education by year 2005 - 2015",
+       y = "Mean Productivity Score ($US Output per hour)\n") +
+  scale_y_continuous(breaks = seq(50, 100, by = 25)) +
+  geom_text(aes(label = year), 
+            color = "black", 
+            size = 2,
+            nudge_y = 2,
+            check_overlap = TRUE,
+            alpha = 0.4)
+```
+This scatterplot shows a real variation - Norway with a low % of tertiary education,
+Belgium with a high % and Luxembourg in between.
+
+
+A correlation matrix might 
 shed some more light on this:
 
 ```{r}
@@ -258,9 +284,9 @@ region_by_industry_output_joined %>%
   theme_light(base_size = 10) +
   theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))+
   labs(x = "UK Industry in order of Mean Output per Hour\n",
-       y = "Distribution of Output per Hour per Industry (£ CVM)",
+       y = "Distribution of Output per Hour per Industry (£)",
        title = "Comparison of Output per Hour in UK Industry\n2014 - 2016") +
-  scale_x_discrete(labels = wrap_format(40)) +
+  scale_x_discrete(labels = wrap_format(35)) +
   coord_flip()
 
 ```
@@ -877,14 +903,15 @@ Plotting the existing data as a line instead of scatterplot;
 model_fcast_annual %>% 
   ggplot() +
   aes(x = year, y = total_productivity) +
-  geom_point() +
-  geom_line() +
+  geom_point(alpha = 0.3) +
+  geom_line(alpha = 0.3) +
   geom_line(aes(y = total_predicted), colour = "orange") +
   theme_light() +
-  scale_x_continuous(breaks=seq(1997, 2016, 1)) +
+  scale_x_continuous(breaks=seq(1997, 2026, 1)) +
   labs(title = "Total Productivity 1997 - 2016",
-       x = "Year",
-       y = "Total Pounds Output per hour worked")
+       x = "\nYear",
+       y = "Average UK Output per hour worked (£)\n") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
 
@@ -948,16 +975,18 @@ model_fcast_annual %>%
   aes(x = year, y = total_productivity) +
   geom_point() +
   geom_line() +
-  geom_line(data = model_all_predictions, aes(y = total_predicted), colour = "orange") +
-  geom_point(data = model_all_predictions, aes(y = total_predicted), colour = "orange") +
+  geom_line(data = model_all_predictions,
+            aes(y = total_predicted, linetype = "dashed"),
+            colour = "darkolivegreen4") +
+#  geom_point(data = model_all_predictions, aes(y = total_predicted), colour = "orange") +
   geom_line(aes(y = total_predicted), colour = "orange") +
   theme_light() +
   scale_x_continuous(breaks=seq(1997, 2026, 1)) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.3)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.3),
+        legend.position = "none") +
   labs(title = "Total Productivity 1997 - 2016 + Linear Model Prediction",
        x = "Year",
        y = "Total Pounds Output per hour worked") 
-  # geom_smooth(method = "lm") 
 ```
 
 
