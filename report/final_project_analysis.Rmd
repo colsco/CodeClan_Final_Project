@@ -965,10 +965,11 @@ model_fcast_annual %>%
 # Predict using `broom::`
 
 ```{r}
-augment(mod1a_with_industry, 
-        data = model_train, 
+augment_trial <- augment(mod1a_with_industry, 
+        newdata = model_test, 
         se_fit = TRUE,
         interval = "prediction")
+head(augment_trial)
 ```
 
 
@@ -976,5 +977,33 @@ augment(mod1a_with_industry,
 glance(mod1a_with_industry)
 ```
 
+```{r}
+augment_trial %>% 
+  ggplot() +
+  geom_point(aes(x = quarter, y = pounds_per_hour_worked), colour = "darkolivegreen4") +
+  geom_point(aes(x = quarter, y = .fitted), colour = "orange")
+```
+
+
+
 
 Covid impact: https://www.bbc.co.uk/news/business-52991913
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

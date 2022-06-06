@@ -13,6 +13,7 @@ library(tsibbledata)
 library(urca)
 library(lubridate)
 library(broom)
+library(testthat)
 
 
 
@@ -217,6 +218,9 @@ region_by_industry_output_joined <- region_by_industry_output_joined %>%
 # No. Jobs per Region UK ----
 
 
+
+
+# Read in the files and cleanup()
 jobs_northeast <-
   read_excel(here("data/UK Labour Productivity - Jobs in Regions by Industry.xls"),
              sheet = "1. North East",

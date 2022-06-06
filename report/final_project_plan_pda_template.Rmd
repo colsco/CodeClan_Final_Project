@@ -12,31 +12,6 @@ output:
     toc: yes
 ---
 
-# General
-
-### Data Requirements
-
-The data you use in the project has to meet the following criteria:
-
-- At least 5,000 rows
-- At least 3 sources of data
-- Must contain text data, numeric data and dates
-
-Most of the data supplied with the briefs do meet the requirements, but we recommend that you personally make sure that you are indeed meeting these criteria. If your current datasets do not, you are more than welcome to supplement your analysis with further datasets that would help you meet the requirements.
-
-### Product Requirements
-
-Your actual final project analysis process will remain largely the same regardless if you are completing the PDA or not. However, you will need to do a bit more formal planning/documentation of your project for the PDA.
-
-Please create a project plan/documentation according to the template below:
-
-# Template
-
-<br>
-
-::: {.emphasis}
-Use this template with associated subheadings to create the documentation to make sure you cover all necessary learning outcomes for the PDA. If you have any questions, just let an instructor know.
-:::
 
 ## Context
 
