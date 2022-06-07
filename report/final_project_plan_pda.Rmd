@@ -69,9 +69,12 @@ The data consisted of many different types, as outlined below;
 UK Commuting Time groups, etc.
 * Numerical; Years, Productivity Output Values, Employment Levels, Education
 Indices, etc.
+* Time Series; Year, Quarter, with some data converted into tsibbles for time
+series analyses.
 
 For the purposes of analysis several data types were transformed, e.g. from 
-categorical to factor to allow statistical analyses to be carried out.
+categorical to factor, or tibbles to tsibbles  to allow statistical analyses 
+to be carried out.
 
 #### Data formats
 

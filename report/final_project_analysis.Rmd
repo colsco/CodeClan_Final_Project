@@ -40,9 +40,9 @@ source(here("data_cleaning/cleaning.R"))
 
 
 europe_labour_prod %>% 
-  group_by(country) %>% 
+  group_by(country) %>%
   ggplot() +
-  aes(x = reorder(country, value), 
+  aes(x = reorder(country, value),
       y = value, 
       group = country, 
       fill = country == "United Kingdom") +
@@ -60,7 +60,7 @@ europe_labour_prod %>%
 <br>
 The boxplot shows that despite the UK's political stance on the global stage and
 it's reputation as a financial powerhouse, in reality the overall productivity
-is at best fairly mediocre even when compared to countries within the EU. 
+is at best around average even when compared to countries within the EU. 
 
 Spain's recent history has seen high unemployment and even depopulation in 
 certain interior regions, yet it ranks better than the UK.  Successive UK 
@@ -129,11 +129,6 @@ uk_norway <- europe_labour_prod %>%
 
 Permutation to generate the null distribution
 
-
-Under \(H_0\) the location of the apartment would have no bearing on the price, 
-i.e. the location and price are independent. There would be no difference between 
-groups.
-
 By randomly shuffling (i.e. permuting) the locations labels we lose any 
 relationship that there was between location and price. Think of this shuffling 
 as detaching the labels from rows and then randomly assigning them back to rows. 
@@ -143,10 +138,6 @@ independent) then randomly shuffling them should have no implication.
 If the difference between groups in our sample is much larger than the difference 
 once the labels are shuffled it’s because there is a real difference between the 
 groups, and it’s not just down to sampling variation.
-
-
-
-
 
 
 Calculate the null sampling distribution;
@@ -351,7 +342,7 @@ region_by_industry_output_joined %>%
   theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))+
   labs(x = "UK Region in order of Mean Output per Hour\n",
        y = "Distribution of Pounds Output per Hour per UK Region (£)",
-       title = "Comparison of Industrial Output per Hour in UK Regions\n2014 - 2016") +
+       title = "Comparison of Output per Hour in UK Regions\n2014 - 2016") +
   scale_x_discrete(labels = wrap_format(40)) +
   coord_flip()
   
