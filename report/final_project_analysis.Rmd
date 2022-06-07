@@ -472,6 +472,126 @@ The p-value is less than α = 0.05.  In this case we reject the null hypothesis
 and can say that for this data there is a significant difference between the 
 median hourly output in London when compared to the median hourly output in Wales.
 
+## Hypothesis Test of Significance between London and Scotland
+
+First of all, it would help to visualise this comparison in more detail;
+
+```{r}
+region_by_industry_output_joined %>% 
+  filter(year >= 2014) %>% 
+  filter(region == "london" | region == "scotland") %>%
+  group_by(region) %>% 
+  ggplot() +
+  aes(x = region,
+      y = pounds_per_hour_worked,
+      group = region) +
+  stat_boxplot(geom = "errorbar") +
+  geom_boxplot(show.legend = FALSE, 
+               fill = "grey90") +
+  stat_summary(fun.y = "mean", 
+               geom = "text", 
+               label="mean ------------------------------------", 
+               size= 4, 
+               color= "orange") +
+  theme_light(base_size = 10) +
+  labs(x = "UK Region in order of Mean Output per Hour\n",
+       y = "Distribution of Pounds Output per Hour per UK Region (£)",
+       title = "Comparison of Industrial Output per Hour in London and Scotland\n2014 - 2016") +
+  scale_x_discrete(labels = wrap_format(40)) +
+  coord_cartesian(xlim = c(), ylim = c(0, 100)) 
+# Use coord cartesian to limit the axis scales so that the mean and median are
+# not affected (they are affected if scale_y_continuous(limits = ) is used)
+```
+<br>
+The hypotheses for this are as follows, with α = 0.05;
+
+H0: The average output per hour in London is the same as in Scotland
+
+$$ H_0 : x͂_{London} - x͂_{Scotland} = 0 $$
+
+H1: The average output per hour in London is significantly higher than in Scotland
+
+$$ H_1 : x͂_{London} - x͂_{Scotland} > 0 $$
+<br>
+In this case the median will be used, because the mean (dotted orange line on 
+the boxplot above) is badly right skewed by outliers particularly in London.
+
+```{r}
+london_scotland <- region_by_industry_output_joined %>% 
+  filter(year >= 2014) %>% 
+  filter(region %in% c("scotland", "london")) %>%
+  group_by(region) %>% 
+  select(-c(year, industry))
+           
+  
+```
+
+Permutation to generate the null distribution
+
+
+Under \(H_0\) the location of the apartment would have no bearing on the price, 
+i.e. the location and price are independent. There would be no difference between 
+groups.
+
+By randomly shuffling (i.e. permuting) the locations labels we lose any 
+relationship that there was between location and price. Think of this shuffling 
+as detaching the labels from rows and then randomly assigning them back to rows. 
+Then we see which of the following occurs:
+If there was no relationship in the first place (i.e. they are in fact 
+independent) then randomly shuffling them should have no implication.
+If the difference between groups in our sample is much larger than the difference 
+once the labels are shuffled it’s because there is a real difference between the 
+groups, and it’s not just down to sampling variation.
+
+
+
+
+Calculate the null sampling distribution;
+```{r}
+null_distribution_ls <- london_scotland %>% 
+  specify(pounds_per_hour_worked ~ region) %>% 
+  infer::hypothesize(null = "independence") %>%           # 'infer' masked by 'fable'
+  infer::generate(reps = 1000, type = "permute") %>%      # 'infer' masked by 'fable'
+  calculate(stat = "diff in medians", order = c("london", "scotland"))
+# sample stat is median of London minus median of Wales, so this is the order 
+# we specify in the calculate step
+
+head(null_distribution_ls)
+  
+```
+
+And now visualise the observed stat against the null distribution;
+
+```{r}
+observed_stat_lond_sco <- london_scotland %>% 
+  specify(pounds_per_hour_worked ~ region) %>% 
+  calculate("diff in medians", order = c("london", "scotland"))
+
+observed_stat_lond_sco
+```
+
+
+H1 is a "greater than" clause, so that means this is a one-sided test in the
+"right" direction.
+
+```{r}
+null_distribution %>% 
+  visualise(bins = 30) +
+  theme_light(base_size = 10) +
+  shade_p_value(obs_stat = observed_stat_lond_sco, direction = "right")
+```
+
+This gives a p-value of;
+```{r}
+p_value <- null_distribution %>%
+  get_p_value(obs_stat = observed_stat_lond_sco, direction = "right")
+p_value
+```
+
+The p-value is **very** close to α = 0.05.  More real life data would be needed
+in order to make an accurate call on whether Scotland and London are significantly 
+different or not.  
+
 ## Output by Industry by Region 
 
 One other point of interest is the output per industry per region;
