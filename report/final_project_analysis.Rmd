@@ -52,8 +52,8 @@ europe_labour_prod %>%
   theme_light(base_size = 10) +
   theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))+
   labs(x = "Country\n",
-       y = "Distribution of Output per Hour per Industry (€)",
-       title = "Comparison of Industrial Output per Hour in the EU 2014 - 2016 (€)") +
+       y = "Distribution of Output per Hour across all Industry Types (€)",
+       title = "Comparison of Output per Hour in the EU 2014 - 2016 (€)") +
   coord_flip()
 
 ```
@@ -910,7 +910,7 @@ model_fcast_annual %>%
   scale_x_continuous(breaks=seq(1997, 2026, 1)) +
   labs(title = "Total Productivity 1997 - 2016",
        x = "\nYear",
-       y = "Average UK Output per hour worked (£)\n") +
+       y = "Sum of  UK Output per hour\nworked (£) across all Industry Types\n") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 

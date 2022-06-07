@@ -3,17 +3,17 @@ title: "Final project documentation template - PDA"
 author: "Colin Scotland | DE13"
 output:
   html_document:
+    code_folding: hide
+    theme: flatly
     toc: yes
     toc_float: yes
-    df_print: paged
-    css: ../../../styles.css
-    pdf_document: default
-  word_document:
+    toc_depth: 5
+  pdf_document:
     toc: yes
 ---
 
 
-## Context
+# Context
 
 #### Business intelligence and data-driven decision making
 
@@ -44,7 +44,7 @@ but it is important for Deloitte in providing financial services to these compan
 to know how economies around the world are performing in order to be able to 
 provide regional-level insights on a global scale.
 
-## Data
+# Data
 
 #### Internal and external data sources
 
@@ -53,6 +53,13 @@ Ignite Direct data platform.  Most of the individual data sets originated in the
 UK's Office for National Statistics and the Organisation for Economic
 Co-operation and Development (OECD), and reflects measures and estimates put in 
 place in accordance with OECD guidelines.
+
+For more info;
+
+* https://www2.deloitte.com/uk/en/explore/home.html
+* https://www.ons.gov.uk/economy/economicoutputandproductivity/productivitymeasures
+* https://www.oecd.org/
+
 
 #### Types of data
 
@@ -87,7 +94,7 @@ towards any demographic, with productivity measures broken down by the ONS NUTS1
 regional definition and industry types as defined in ONS' Standard Industrial 
 Classification (2007).
 
-## Ethics
+# Ethics
 
 #### Ethical issues in data sourcing and extraction
 
@@ -111,7 +118,7 @@ economic data to take advantage of resources from less developed countries.
 Nevertheless there is great benefit in monitoring global economic activity, not 
 least to identify areas where support and aid may be needed. 
 
-## Analysis
+# Analysis
 
 #### Stages in the data analysis process
 
