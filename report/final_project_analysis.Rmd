@@ -1007,10 +1007,10 @@ glance(mod1a_with_industry)
 ```
 
 ```{r}
-augment_trial %>% 
-  ggplot() +
-  geom_point(aes(x = quarter, y = pounds_per_hour_worked), colour = "darkolivegreen4") +
-  geom_point(aes(x = quarter, y = .fitted), colour = "orange")
+# augment_trial %>% 
+#   ggplot() +
+#   geom_point(aes(x = quarter, y = pounds_per_hour_worked), colour = "darkolivegreen4") +
+#   geom_point(aes(x = quarter, y = .fitted), colour = "orange")
 ```
 
 
