@@ -152,17 +152,14 @@ predominantly using the `tidyverse`, `modelr` and `ggplot` packages.
 
 #### Descriptive, diagnostic, predictive and prescriptive analysis
 
-Please report under which of the below categories your analysis falls **and why** (can be more than one) 
+The analysis performed with this data set can be considered Descriptive 
+Analytics.
 
-::: {.emphasis}
-**Descriptive Analytics** tells you what happened in the past.
-
-**Diagnostic Analytics** helps you understand why something happened in the past.
-
-**Predictive Analytics** predicts what is most likely to happen in the future.
-
-**Prescriptive Analytics** recommends actions you can take to affect those outcomes.
-:::
+It was not possible to match all of the ONS and OECD data sets successfully to
+produce a sophisticated, preditive model and instead a linear model showed that
+productivity in the UK from 1997 - 2016 could be described as a function of 
+Industry Type, Region and Year.  This model itself was able to account for
+approximately 89% of variance in both train and test data.
 
 
 # PDA Outcomes
