@@ -1,6 +1,7 @@
 ---
 title: "Final project documentation template - PDA"
 author: "Colin Scotland | DE13"
+date: "June 2022"
 output:
   html_document:
     code_folding: hide
@@ -54,7 +55,7 @@ UK's Office for National Statistics and the Organisation for Economic
 Co-operation and Development (OECD), and reflects measures and estimates put in 
 place in accordance with OECD guidelines.
 
-For more info;
+For more information;
 
 * https://www2.deloitte.com/uk/en/explore/home.html
 * https://www.ons.gov.uk/economy/economicoutputandproductivity/productivitymeasures
@@ -81,8 +82,8 @@ to be carried out.
 The data was almost entirely taken from Microsoft Excel workbooks (-.xls and 
 -.xlsx), most of which consisted of multiple worksheets with many merged cells 
 which needed to be manipulated in R to allow for further processing.  
-Fortunately many of the Excel worksheets were identically formatted, so a lot of 
-repeated data cleaning was possible by writing functions. 
+Fortunately many of the Excel worksheets were formatted identically, so a lot of 
+repeated data cleaning was optimised by writing functions. 
 
 #### Data quality and bias
 
@@ -97,6 +98,9 @@ towards any demographic, with productivity measures broken down by the ONS NUTS1
 regional definition and industry types as defined in ONS' Standard Industrial 
 Classification (2007).
 
+Apart from the presence of merged cells in the worksheets, the data was already
+very clean with no missing values or ambiguities.
+
 # Ethics
 
 #### Ethical issues in data sourcing and extraction
@@ -108,18 +112,18 @@ for comparison with countries of equivalent economic status.
 
 There are no identifiers in any data sets with any specificity beyond countries 
 and/or industry types.  There are no individual personal or corporate identifiers
-in any of the data.
+in any of the data used.
 
 #### Ethical implications of business requirements
 
-Every country around the world has an interest in improving it's economy and 
-companies around the world have a vested interest in riding on the back of economic
+Countries around the world have an interest in improving their economies, and 
+corporations and businesses have a vested interest in riding on the back of economic
 growth.  
 
-There are many questions about the morality of global corporations using global
-economic data to take advantage of resources from less developed countries. 
-Nevertheless there is great benefit in monitoring global economic activity, not 
-least to identify areas where support and aid may be needed. 
+This can lead to larger socio-economic questions (e.g. capitalism v socialism), 
+but without measurement and monitoring such as that done by the ONS and OECD
+there would be no record of economic performance, and managing at a macroeconomic
+level would be impossible.
 
 # Analysis
 
@@ -127,6 +131,14 @@ least to identify areas where support and aid may be needed.
 
 The first step in analysis was to try to understand the vast quantities of data.
 
+Excalidraw was used as a virtual sandbox to note ideas, develop plans and
+to try to identify commonality between data sets that could be used to create joins,
+etc.
+<br><br>
+
+![](..\planning\data_plans\data_overview6.png)
+
+<br><br>
 The subsequent analysis followed the following method;
 
 * Determine the average UK productivity relative to other EU countries
@@ -143,6 +155,38 @@ Electricity industry with no immediately obvious predictors of performance
 hour worked (£) as a function of year, industry, region, average no. people in 
 employment
 
+The outcome of the analysis showed the following;
+
+* The data under consideration in this case did not provide a basis upon which 
+to build a sophisticated predictive model
+* There is no statistically significant difference between the average 
+productivity of the UK v the average productivity of more productive EU countries
+* There is a statistically significant difference between the most and least 
+productive regions within the UK, with Scotland v London right on the edge of 
+statistical significance
+* Real Estate provided the highest pounds output per hour worked within the UK, 
+although the exact measurement definition for this is not clear
+* London was the most productive region by this measure, Wales was least 
+productive, although specific, actionable reasons for this were not found in the 
+data
+* The best-fit linear model described UK national productivity as a function of 
+Industry Type, Region, and Year
+* No model, regardless of sophistication,  would have been able to reliably 
+predict a one-off event such as Covid
+
+Overall, a specific answer to the business question of improving the overall 
+productivity of the UK was not found from this data.  What the data *did* show 
+was that although there is not a statistically significant difference between
+the UK and the most productive EU countries, there *are* statistically 
+significant differences *within* the UK.
+
+The recommendation of this analysis would therefore be to focus on these regional
+differences in an effort to bring the poorest performing regions up to a similar 
+standard as the top performing regions.  The net effect would be an overall
+national improvement.
+
+
+
 
 
 #### Tools for data analysis
@@ -153,13 +197,15 @@ predominantly using the `tidyverse`, `modelr` and `ggplot` packages.
 #### Descriptive, diagnostic, predictive and prescriptive analysis
 
 The analysis performed with this data set can be considered Descriptive 
-Analytics.
+Analytics.  
 
 It was not possible to match all of the ONS and OECD data sets successfully to
-produce a sophisticated, preditive model and instead a linear model showed that
+produce a sophisticated, predictive model and instead a linear model showed that
 productivity in the UK from 1997 - 2016 could be described as a function of 
 Industry Type, Region and Year.  This model itself was able to account for
-approximately 89% of variance in both train and test data.
+approximately 89% of variance in both train and test data, although no model
+would have been able to predict the effect of an event like the spread of 
+Covid-19.
 
 
 # PDA Outcomes
